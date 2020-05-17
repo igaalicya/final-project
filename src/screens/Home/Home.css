@@ -1,0 +1,71 @@
+.container-home {
+  height: 600px;
+}
+
+.service-area {
+  background: #83c4ff;
+}
+
+.service-area .service {
+  padding: 40px 20px;
+  box-sizing: border-box;
+  font-size: 26px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.service-area .col-xl-4:nth-child(2) .service {
+  background: #5db2ff;
+}
+
+.service-area .service p {
+  font-size: 16px;
+  margin-top: 10px;
+  margin-bottom: 26px;
+}
+
+.boxed-btn {
+  color: #fff;
+  display: inline-block;
+  font-size: 15px;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  text-align: center;
+  color: #fff !important;
+}
+
+.service-area .single-service .boxed-btn {
+  padding: 5px 10px;
+}
+
+.doctor-area {
+  padding-top: 50px;
+  background: #f5fbff;
+}
+
+.doctor {
+  margin-bottom: 30px;
+  transition: all 0.3s ease;
+}
+
+.doctor .img {
+  height: 300px;
+  width: 100%;
+  display: block;
+  background-position: top center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.doctor:hover {
+  opacity: 1;
+  top: -40px;
+}
+
+.doctor:hover .img {
+  margin-top: -10px;
+}
+
+.doctor:hover .text h3 {
+  color: #207dff;
+}

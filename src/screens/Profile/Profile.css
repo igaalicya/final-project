@@ -1,0 +1,17 @@
+.container-profile {
+  height: 580px;
+  background-size: cover;
+  background-position: center center;
+  background: linear-gradient(150deg, #7795f8 15%, #6772e5 70%, #555abf 94%);
+  box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07) !important;
+}
+
+.profile-image {
+  max-width: 180px;
+  border-radius: 0.25rem;
+  transition: all 0.15s ease;
+}
+
+.rounded {
+  border-radius: 50% !important;
+}

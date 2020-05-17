@@ -1,0 +1,30 @@
+:root {
+  --accent-default: #3c64b1;
+  --accent-dark: #1e4693;
+  --accent-light: #5a82cf;
+  --gray-lightest: #f4f5f4;
+  --gray-divider: #e2e5e6;
+  --gray-default: #c3cbcd;
+  --gray-dark: #737b7d;
+  --black: #373f41;
+}
+
+.custom-text-input {
+  background-color: var(--gray-lightest);
+  padding: 11px 16px;
+  border: none;
+  font-size: 16px;
+  width: 100%;
+  outline: none;
+  border-bottom: 1px solid white;
+  transition: all ease 150ms;
+  font-family: Muli;
+}
+
+.custom-text-input.active {
+  border-bottom: 1px solid var(--accent-default);
+}
+
+.custom-text-input:valid {
+  color: var(--black);
+}

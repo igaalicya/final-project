@@ -1,0 +1,28 @@
+.container-login {
+  height: 580px;
+  background-size: cover;
+  background-position: center center;
+  background: linear-gradient(150deg, #7795f8 15%, #6772e5 70%, #555abf 94%);
+  box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07) !important;
+}
+
+.container-register {
+  background-color: #5e72e4;
+  margin-bottom: 0 !important;
+}
+
+.btn-login {
+  color: #fff;
+  background-color: #5e72e4;
+  border-color: #5e72e4;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.btn {
+  font-weight: 600;
+  text-align: center;
+  padding: 0.625rem 1.25rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  transition: all 0.15s ease;
+}

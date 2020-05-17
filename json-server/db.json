@@ -1,0 +1,57 @@
+{
+  "users": [
+    {
+      "username": "iga",
+      "fullName": "Iga Alicya",
+      "address": "Vanya Park BSD Tangerang",
+      "password": "123",
+      "email": "igaalicya@gmail.com",
+      "role": "user",
+      "id": 1
+    },
+    {
+      "username": "abigail",
+      "fullName": "Abigail Cantika",
+      "address": "Greenwich BSD Tangerang",
+      "password": "123",
+      "email": "abigail@gmail.com",
+      "role": "user",
+      "id": 2
+    }
+  ],
+  "children": [
+    {
+      "childrenName": "Sekala",
+      "dateOfBirth": "5/5/2020",
+      "parentId": 1,
+      "id": 1
+    }
+  ],
+  "vaccines": [
+    {
+      "vaccineName": "Hepatitis B",
+      "price": 120000,
+      "ageOfDose": 1,
+      "desc": "menangkal infeksi organ hati yang disebabkan oleh virus hepatitis B",
+      "brand": "Engerix B",
+      "id": 1
+    },
+    {
+      "vaccineName": "Campak",
+      "price": 205000,
+      "ageOfDose": 1,
+      "desc": "menangkal penyakit campak",
+      "brand": "Trimovax",
+      "id": 1
+    }
+  ],
+  "doctors": [
+    {
+      "fullName": "dokter Cantika",
+      "email": "dokter@gmail.com",
+      "address": "Greenwich BSD Tangerang",
+      "image": "image",
+      "id": 1
+    }
+  ]
+}

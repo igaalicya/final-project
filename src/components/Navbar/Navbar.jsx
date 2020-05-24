@@ -5,7 +5,8 @@ import "./Navbar.css";
 
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faUser } from "@fortawesome/free-solid-svg-icons/";
-import { Button } from "reactstrap";
+// import { Button } from "reactstrap";
+import Button from "../Buttons/Button.tsx";
 
 class MyNavbar extends React.Component {
   render() {
@@ -51,13 +52,13 @@ class MyNavbar extends React.Component {
                     <FontAwesomeIcon icon={faUser} style={{ fontSize: 24 }} />
                     Iga
                   </span> */}
-                  <Button
-                    size="sm"
-                    className="ml-1"
-                    color="primary"
-                    type="button"
-                  >
-                    Login
+                  <Button type="contained" className="mx-3">
+                    <Link
+                      to="/login"
+                      style={{ textDecoration: "none", color: "inherit" }}
+                    >
+                      Login
+                    </Link>
                   </Button>
                 </Link>
               </li>

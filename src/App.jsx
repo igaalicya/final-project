@@ -14,6 +14,7 @@ import Register from "./screens/Auth/Register";
 import ProfileDoctor from "./screens/Profile/ProfileDoctor";
 import About from "./screens/About/About";
 import Doctors from "./screens/Doctors/Doctors";
+import Test from "./screens/test";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/profileDoctor" component={ProfileDoctor} />
         <Route path="/doctors" component={Doctors} />
+        <Route path="/test" component={Test} />
         <Route path="*" component={PageNotFound} />
       </Switch>
     </>

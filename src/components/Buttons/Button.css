@@ -1,0 +1,85 @@
+:root {
+  --accent-default: #3c64b1;
+  --accent-dark: #1e4693;
+  --accent-light: #5a82cf;
+  --accent-black: #373f41;
+  --accent-white: #ffffff;
+}
+
+.custom-btn {
+  padding: 12px 18px;
+  vertical-align: middle;
+  text-align: center;
+  /* font-family: Muli; */
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0.3px;
+  width: fit-content;
+  transition: all ease-in-out 100ms;
+}
+
+.custom-btn:hover {
+  cursor: pointer;
+}
+
+.custom-btn-outlined {
+  border: 1px solid var(--accent-default);
+  color: var(--accent-default);
+}
+
+.custom-btn-outlined:hover {
+  border: 1px solid var(--accent-light);
+  color: var(--accent-light);
+}
+
+.custom-btn-outlined:active {
+  border: 1px solid var(--accent-dark);
+  color: var(--accent-dark);
+}
+
+.custom-btn-contained {
+  border: 1px solid var(--accent-default);
+  background-color: var(--accent-default);
+  color: white;
+}
+
+.custom-btn-contained:hover {
+  border: 1px solid var(--accent-light);
+  background-color: var(--accent-light);
+  color: white;
+}
+
+.custom-btn-contained:active {
+  border: 1px solid var(--accent-dark);
+  background-color: var(--accent-dark);
+  color: white;
+}
+
+.custom-btn-textual {
+  color: var(--accent-default);
+  padding: 0 !important;
+}
+
+.custom-btn-textual:hover {
+  color: var(--accent-light);
+}
+
+.custom-btn-textual:active {
+  color: var(--accent-dark);
+}
+
+.custom-btn-light-pill-unselected {
+  background: var(--accent-white);
+  border: 1px solid #e2e5e6;
+  box-sizing: border-box;
+  color: var(--accent-black);
+}
+
+.custom-btn-light-pill-selected {
+  background: var(--accent-black);
+  border: 1px solid #e2e5e6;
+  box-sizing: border-box;
+  color: var(--accent-white);
+}

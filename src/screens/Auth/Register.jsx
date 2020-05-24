@@ -1,15 +1,26 @@
 import React from "react";
 import "./Auth.css";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEnvelope,
+  faUnlock,
+  faUser,
+  faAt,
+} from "@fortawesome/free-solid-svg-icons/";
 import {
   Button,
   Card,
   CardHeader,
   CardBody,
+  FormGroup,
   Form,
   Input,
+  InputGroupAddon,
+  InputGroupText,
+  InputGroup,
   Row,
-  Col
+  Col,
 } from "reactstrap";
 
 class Register extends React.Component {
@@ -26,26 +37,80 @@ class Register extends React.Component {
                   </h2>
                 </CardHeader>
                 <CardBody className="px-lg-5 py-lg-5">
-                  <Form>
-                    <Input placeholder="Full Name" type="text" />
-                    <Input
-                      className="mt-2"
-                      placeholder="Username"
-                      type="text"
-                    />
-                    <Input className="mt-2" placeholder="Email" type="email" />
-                    <Input
-                      className="mt-2"
-                      placeholder="Password"
-                      type="password"
-                      autoComplete="off"
-                    />
-                    <Input
-                      className="mt-2"
-                      placeholder="Confirm Password"
-                      type="password"
-                      autoComplete="off"
-                    />
+                  <Form role="form">
+                    <FormGroup className="mb-3">
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <FontAwesomeIcon
+                              icon={faUser}
+                              style={{ fontSize: 14 }}
+                            />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input placeholder="Full Name" type="text" />
+                      </InputGroup>
+                    </FormGroup>
+                    <FormGroup className="mb-3">
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <FontAwesomeIcon
+                              icon={faAt}
+                              style={{ fontSize: 14 }}
+                            />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input placeholder="Username" type="text" />
+                      </InputGroup>
+                    </FormGroup>
+                    <FormGroup className="mb-3">
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <FontAwesomeIcon
+                              icon={faEnvelope}
+                              style={{ fontSize: 14 }}
+                            />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input placeholder="Email" type="email" />
+                      </InputGroup>
+                    </FormGroup>
+                    <FormGroup>
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <FontAwesomeIcon
+                              icon={faUnlock}
+                              style={{ fontSize: 14 }}
+                            />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          placeholder="Password"
+                          type="password"
+                          autoComplete="off"
+                        />
+                      </InputGroup>
+                    </FormGroup>
+                    <FormGroup>
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <FontAwesomeIcon
+                              icon={faUnlock}
+                              style={{ fontSize: 14 }}
+                            />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          placeholder="Confirm Password"
+                          type="password"
+                          autoComplete="off"
+                        />
+                      </InputGroup>
+                    </FormGroup>
                     <div className="text-center">
                       <Button
                         className="my-4"

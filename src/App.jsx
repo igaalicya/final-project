@@ -12,6 +12,8 @@ import PageNotFound from "./screens/PageNotFound/PageNotFound";
 import Login from "./screens/Auth/Login";
 import Register from "./screens/Auth/Register";
 import ProfileDoctor from "./screens/Profile/ProfileDoctor";
+import About from "./screens/About/About";
+import Doctors from "./screens/Doctors/Doctors";
 
 function App() {
   return (
@@ -19,9 +21,11 @@ function App() {
       <MyNavbar />
       <Switch>
         <Route exact path="/" component={Home} />
+        <Route exact path="/about" component={About} />
         <Route path="/register" component={Register} />
         <Route path="/login" component={Login} />
         <Route path="/profileDoctor" component={ProfileDoctor} />
+        <Route path="/doctors" component={Doctors} />
         <Route path="*" component={PageNotFound} />
       </Switch>
     </>

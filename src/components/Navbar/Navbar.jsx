@@ -51,7 +51,12 @@ class MyNavbar extends React.Component {
                     <FontAwesomeIcon icon={faUser} style={{ fontSize: 24 }} />
                     Iga
                   </span> */}
-                  <Button className="ml-1" color="primary" type="button">
+                  <Button
+                    size="sm"
+                    className="ml-1"
+                    color="primary"
+                    type="button"
+                  >
                     Login
                   </Button>
                 </Link>

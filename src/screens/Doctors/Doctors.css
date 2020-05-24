@@ -1,0 +1,31 @@
+.doctor-area {
+  padding-top: 50px;
+  background: #f5fbff;
+}
+
+.doctor {
+  margin-bottom: 30px;
+  transition: all 0.3s ease;
+}
+
+.doctor .img {
+  height: 300px;
+  width: 100%;
+  display: block;
+  background-position: top center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.doctor:hover {
+  opacity: 1;
+  top: -40px;
+}
+
+.doctor:hover .img {
+  margin-top: -10px;
+}
+
+.doctor:hover .text h3 {
+  color: #207dff;
+}

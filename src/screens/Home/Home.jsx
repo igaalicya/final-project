@@ -9,6 +9,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons/";
 import { Link } from "react-router-dom";
 import DoctorCard from "../../components/Cards/DoctorCard.tsx";
+import {
+  Card,
+  CardTitle,
+  CardBody,
+  CardImg,
+  CardText,
+  CardDeck,
+} from "reactstrap";
 
 const dummy = [
   {
@@ -34,6 +42,25 @@ const dummy = [
   },
 ];
 
+const dummyArticles = [
+  {
+    title: "How Important BCG Vaccine",
+    image:
+      "https://images.newscientist.com/wp-content/uploads/2020/05/06154024/g2550116-bcg_vaccine_in_human_blood_cell_web.jpg",
+    text:
+      "There is no evidence that the Bacille Calmette-Guérin vaccine (BCG) protects people against infection with COVID-19 virus. Two clinical trials addressing this question are underway, and WHO will evaluate the evidence when it is available.",
+    id: 1,
+  },
+  {
+    title: "Vaccination greatly reduces disease",
+    image:
+      "https://www.pharmaceutical-technology.com/wp-content/uploads/sites/10/2019/09/virus.jpg",
+    text:
+      "Vaccination has greatly reduced the burden of infectious diseases. Only clean water, also considered to be a basic human right, performs better",
+    id: 2,
+  },
+];
+
 class Home extends React.Component {
   renderDoctor = () => {
     return dummy.map((val) => {
@@ -44,6 +71,31 @@ class Home extends React.Component {
           className="m-2"
           user={this.props.user}
         />
+      );
+    });
+  };
+
+  renderArticle = () => {
+    return dummyArticles.map((val) => {
+      return (
+        <div className="col-md-6 col-lg-4">
+          <CardDeck>
+            <Card>
+              <CardBody>
+                <CardTitle className="font-weight-bold">{val.title}</CardTitle>
+              </CardBody>
+              <CardImg
+                className="card-img"
+                src={val.image}
+                alt="Card image cap"
+              />
+              <CardBody>
+                <CardText>{val.text}</CardText>
+                <Link href="#">Card Link</Link>
+              </CardBody>
+            </Card>
+          </CardDeck>
+        </div>
       );
     });
   };
@@ -139,6 +191,22 @@ class Home extends React.Component {
               </div>
             </div>
             <div className="row">{this.renderDoctor()}</div>
+          </div>
+        </div>
+        <div className="doctor-area">
+          <div className="container p-0">
+            <div className="row justify-content-center mb-5 pb-2">
+              <div className="col-md-8 text-center">
+                <h2 className="mb-4 font-weight-bold">Articles</h2>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
+                  id voluptates optio inventore accusamus eveniet eaque
+                  perspiciatis voluptatem eum! Harum architecto dignissimos
+                  dicta, quos illum autem nobis eum impedit dolorem!
+                </p>
+              </div>
+            </div>
+            <div className="row">{this.renderArticle()}</div>
           </div>
         </div>
       </div>

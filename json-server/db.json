@@ -17,6 +17,23 @@
       "email": "abigail@gmail.com",
       "role": "user",
       "id": 2
+    },
+    {
+      "username": "pams",
+      "fullName": "pamungkas",
+      "password": "123",
+      "email": "pamungkas@gmail.com",
+      "role": "user",
+      "id": 3
+    },
+    {
+      "username": "rossa",
+      "fullName": "Rossa",
+      "address": "",
+      "password": "123",
+      "email": "rossa@gmail.com",
+      "role": "user",
+      "id": 4
     }
   ],
   "children": [

@@ -138,7 +138,7 @@ class Login extends React.Component {
                         Dont have account? <Link to="/register">Register</Link>{" "}
                         <br />
                         Forgot Password? <Link to="/forgot">
-                          Remember Me
+                          Click here
                         </Link>{" "}
                       </p>
                     </div>

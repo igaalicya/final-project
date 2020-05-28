@@ -1,5 +1,7 @@
 import React from "react";
 import "./Auth.css";
+import { connect } from "react-redux";
+import Cookies from "universal-cookie";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -22,8 +24,58 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { registerHandler } from "../../redux/actions";
 
 class Register extends React.Component {
+  state = {
+    registerForm: {
+      fullName: "",
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      address: "",
+    },
+  };
+
+  componentDidUpdate() {
+    if (this.props.user.id) {
+      const cookie = new Cookies();
+      cookie.set("authData", JSON.stringify(this.props.user), { path: "/" });
+    }
+  }
+
+  inputHandler = (e, field, form) => {
+    const { value } = e.target;
+    this.setState({
+      [form]: {
+        ...this.state[form],
+        [field]: value,
+      },
+    });
+
+    console.log(e.target);
+  };
+
+  registerBtnHandler = () => {
+    const {
+      username,
+      fullName,
+      address,
+      password,
+      email,
+    } = this.state.registerForm;
+    let newUser = {
+      username,
+      fullName,
+      address,
+      password,
+      email,
+    };
+
+    this.props.onRegister(newUser);
+  };
+
   render() {
     return (
       <div style={{ display: "block" }}>
@@ -48,7 +100,14 @@ class Register extends React.Component {
                             />
                           </InputGroupText>
                         </InputGroupAddon>
-                        <Input placeholder="Full Name" type="text" />
+                        <Input
+                          value={this.state.registerForm.fullName}
+                          onChange={(e) =>
+                            this.inputHandler(e, "fullName", "registerForm")
+                          }
+                          placeholder="Full Name"
+                          type="text"
+                        />
                       </InputGroup>
                     </FormGroup>
                     <FormGroup className="mb-3">
@@ -61,7 +120,14 @@ class Register extends React.Component {
                             />
                           </InputGroupText>
                         </InputGroupAddon>
-                        <Input placeholder="Username" type="text" />
+                        <Input
+                          value={this.state.registerForm.username}
+                          onChange={(e) =>
+                            this.inputHandler(e, "username", "registerForm")
+                          }
+                          placeholder="Username"
+                          type="text"
+                        />
                       </InputGroup>
                     </FormGroup>
                     <FormGroup className="mb-3">
@@ -74,7 +140,14 @@ class Register extends React.Component {
                             />
                           </InputGroupText>
                         </InputGroupAddon>
-                        <Input placeholder="Email" type="email" />
+                        <Input
+                          value={this.state.registerForm.email}
+                          onChange={(e) =>
+                            this.inputHandler(e, "email", "registerForm")
+                          }
+                          placeholder="Email"
+                          type="email"
+                        />
                       </InputGroup>
                     </FormGroup>
                     <FormGroup>
@@ -88,6 +161,10 @@ class Register extends React.Component {
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
+                          value={this.state.registerForm.password}
+                          onChange={(e) =>
+                            this.inputHandler(e, "password", "registerForm")
+                          }
                           placeholder="Password"
                           type="password"
                           autoComplete="off"
@@ -105,6 +182,14 @@ class Register extends React.Component {
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
+                          value={this.state.registerForm.confirmPassword}
+                          onChange={(e) =>
+                            this.inputHandler(
+                              e,
+                              "confirmPassword",
+                              "registerForm"
+                            )
+                          }
                           placeholder="Confirm Password"
                           type="password"
                           autoComplete="off"
@@ -113,6 +198,7 @@ class Register extends React.Component {
                     </FormGroup>
                     <div className="text-center">
                       <Button
+                        onClick={this.registerBtnHandler}
                         className="my-4"
                         color="primary"
                         type="button"
@@ -135,4 +221,14 @@ class Register extends React.Component {
   }
 }
 
-export default Register;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+const mapDispatchToProps = {
+  onRegister: registerHandler,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

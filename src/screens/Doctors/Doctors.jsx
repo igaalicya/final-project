@@ -25,7 +25,7 @@ const dummy = [
     id: 2,
   },
   {
-    fullName: "Doctor 3",
+    fullName: "Doctorr 3",
     image:
       "https://d1ojs48v3n42tp.cloudfront.net/personnels/242073_18-2-2020_16-38-29.jpg",
     specialist: "hdkasdhkjhfksahf",
@@ -92,7 +92,6 @@ class Doctors extends React.Component {
                   </div>
                 </div>
               </div>
-       
             </div>
           </div>
         </div>

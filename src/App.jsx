@@ -15,6 +15,9 @@ import ProfileDoctor from "./screens/Profile/ProfileDoctor";
 import About from "./screens/About/About";
 import Doctors from "./screens/Doctors/Doctors";
 import Test from "./screens/test";
+import AdminMembers from "./screens/Admin/AdminMembers";
+import AdminDoctors from "./screens/Admin/AdminDoctors";
+import AdminVaccine from "./screens/Admin/AdminVaccine";
 
 function App() {
   return (
@@ -27,6 +30,9 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/profileDoctor" component={ProfileDoctor} />
         <Route path="/doctors" component={Doctors} />
+        <Route path="/admin/members" component={AdminMembers} />
+        <Route path="/admin/doctors" component={AdminDoctors} />
+        <Route path="/admin/vaccine" component={AdminVaccine} />
         <Route path="/test" component={Test} />
         <Route path="*" component={PageNotFound} />
       </Switch>

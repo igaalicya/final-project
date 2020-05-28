@@ -1,0 +1,31 @@
+.admin-table {
+  width: 100%;
+}
+
+.admin-table th,
+tr,
+td {
+  border-top: 1px solid #dbdde0;
+  border-bottom: 1px solid #dbdde0;
+  padding: 19px 0px 19px 24px;
+}
+
+.admin-table thead tr,
+th {
+  background-color: #f4f5f4;
+  border-top: 0px !important;
+}
+
+.admin-table tr:hover {
+  /* cursor: pointer; */
+  background-color: #f4f5f4;
+}
+
+.admin-form-container {
+  border: 1px solid #dbdde0;
+  border-radius: 8px;
+  border-top: 0px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  width: 100%;
+}

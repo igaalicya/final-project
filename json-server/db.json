@@ -30,7 +30,7 @@
       "username": "rossa",
       "fullName": "Rossa",
       "address": "",
-      "password": "123",
+      "password": "1234",
       "email": "rossa@gmail.com",
       "role": "user",
       "id": 4
@@ -47,7 +47,7 @@
   "vaccines": [
     {
       "vaccineName": "Hepatitis B",
-      "price": 120000,
+      "price": "130000",
       "ageOfDose": 1,
       "desc": "menangkal infeksi organ hati yang disebabkan oleh virus hepatitis B",
       "brand": "Engerix B",
@@ -64,7 +64,7 @@
   ],
   "doctors": [
     {
-      "fullName": "dokter Cantika",
+      "fullName": "dokter Cantikaa",
       "email": "dokter@gmail.com",
       "address": "Greenwich BSD Tangerang",
       "image": "image",

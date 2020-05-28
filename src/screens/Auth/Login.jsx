@@ -1,18 +1,68 @@
 import React from "react";
 import "./Auth.css";
+import { connect } from "react-redux";
+// import { Redirect } from "react-router-dom";
+import Cookies from "universal-cookie";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faUnlock } from "@fortawesome/free-solid-svg-icons/";
 import {
   Button,
   Card,
   CardHeader,
   CardBody,
+  FormGroup,
   Form,
   Input,
+  InputGroupAddon,
+  InputGroupText,
+  InputGroup,
   Row,
-  Col
+  Col,
 } from "reactstrap";
+import { loginHandler } from "../../redux/actions";
 
 class Login extends React.Component {
+  state = {
+    loginForm: {
+      username: "",
+      password: "",
+      // showPassword: false,
+    },
+  };
+
+  componentDidUpdate() {
+    if (this.props.user.id) {
+      const cookie = new Cookies();
+      cookie.set("authData", JSON.stringify(this.props.user), { path: "/" });
+    }
+  }
+
+  inputHandler = (e, field, form) => {
+    const { value } = e.target;
+    this.setState({
+      [form]: {
+        ...this.state[form],
+        [field]: value,
+      },
+    });
+
+    console.log(e.target);
+  };
+
+  loginBtnHandler = () => {
+    const { username, password } = this.state.loginForm;
+
+    let newUser = {
+      username,
+      password,
+    };
+
+    this.props.onLogin(newUser);
+
+    console.log(this.state.loginForm.username);
+  };
+
   render() {
     return (
       <div style={{ display: "block" }}>
@@ -26,15 +76,57 @@ class Login extends React.Component {
                   </h2>
                 </CardHeader>
                 <CardBody className="px-lg-5 py-lg-5">
-                  <Form>
-                    <Input placeholder="Email" type="email" />
-                    <Input
-                      className="mt-2"
-                      placeholder="Password"
-                      type="password"
-                    />
+                  <Form role="form">
+                    <FormGroup className="mb-3">
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <FontAwesomeIcon
+                              icon={faUser}
+                              style={{ fontSize: 14 }}
+                            />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          value={this.state.loginForm.username}
+                          onChange={(e) =>
+                            this.inputHandler(e, "username", "loginForm")
+                          }
+                          placeholder="Username"
+                          type="text"
+                        />
+                      </InputGroup>
+                    </FormGroup>
+                    <FormGroup>
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <FontAwesomeIcon
+                              icon={faUnlock}
+                              style={{ fontSize: 14 }}
+                            />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          value={this.state.loginForm.password}
+                          onChange={(e) =>
+                            this.inputHandler(e, "password", "loginForm")
+                          }
+                          placeholder="Password"
+                          type="password"
+                          autoComplete="off"
+                        />
+                      </InputGroup>
+                    </FormGroup>
+                    {/* <div className="custom-control custom-control-alternative custom-checkbox">
+                      <input className="custom-control-input" type="checkbox" />
+                      <label className="custom-control-label">
+                        <span className="text-muted">Remember me</span>
+                      </label>
+                    </div> */}
                     <div className="text-center">
                       <Button
+                        onClick={this.loginBtnHandler}
                         className="my-4"
                         color="primary"
                         type="button"
@@ -61,4 +153,14 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+const mapDispatchToProps = {
+  onLogin: loginHandler,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

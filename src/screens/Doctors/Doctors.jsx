@@ -1,6 +1,6 @@
 import React from "react";
 import "./Doctors.css";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import DoctorCard from "../../components/Cards/DoctorCard.tsx";
 
 const dummy = [

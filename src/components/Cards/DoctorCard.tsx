@@ -1,6 +1,6 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faStar } from "@fortawesome/free-regular-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faHeart, faStar } from "@fortawesome/free-regular-svg-icons";
 import "./DoctorCard.css";
 // import { Button } from "reactstrap";
 

@@ -1,6 +1,8 @@
 import React from "react";
 import Background from "../../assets/images/carousel/background.jpg";
 import "./Home.css";
+import Axios from "axios";
+import { API_URL } from "../../constants/API";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUserMd,
@@ -17,30 +19,6 @@ import {
   CardText,
   CardDeck,
 } from "reactstrap";
-
-const dummy = [
-  {
-    fullName: "Doctor 1",
-    image:
-      "https://d1ojs48v3n42tp.cloudfront.net/personnels/242073_18-2-2020_16-38-29.jpg",
-    address: "hdkasdhkjhfksahf",
-    id: 1,
-  },
-  {
-    fullName: "Doctor 2",
-    image:
-      "https://d1ojs48v3n42tp.cloudfront.net/personnels/242073_18-2-2020_16-38-29.jpg",
-    address: "hdkasdhkjhfksahf",
-    id: 2,
-  },
-  {
-    fullName: "Doctor 3",
-    image:
-      "https://d1ojs48v3n42tp.cloudfront.net/personnels/242073_18-2-2020_16-38-29.jpg",
-    address: "hdkasdhkjhfksahf",
-    id: 3,
-  },
-];
 
 const dummyArticles = [
   {
@@ -62,18 +40,39 @@ const dummyArticles = [
 ];
 
 class Home extends React.Component {
+  state = {
+    doctorList: [],
+    modalOpen: false,
+  };
+
+  getDoctorList = () => {
+    Axios.get(`${API_URL}/doctors`)
+      .then((res) => {
+        this.setState({ doctorList: res.data });
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   renderDoctor = () => {
-    return dummy.map((val) => {
+    return this.state.doctorList.map((val) => {
+      console.log(val);
       return (
-        <DoctorCard
-          key={`bestseller-${val.id}`}
-          data={val}
-          className="m-2"
-          user={this.props.user}
-        />
+        // <Link
+        //   to={`/doctors/${val.id}`}
+        //   style={{ textDecoration: "none", color: "inherit" }}
+        // >
+        <DoctorCard data={val} className="m-2" />
+        // </Link>
       );
     });
   };
+
+  componentDidMount() {
+    this.getDoctorList();
+  }
 
   renderArticle = () => {
     return dummyArticles.map((val) => {

@@ -1,20 +1,20 @@
 {
   "users": [
     {
-      "username": "iga",
-      "fullName": "Iga Alicya",
+      "username": "admin",
+      "fullName": "Admin",
       "address": "Vanya Park BSD Tangerang",
       "password": "123",
-      "email": "igaalicya@gmail.com",
-      "role": "user",
+      "email": "admin@gmail.com",
+      "role": "admin",
       "id": 1
     },
     {
-      "username": "abigail",
-      "fullName": "Abigail Cantika",
+      "username": "Iga",
+      "fullName": "Iga Alicya",
       "address": "Greenwich BSD Tangerang",
       "password": "123",
-      "email": "abigail@gmail.com",
+      "email": "igaaa@gmail.com",
       "role": "user",
       "id": 2
     },
@@ -64,32 +64,28 @@
   ],
   "doctors": [
     {
-      "fullName": "Catyaa",
-      "email": "dokter@gmail.com",
-      "address": "Greenwich BSD Tangerang",
-      "image": "image",
+      "fullName": "Doctor 1",
+      "image": "https://d1ojs48v3n42tp.cloudfront.net/personnels/242073_18-2-2020_16-38-29.jpg",
+      "specialist": "hdkasdhkjhfksahf",
+      "address": "BSD",
+      "desc": "I am an ambitious workaholic, but apart from that, pretty simple person.",
       "id": 1
     },
     {
-      "fullName": "Cantikaa",
-      "email": "dokter@gmail.com",
-      "address": "Greenwich BSD Tangerang",
-      "image": "image",
+      "fullName": "Doctor 2",
+      "image": "https://d1ojs48v3n42tp.cloudfront.net/personnels/242073_18-2-2020_16-38-29.jpg",
+      "specialist": "hdkasdhkjhfksahf",
+      "address": "BSD",
+      "desc": "I am an ambitious workaholic, but apart from that, pretty simple person.",
       "id": 2
     },
     {
-      "fullName": "Chaerul",
-      "email": "dokter@gmail.com",
-      "address": "Greenwich BSD Tangerang",
-      "image": "image",
+      "fullName": "Doctorr 3",
+      "image": "https://d1ojs48v3n42tp.cloudfront.net/personnels/242073_18-2-2020_16-38-29.jpg",
+      "specialist": "hdkasdhkjhfksahf",
+      "address": "BSD",
+      "desc": "I am an ambitious workaholic, but apart from that, pretty simple person.",
       "id": 3
-    },
-    {
-      "fullName": "Suroso",
-      "email": "dokter@gmail.com",
-      "address": "Greenwich BSD Tangerang",
-      "image": "image",
-      "id": 4
     }
   ]
 }

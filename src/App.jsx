@@ -21,6 +21,7 @@ import Test from "./screens/test";
 import AdminMembers from "./screens/Admin/AdminMembers";
 import AdminDoctors from "./screens/Admin/AdminDoctors";
 import AdminVaccine from "./screens/Admin/AdminVaccine";
+import Vaccine from "./screens/Vaccine/Vaccine";
 
 const cookieObj = new Cookie();
 
@@ -57,6 +58,7 @@ class App extends React.Component {
           <Route path="/login" component={Login} />
           <Route path="/profileDoctor" component={ProfileDoctor} />
           <Route path="/doctors" component={Doctors} />
+          <Route path="/vaccine" component={Vaccine} />
           <Route path="/test" component={Test} />
           {this.renderAdminRoutes()}
           <Route path="*" component={PageNotFound} />

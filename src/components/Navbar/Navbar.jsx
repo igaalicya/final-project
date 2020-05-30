@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons/";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
 import {
   Dropdown,
   DropdownItem,
@@ -11,14 +11,9 @@ import {
   DropdownMenu,
 } from "reactstrap";
 
-import { faUser } from "@fortawesome/free-regular-svg-icons";
 import "./Navbar.css";
 import Button from "../Buttons/Button";
 import { logoutHandler } from "../../redux/actions";
-
-const CircleBg = ({ children }) => {
-  return <div className="circle-bg">{children}</div>;
-};
 
 class MyNavbar extends React.Component {
   state = {
@@ -52,12 +47,12 @@ class MyNavbar extends React.Component {
     return (
       <div className="d-flex flex-row justify-content-between align-items-center py-4 navbar-container">
         <div className="logo-text">
-          <Link style={{ textDecoration: "none", color: "inherit" }} to="/">
-            LOGO
+          <Link className="navbar-brand" to="/">
+            Vrome
           </Link>
         </div>
-        <div
-          // style={{ flex: 1 }}
+        {/* <div
+          style={{ flex: 1 }}
           className="px-5 d-flex flex-row justify-content-start"
         >
           <input
@@ -72,17 +67,43 @@ class MyNavbar extends React.Component {
               this.props.searchProduct(e.target.value);
             }}
           />
-        </div>
+        </div> */}
         <div className="d-flex flex-row align-items-center">
           {this.props.user.username ? (
             <>
+              <Link
+                to="/about"
+                className="nav-link"
+                style={{ color: "white", textDecoration: "none" }}
+              >
+                <span>About</span>
+              </Link>
+              <Link
+                to="/vaccine"
+                className="nav-link"
+                style={{ color: "white", textDecoration: "none" }}
+              >
+                <span>Vaccine</span>
+              </Link>
+              <Link
+                to="/doctors"
+                className="nav-link"
+                style={{ color: "white", textDecoration: "none" }}
+              >
+                <span>Doctors</span>
+              </Link>
               <Dropdown
                 toggle={this.toggleDropdown}
                 isOpen={this.state.dropdownOpen}
               >
                 <DropdownToggle tag="div" className="d-flex">
-                  <FontAwesomeIcon icon={faUser} style={{ fontSize: 24 }} />
-                  <p className="small ml-3 mr-4">{this.props.user.username}</p>
+                  <FontAwesomeIcon
+                    icon={faUser}
+                    style={{ fontSize: 24, color: "white" }}
+                  />
+                  <p className="text-white ml-1 mr-4">
+                    {this.props.user.username}
+                  </p>
                 </DropdownToggle>
 
                 {this.props.user.role === "admin" ? (
@@ -141,34 +162,19 @@ class MyNavbar extends React.Component {
                   </DropdownMenu>
                 )}
               </Dropdown>
+
               <Link
-                className="d-flex flex-row"
-                to="/cart"
                 style={{ textDecoration: "none", color: "inherit" }}
+                to="/auth"
               >
-                <FontAwesomeIcon
-                  className="mr-2"
-                  icon={faShoppingCart}
-                  style={{ fontSize: 24, color: "white" }}
-                />
-                <CircleBg>
-                  <small style={{ color: "#3C64B1", fontWeight: "bold" }}>
-                    {/* {this.props.cart.total} */}4
-                  </small>
-                </CircleBg>
-                <Link
-                  style={{ textDecoration: "none", color: "inherit" }}
-                  to="/auth"
+                <Button
+                  className="ml-3"
+                  type="contained"
+                  value="Logout"
+                  onClick={this.onLogout}
                 >
-                  <Button
-                    className="ml-3"
-                    type="contained"
-                    value="Logout"
-                    onClick={this.onLogout}
-                  >
-                    Logout
-                  </Button>
-                </Link>
+                  Logout
+                </Button>
               </Link>
             </>
           ) : (

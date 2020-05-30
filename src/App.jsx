@@ -1,9 +1,12 @@
 import React from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 // import logo from "./logo.svg";
-
+import Cookie from "universal-cookie";
+import { connect } from "react-redux";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
+
+import { userKeepLogin, cookieChecker } from "./redux/actions";
 
 // import Navbar from "./components/Navbar/Navbar";
 import MyNavbar from "./components/Navbar/Navbar";
@@ -19,25 +22,59 @@ import AdminMembers from "./screens/Admin/AdminMembers";
 import AdminDoctors from "./screens/Admin/AdminDoctors";
 import AdminVaccine from "./screens/Admin/AdminVaccine";
 
-function App() {
-  return (
-    <>
-      <MyNavbar />
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/about" component={About} />
-        <Route path="/register" component={Register} />
-        <Route path="/login" component={Login} />
-        <Route path="/profileDoctor" component={ProfileDoctor} />
-        <Route path="/doctors" component={Doctors} />
-        <Route path="/admin/members" component={AdminMembers} />
-        <Route path="/admin/doctors" component={AdminDoctors} />
-        <Route path="/admin/vaccine" component={AdminVaccine} />
-        <Route path="/test" component={Test} />
-        <Route path="*" component={PageNotFound} />
-      </Switch>
-    </>
-  );
+const cookieObj = new Cookie();
+
+class App extends React.Component {
+  componentDidMount() {
+    let cookieResult = cookieObj.get("authData", { path: "/" });
+    if (cookieResult) {
+      this.props.keepLogin(cookieResult);
+    } else {
+      this.props.cookieChecker();
+    }
+  }
+
+  renderAdminRoutes = () => {
+    if (this.props.user.role === "admin") {
+      return (
+        <>
+          <Route path="/admin/members" component={AdminMembers} />
+          <Route path="/admin/doctors" component={AdminDoctors} />
+          <Route path="/admin/vaccine" component={AdminVaccine} />
+        </>
+      );
+    }
+  };
+
+  render() {
+    return (
+      <>
+        <MyNavbar />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/about" component={About} />
+          <Route path="/register" component={Register} />
+          <Route path="/login" component={Login} />
+          <Route path="/profileDoctor" component={ProfileDoctor} />
+          <Route path="/doctors" component={Doctors} />
+          <Route path="/test" component={Test} />
+          {this.renderAdminRoutes()}
+          <Route path="*" component={PageNotFound} />
+        </Switch>
+      </>
+    );
+  }
 }
 
-export default withRouter(App);
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+const mapDispatchToProps = {
+  keepLogin: userKeepLogin,
+  cookieChecker,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(App));

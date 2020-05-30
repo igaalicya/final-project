@@ -1,78 +1,207 @@
 import React from "react";
-// import Logo from "../../assets/images/logo/logo.png";
 import { Link } from "react-router-dom";
-import "./Navbar.css";
+import { connect } from "react-redux";
 
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faUser } from "@fortawesome/free-solid-svg-icons/";
-// import { Button } from "reactstrap";
-import Button from "../Buttons/Button.tsx";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons/";
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownToggle,
+  DropdownMenu,
+} from "reactstrap";
+
+import { faUser } from "@fortawesome/free-regular-svg-icons";
+import "./Navbar.css";
+import Button from "../Buttons/Button";
+import { logoutHandler } from "../../redux/actions";
+
+const CircleBg = ({ children }) => {
+  return <div className="circle-bg">{children}</div>;
+};
 
 class MyNavbar extends React.Component {
+  state = {
+    searchBarIsFocused: false,
+    searcBarInput: "",
+    dropdownOpen: false,
+  };
+
+  inputHandler = (e, field) => {
+    this.setState({ [field]: e.target.value });
+  };
+
+  onFocus = () => {
+    this.setState({ searchBarIsFocused: true });
+  };
+
+  onBlur = () => {
+    this.setState({ searchBarIsFocused: false });
+  };
+
+  onLogout = () => {
+    this.props.onLogout();
+    // this.forceUpdate();
+  };
+
+  toggleDropdown = () => {
+    this.setState({ dropdownOpen: !this.state.dropdownOpen });
+  };
+
   render() {
     return (
-      <div className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container">
-          <Link className="navbar-brand" to="/">
-            Vrome
+      <div className="d-flex flex-row justify-content-between align-items-center py-4 navbar-container">
+        <div className="logo-text">
+          <Link style={{ textDecoration: "none", color: "inherit" }} to="/">
+            LOGO
           </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-          >
-            <span className="oi oi-menu"></span> Menu
-          </button>
+        </div>
+        <div
+          // style={{ flex: 1 }}
+          className="px-5 d-flex flex-row justify-content-start"
+        >
+          <input
+            onFocus={this.onFocus}
+            onBlur={this.onBlur}
+            className={`search-bar ${
+              this.state.searchBarIsFocused ? "active" : null
+            }`}
+            type="text"
+            placeholder="Cari produk impianmu disini"
+            onChange={(e) => {
+              this.props.searchProduct(e.target.value);
+            }}
+          />
+        </div>
+        <div className="d-flex flex-row align-items-center">
+          {this.props.user.username ? (
+            <>
+              <Dropdown
+                toggle={this.toggleDropdown}
+                isOpen={this.state.dropdownOpen}
+              >
+                <DropdownToggle tag="div" className="d-flex">
+                  <FontAwesomeIcon icon={faUser} style={{ fontSize: 24 }} />
+                  <p className="small ml-3 mr-4">{this.props.user.username}</p>
+                </DropdownToggle>
 
-          <div className="collapse navbar-collapse">
-            <ul className="navbar-nav nav ml-auto">
-              <li className="nav-item">
-                <Link to="/" className="nav-link">
-                  <span>Home</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/about" className="nav-link">
-                  <span>About</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/vaccine" className="nav-link">
-                  <span>Vaccine</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/doctors" className="nav-link">
-                  <span>Doctors</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/login" className="nav-link">
-                  {/* <span>
-                    <FontAwesomeIcon icon={faUser} style={{ fontSize: 24 }} />
-                    Iga
-                  </span> */}
-                  <Button type="contained" className="mx-3">
-                    <Link
-                      to="/login"
-                      style={{ textDecoration: "none", color: "inherit" }}
-                    >
-                      Login
-                    </Link>
+                {this.props.user.role === "admin" ? (
+                  <DropdownMenu className="mt-2">
+                    <DropdownItem>
+                      <Link
+                        style={{ color: "inherit", textDecoration: "none" }}
+                        to="/admin/dashboard"
+                      >
+                        Dashboard
+                      </Link>
+                    </DropdownItem>
+                    <DropdownItem>
+                      <Link
+                        style={{ color: "inherit", textDecoration: "none" }}
+                        to="/admin/members"
+                      >
+                        Members
+                      </Link>
+                    </DropdownItem>
+                    <DropdownItem>
+                      <Link
+                        style={{ color: "inherit", textDecoration: "none" }}
+                        to="/admin/payment"
+                      >
+                        Payments
+                      </Link>
+                    </DropdownItem>
+                    <DropdownItem>
+                      <Link
+                        style={{ color: "inherit", textDecoration: "none" }}
+                        to="/admin/report"
+                      >
+                        Report
+                      </Link>
+                    </DropdownItem>
+                  </DropdownMenu>
+                ) : (
+                  <DropdownMenu className="mt-2">
+                    <DropdownItem>
+                      <Link
+                        style={{ color: "inherit", textDecoration: "none" }}
+                        to="/wishlist"
+                      >
+                        Wishlist
+                      </Link>
+                    </DropdownItem>
+                    <DropdownItem>
+                      <Link
+                        style={{ color: "inherit", textDecoration: "none" }}
+                        to="/history"
+                      >
+                        History
+                      </Link>
+                    </DropdownItem>
+                  </DropdownMenu>
+                )}
+              </Dropdown>
+              <Link
+                className="d-flex flex-row"
+                to="/cart"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <FontAwesomeIcon
+                  className="mr-2"
+                  icon={faShoppingCart}
+                  style={{ fontSize: 24, color: "white" }}
+                />
+                <CircleBg>
+                  <small style={{ color: "#3C64B1", fontWeight: "bold" }}>
+                    {/* {this.props.cart.total} */}4
+                  </small>
+                </CircleBg>
+                <Link
+                  style={{ textDecoration: "none", color: "inherit" }}
+                  to="/auth"
+                >
+                  <Button
+                    className="ml-3"
+                    type="contained"
+                    value="Logout"
+                    onClick={this.onLogout}
+                  >
+                    Logout
                   </Button>
                 </Link>
-              </li>
-              {/* <li className="nav-item cta mr-md-2">
-                <Link to="/" className="nav-link">
-                  Appointment
+              </Link>
+            </>
+          ) : (
+            <>
+              <Button className="mr-3" type="textual">
+                <Link
+                  style={{ textDecoration: "none", color: "inherit" }}
+                  to="/login"
+                >
+                  Sign in
                 </Link>
-              </li> */}
-            </ul>
-          </div>
+              </Button>
+              <Button type="contained">
+                <Link
+                  style={{ textDecoration: "none", color: "inherit" }}
+                  to="/register"
+                >
+                  Sign up
+                </Link>
+              </Button>
+            </>
+          )}
         </div>
       </div>
     );
   }
 }
-
-export default MyNavbar;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+const mapDispatchToProps = {
+  onLogout: logoutHandler,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(MyNavbar);

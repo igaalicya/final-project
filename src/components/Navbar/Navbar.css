@@ -76,3 +76,45 @@
   background: no-repeat center center;
   background-size: 100% 100%;
 }
+
+:root {
+  --accent-default: #3c64b1;
+  --accent-dark: #1e4693;
+  --accent-light: #5a82cf;
+  --gray-lightest: #f4f5f4;
+}
+
+.circle-bg {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #f4f5f4;
+  text-align: center;
+}
+
+.navbar-container {
+  padding: 0 120px;
+  background-color: #343a40;
+}
+
+.logo-text {
+  font-size: 24px;
+  font-family: Lato;
+  font-weight: bold;
+  color: var(--accent-default);
+}
+
+.search-bar {
+  background-color: var(--gray-lightest);
+  padding: 11px 16px;
+  border: none;
+  font-size: 16px;
+  width: 100%;
+  outline: none;
+  border-bottom: 1px solid white;
+  transition: all ease 150ms;
+}
+
+.search-bar.active {
+  border-bottom: 1px solid var(--accent-default);
+}

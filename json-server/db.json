@@ -64,11 +64,32 @@
   ],
   "doctors": [
     {
-      "fullName": "dokter Cantikaa",
+      "fullName": "Catyaa",
       "email": "dokter@gmail.com",
       "address": "Greenwich BSD Tangerang",
       "image": "image",
       "id": 1
+    },
+    {
+      "fullName": "Cantikaa",
+      "email": "dokter@gmail.com",
+      "address": "Greenwich BSD Tangerang",
+      "image": "image",
+      "id": 2
+    },
+    {
+      "fullName": "Chaerul",
+      "email": "dokter@gmail.com",
+      "address": "Greenwich BSD Tangerang",
+      "image": "image",
+      "id": 3
+    },
+    {
+      "fullName": "Suroso",
+      "email": "dokter@gmail.com",
+      "address": "Greenwich BSD Tangerang",
+      "image": "image",
+      "id": 4
     }
   ]
 }

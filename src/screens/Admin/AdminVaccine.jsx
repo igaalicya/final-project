@@ -33,7 +33,7 @@ class AdminVaccine extends React.Component {
 
   renderVaccineList = () => {
     return this.state.VaccineList.map((val, idx) => {
-      const { id, vaccineName, price, ageOfDose, desc, brand } = val;
+      const { id, vaccineName, price, ageOfDose, brand } = val;
       return (
         <>
           <tr

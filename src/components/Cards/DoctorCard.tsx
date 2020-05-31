@@ -22,7 +22,7 @@ class DoctorCard extends React.Component<DoctorCardProps> {
     // const { id, fullName, address, image } = this.props.data;
 
     return (
-      <div className="col-md-6 col-lg-3">
+      <div>
         <div className="doctor">
           <div className="d-flex">
             <img

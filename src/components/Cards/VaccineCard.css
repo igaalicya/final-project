@@ -1,4 +1,6 @@
-.vaccine-card {
-  border-radius: 12px;
-  border: 1px solid gray;
+.vaccine-image {
+  transition: all 0.15s ease;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
 }

@@ -7,7 +7,7 @@ import "./VaccineCard.css";
 interface VaccineCardData {
   id?: number;
   vaccineName?: string;
-  price?: number;
+  price: number;
   ageOfDose?: number;
   brand?: string;
   desc?: string;
@@ -19,25 +19,37 @@ type VaccineCardProps = {
 
 class VaccineCard extends React.Component<VaccineCardProps> {
   render() {
-    // const { id, fullName, address, image } = this.props.data;
-
+    const { price } = this.props.data;
     return (
-      <div className="col-md-4 col-lg-3">
-        <div className="vaccine-card p-2">
-          <div className="d-flex">
-            <FontAwesomeIcon
-              icon={faHeart}
-              style={{ fontSize: 50, color: "red" }}
-            />
-            <div className="text pt-3">
-              <h3 className="mb-2">{this.props.data.vaccineName}</h3>
-              <span className="text-primary mb-2">{this.props.data.price}</span>
-              <div>
-                <p style={{ fontSize: 12 }}>{this.props.data.desc}</p>
+      <div>
+        {/* <div className="p-2"> */}
+        <div className="d-flex">
+          <div className="row">
+            <div className="col-lg-4 col-md-3">
+              <img
+                style={{ objectFit: "contain" }}
+                alt="..."
+                className="vaccine-image mt-3"
+                src="https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1527750304/ge2j5wjtigw1rdc2yvji.jpg"
+              />
+            </div>
+            <div className="col-lg-8 col-md-6">
+              <div className="pt-3">
+                <h3 className="mb-2">{this.props.data.vaccineName}</h3>
+                <span className="text-primary mb-2">
+                  {new Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                  }).format(price)}
+                </span>
+                <div>
+                  <p style={{ fontSize: 12 }}>{this.props.data.desc}</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        {/* </div> */}
       </div>
     );
   }

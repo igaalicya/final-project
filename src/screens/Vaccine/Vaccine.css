@@ -1,4 +1,9 @@
 .vaccine-area {
-  padding-top: 50px;
+  padding-top: 180px;
   background: #f5fbff;
+}
+
+.vaccine-card {
+  border-radius: 12px;
+  border: 1px solid gray;
 }

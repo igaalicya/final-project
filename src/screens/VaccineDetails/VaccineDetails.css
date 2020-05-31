@@ -1,0 +1,8 @@
+.vaccine-image {
+  max-width: 180px;
+  transition: all 0.15s ease;
+}
+
+.rounded {
+  border-radius: 50% !important;
+}

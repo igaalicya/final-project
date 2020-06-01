@@ -1,7 +1,7 @@
 import React from "react";
 import "./Auth.css";
 import { connect } from "react-redux";
-// import { Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -64,6 +64,9 @@ class Login extends React.Component {
   };
 
   render() {
+    if (this.props.user.id > 0) {
+      return <Redirect to="/" />;
+    }
     return (
       <div style={{ display: "block" }}>
         <div className="container-login p-5">

@@ -165,7 +165,7 @@ class MyNavbar extends React.Component {
 
               <Link
                 style={{ textDecoration: "none", color: "inherit" }}
-                to="/auth"
+                to="/login"
               >
                 <Button
                   className="ml-3"

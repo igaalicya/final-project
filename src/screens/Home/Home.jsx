@@ -60,12 +60,13 @@ class Home extends React.Component {
     return this.state.doctorList.map((val) => {
       console.log(val);
       return (
-        // <Link
-        //   to={`/doctors/${val.id}`}
-        //   style={{ textDecoration: "none", color: "inherit" }}
-        // >
-        <DoctorCard data={val} className="m-2" />
-        // </Link>
+        <Link
+          className="col-md-6 col-lg-3"
+          to={`/profileDoctor/${val.id}`}
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <DoctorCard data={val} className="m-2" />
+        </Link>
       );
     });
   };

@@ -57,10 +57,10 @@ class App extends React.Component {
           <Route exact path="/about" component={About} />
           <Route path="/register" component={Register} />
           <Route path="/login" component={Login} />
-          <Route path="/profileDoctor" component={ProfileDoctor} />
+          <Route path="/profileDoctor/:doctorId" component={ProfileDoctor} />
           <Route path="/doctors" component={Doctors} />
           <Route path="/vaccine" component={Vaccine} />
-          <Route path="/vaccineDetails" component={VaccineDetails} />
+          <Route path="/vaccineDetails/:vaccineId" component={VaccineDetails} />
           <Route path="/test" component={Test} />
           {this.renderAdminRoutes()}
           <Route path="*" component={PageNotFound} />

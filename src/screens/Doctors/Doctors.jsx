@@ -28,7 +28,7 @@ class Doctors extends React.Component {
       return (
         <Link
           className="col-md-6 col-lg-3"
-          to={`/doctors/${val.id}`}
+          to={`/profileDoctor/${val.id}`}
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <DoctorCard data={val} className="m-2" />

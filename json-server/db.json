@@ -51,6 +51,7 @@
       "ageOfDose": 1,
       "desc": "menangkal infeksi organ hati yang disebabkan oleh virus hepatitis B",
       "brand": "Engerix B",
+      "image": "https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1527750304/ge2j5wjtigw1rdc2yvji.jpg",
       "id": 1
     },
     {
@@ -59,7 +60,35 @@
       "ageOfDose": 1,
       "desc": "menangkal penyakit campak",
       "brand": "Trimovax",
-      "id": 1
+      "image": "https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1527750304/ge2j5wjtigw1rdc2yvji.jpg",
+      "id": 2
+    },
+    {
+      "vaccineName": "Tuberculosis",
+      "price": 205000,
+      "ageOfDose": 1,
+      "desc": "menangkal penyakit TBC",
+      "brand": "BCG",
+      "image": "https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1527750304/ge2j5wjtigw1rdc2yvji.jpg",
+      "id": 3
+    },
+    {
+      "vaccineName": "Hepatitis B",
+      "price": 205000,
+      "ageOfDose": 1,
+      "desc": "menangkal penyakit Hepatitis B",
+      "brand": "Euvax B",
+      "image": "https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1527750304/ge2j5wjtigw1rdc2yvji.jpg",
+      "id": 4
+    },
+    {
+      "vaccineName": "Polio",
+      "price": 205000,
+      "ageOfDose": 1,
+      "desc": "menangkal penyakit polio",
+      "brand": "Imovax Polio",
+      "image": "https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1527750304/ge2j5wjtigw1rdc2yvji.jpg",
+      "id": 5
     }
   ],
   "doctors": [

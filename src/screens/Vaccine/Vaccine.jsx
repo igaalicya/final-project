@@ -57,7 +57,9 @@ class Vaccine extends React.Component {
                 </p>
               </div>
             </div>
-            <div className="row">{this.renderVaccine()}</div>
+            <div className="row justify-content-center">
+              {this.renderVaccine()}
+            </div>
           </div>
         </div>
       </div>

@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-regular-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons/";
 import {
   Dropdown,
   DropdownItem,
@@ -14,6 +15,11 @@ import {
 import "./Navbar.css";
 import Button from "../Buttons/Button";
 import { logoutHandler } from "../../redux/actions";
+import { countCartHandler } from "../../redux/actions/cart";
+
+const CircleBg = ({ children }) => {
+  return <div className="circle-bg">{children}</div>;
+};
 
 class MyNavbar extends React.Component {
   state = {
@@ -69,44 +75,43 @@ class MyNavbar extends React.Component {
           />
         </div> */}
         <div className="d-flex flex-row align-items-center">
+          <Link
+            to="/about"
+            className="nav-link"
+            style={{ color: "white", textDecoration: "none" }}
+          >
+            <span>About</span>
+          </Link>
+          <Link
+            to="/vaccine"
+            className="nav-link"
+            style={{ color: "white", textDecoration: "none" }}
+          >
+            <span>Vaccine</span>
+          </Link>
+          <Link
+            to="/doctors"
+            className="nav-link"
+            style={{ color: "white", textDecoration: "none" }}
+          >
+            <span>Doctors</span>
+          </Link>
           {this.props.user.username ? (
             <>
-              <Link
-                to="/about"
-                className="nav-link"
-                style={{ color: "white", textDecoration: "none" }}
-              >
-                <span>About</span>
-              </Link>
-              <Link
-                to="/vaccine"
-                className="nav-link"
-                style={{ color: "white", textDecoration: "none" }}
-              >
-                <span>Vaccine</span>
-              </Link>
-              <Link
-                to="/doctors"
-                className="nav-link"
-                style={{ color: "white", textDecoration: "none" }}
-              >
-                <span>Doctors</span>
-              </Link>
-              <Dropdown
-                toggle={this.toggleDropdown}
-                isOpen={this.state.dropdownOpen}
-              >
-                <DropdownToggle tag="div" className="d-flex">
-                  <FontAwesomeIcon
-                    icon={faUser}
-                    style={{ fontSize: 24, color: "white" }}
-                  />
-                  <p className="text-white ml-1 mr-4">
-                    {this.props.user.username}
-                  </p>
-                </DropdownToggle>
-
-                {this.props.user.role === "admin" ? (
+              {this.props.user.role === "admin" ? (
+                <Dropdown
+                  toggle={this.toggleDropdown}
+                  isOpen={this.state.dropdownOpen}
+                >
+                  <DropdownToggle tag="div" className="d-flex">
+                    <FontAwesomeIcon
+                      icon={faUser}
+                      style={{ fontSize: 24, color: "white" }}
+                    />
+                    <p className="text-white ml-1 mr-4 m-0">
+                      {this.props.user.username}
+                    </p>
+                  </DropdownToggle>
                   <DropdownMenu className="mt-2">
                     <DropdownItem>
                       <Link
@@ -141,27 +146,59 @@ class MyNavbar extends React.Component {
                       </Link>
                     </DropdownItem>
                   </DropdownMenu>
-                ) : (
-                  <DropdownMenu className="mt-2">
-                    <DropdownItem>
-                      <Link
-                        style={{ color: "inherit", textDecoration: "none" }}
-                        to="/wishlist"
-                      >
-                        Wishlist
-                      </Link>
-                    </DropdownItem>
-                    <DropdownItem>
-                      <Link
-                        style={{ color: "inherit", textDecoration: "none" }}
-                        to="/history"
-                      >
-                        History
-                      </Link>
-                    </DropdownItem>
-                  </DropdownMenu>
-                )}
-              </Dropdown>
+                </Dropdown>
+              ) : (
+                <>
+                  <Dropdown
+                    toggle={this.toggleDropdown}
+                    isOpen={this.state.dropdownOpen}
+                  >
+                    <DropdownToggle tag="div" className="d-flex">
+                      <FontAwesomeIcon
+                        icon={faUser}
+                        style={{ fontSize: 24, color: "white" }}
+                      />
+                      <span className="text-white ml-1 mr-3">
+                        {this.props.user.username}
+                      </span>
+                    </DropdownToggle>
+                    <DropdownMenu className="mt-2">
+                      <DropdownItem>
+                        <Link
+                          style={{ color: "inherit", textDecoration: "none" }}
+                          to="/wishlist"
+                        >
+                          Wishlist
+                        </Link>
+                      </DropdownItem>
+                      <DropdownItem>
+                        <Link
+                          style={{ color: "inherit", textDecoration: "none" }}
+                          to="/history"
+                        >
+                          History
+                        </Link>
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                  <Link
+                    className="d-flex flex-row"
+                    to="/cart"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    <FontAwesomeIcon
+                      className="mr-2"
+                      icon={faShoppingCart}
+                      style={{ fontSize: 24, color: "white" }}
+                    />
+                    <CircleBg>
+                      <small style={{ color: "#3C64B1", fontWeight: "bold" }}>
+                        {this.props.cart.total}
+                      </small>
+                    </CircleBg>
+                  </Link>
+                </>
+              )}
 
               <Link
                 style={{ textDecoration: "none", color: "inherit" }}
@@ -205,9 +242,11 @@ class MyNavbar extends React.Component {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
+    cart: state.cart,
   };
 };
 const mapDispatchToProps = {
   onLogout: logoutHandler,
+  numberOfItemInCart: countCartHandler,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(MyNavbar);

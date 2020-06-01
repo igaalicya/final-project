@@ -116,5 +116,25 @@
       "desc": "I am an ambitious workaholic, but apart from that, pretty simple person.",
       "id": 3
     }
+  ],
+  "carts": [
+    {
+      "userId": 1,
+      "vaccineId": 5,
+      "quantity": 1,
+      "id": 1
+    },
+    {
+      "userId": 2,
+      "vaccineId": 2,
+      "quantity": 1,
+      "id": 2
+    },
+    {
+      "userId": 2,
+      "vaccineId": 3,
+      "quantity": 2,
+      "id": 3
+    }
   ]
 }

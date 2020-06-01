@@ -2,8 +2,11 @@ import React from "react";
 import { Card, Row, Col } from "reactstrap";
 import Axios from "axios";
 import { API_URL } from "../../constants/API";
+import { connect } from "react-redux";
 import "./VaccineDetails.css";
 import Button from "../../components/Buttons/Button";
+import swal from "sweetalert";
+import { countCartHandler } from "../../redux/actions";
 
 class VaccineDetails extends React.Component {
   state = {
@@ -18,6 +21,54 @@ class VaccineDetails extends React.Component {
     },
   };
 
+  addToCartHandler = () => {
+    console.log(this.state.vaccineData.id);
+    Axios.get(`${API_URL}/carts`, {
+      params: {
+        vaccineId: this.state.vaccineData.id,
+        userId: this.props.user.id,
+      },
+    }).then((res) => {
+      if (res.data.length > 0) {
+        Axios.patch(`${API_URL}/carts/${res.data[0].id}`, {
+          quantity: res.data[0].quantity + 1,
+        })
+          .then((res) => {
+            swal(
+              "Add to cart",
+              "Your item has been added to your cart",
+              "success"
+            );
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        Axios.post(`${API_URL}/carts`, {
+          userId: this.props.user.id,
+          vaccineId: this.state.vaccineData.id,
+          quantity: 1,
+        })
+          .then((res) => {
+            console.log(res);
+            swal(
+              "Add to cart",
+              "Your item has been added to your cart",
+              "success"
+            );
+
+            this.props.numberOfItemInCart(this.props.user.id);
+          })
+
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
+    console.log(this.state.vaccineData.id);
+  };
+
   componentDidMount() {
     Axios.get(`${API_URL}/vaccines/${this.props.match.params.vaccineId}`)
       .then((res) => {
@@ -26,6 +77,9 @@ class VaccineDetails extends React.Component {
       .catch((err) => {
         console.log(err);
       });
+
+    let userId = this.props.user.id;
+    this.props.numberOfItemInCart(userId);
   }
 
   render() {
@@ -84,7 +138,7 @@ class VaccineDetails extends React.Component {
                     </Row>
                     <Row className="justify-content-center">
                       <Button
-                        onClick=""
+                        onClick={this.addToCartHandler}
                         className="m-2"
                         type="contained"
                         value="buy"
@@ -103,4 +157,15 @@ class VaccineDetails extends React.Component {
   }
 }
 
-export default VaccineDetails;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+    cart: state.cart,
+  };
+};
+
+const mapDispatchToProps = {
+  numberOfItemInCart: countCartHandler,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(VaccineDetails);

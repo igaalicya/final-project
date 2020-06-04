@@ -15,7 +15,7 @@ import {
 import "./Navbar.css";
 import Button from "../Buttons/Button";
 import { logoutHandler } from "../../redux/actions";
-import { countCartHandler } from "../../redux/actions/cart";
+// import { countCartHandler } from "../../redux/actions/cart";
 
 const CircleBg = ({ children }) => {
   return <div className="circle-bg">{children}</div>;
@@ -116,9 +116,9 @@ class MyNavbar extends React.Component {
                     <DropdownItem>
                       <Link
                         style={{ color: "inherit", textDecoration: "none" }}
-                        to="/admin/dashboard"
+                        to="/admin/vaccine"
                       >
-                        Dashboard
+                        Vaccine
                       </Link>
                     </DropdownItem>
                     <DropdownItem>
@@ -127,6 +127,14 @@ class MyNavbar extends React.Component {
                         to="/admin/members"
                       >
                         Members
+                      </Link>
+                    </DropdownItem>
+                    <DropdownItem>
+                      <Link
+                        style={{ color: "inherit", textDecoration: "none" }}
+                        to="/admin/doctor"
+                      >
+                        Doctors
                       </Link>
                     </DropdownItem>
                     <DropdownItem>
@@ -193,7 +201,7 @@ class MyNavbar extends React.Component {
                     />
                     <CircleBg>
                       <small style={{ color: "#3C64B1", fontWeight: "bold" }}>
-                        {this.props.cart.total}
+                        {this.props.user.cartItems}
                       </small>
                     </CircleBg>
                   </Link>
@@ -242,11 +250,9 @@ class MyNavbar extends React.Component {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-    cart: state.cart,
   };
 };
 const mapDispatchToProps = {
   onLogout: logoutHandler,
-  numberOfItemInCart: countCartHandler,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(MyNavbar);

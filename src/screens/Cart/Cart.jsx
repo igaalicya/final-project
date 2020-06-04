@@ -1,15 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Table, Alert, Modal, ModalBody, ModalHeader } from "reactstrap";
+import { Alert, Modal, ModalBody, ModalHeader } from "reactstrap";
 import "./Cart.css";
 import Axios from "axios";
 import { API_URL } from "../../constants/API";
 import Button from "../../components/Buttons/Button";
 import swal from "sweetalert";
-import { countCartHandler } from "../../redux/actions";
+// import { countCartHandler } from "../../redux/actions";
 
 import { priceFormatter } from "../../supports/helpers/formatter";
+import { fillCart } from "../../redux/actions";
 
 class Cart extends React.Component {
   state = {
@@ -38,7 +39,8 @@ class Cart extends React.Component {
   componentDidMount() {
     this.getCartData();
     this.deliveryCostHandler();
-    this.props.numberOfItemInCart(this.props.user.id);
+    this.props.onFillCart(this.props.user.id);
+    // this.props.numberOfItemInCart(this.props.user.id);
   }
 
   getCartData = () => {
@@ -54,6 +56,7 @@ class Cart extends React.Component {
         console.log(res.data);
         res.data.map((val) => {
           grandTotalPrice += val.quantity * val.vaccine.price;
+          return grandTotalPrice;
         });
 
         this.setState({
@@ -79,6 +82,7 @@ class Cart extends React.Component {
           <td>{idx + 1}</td>
           <td>
             <img
+              alt=""
               src={val.vaccine.image}
               style={{ width: "100%", objectFit: "contain", height: "100px" }}
             />
@@ -106,8 +110,8 @@ class Cart extends React.Component {
       .then((res) => {
         console.log(res);
         this.getCartData();
-
-        this.props.numberOfItemInCart(this.props.user.id);
+        this.props.onFillCart(this.props.user.id);
+        // this.props.numberOfItemInCart(this.props.user.id);
       })
       .catch((err) => {
         console.log("gagal");
@@ -115,9 +119,9 @@ class Cart extends React.Component {
   };
 
   deliveryCostHandler = () => {
-    if (this.state.delivery == "jabodetabek") {
+    if (this.state.delivery === "jabodetabek") {
       this.setState({ deliveryCost: 100000 });
-    } else if (this.state.delivery == "non") {
+    } else if (this.state.delivery === "non") {
       this.setState({ deliveryCost: 50000 });
     }
   };
@@ -160,43 +164,45 @@ class Cart extends React.Component {
     });
   };
 
-  //   confirmPayment = () => {
-  //     Axios.post(`${API_URL}/transactions`, {
-  //       ...this.state.checkoutData,
-  //       grandTotalPrice: this.renderTotalPrice(),
-  //     })
-  //       .then((res) => {
-  //         this.state.cartData.map((val) => {
-  //           Axios.post(`${API_URL}/transactionDetails`, {
-  //             transactionId: res.data.id,
-  //             vaccineId: val.vaccineId,
-  //             price: val.vaccine.price,
-  //             quantity: val.quantity,
-  //             totalPrice: val.vaccine.price * val.quantity,
-  //           })
-  //             .then((res) => {
-  //               console.log(res);
-  //               swal("Thank you!", "Your Transaction is Success", "success");
-  //               this.setState({ modalOpen: false });
-  //               // empty cart
-  //               this.state.cartData.map((val) => {
-  //                 return this.deleteHandler(val.id);
-  //               });
-  //             })
-  //             .catch((err) => {
-  //               console.log(err);
-  //             });
-  //         });
-  //         console.log(res);
-  //         swal("Success", "your transaction is success", "success");
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   };
+  confirmPayment = () => {
+    Axios.post(`${API_URL}/transactions`, {
+      ...this.state.checkoutData,
+      grandTotalPrice: this.renderTotalPrice(),
+    })
+      .then((res) => {
+        this.state.cartData.map((val) => {
+          Axios.post(`${API_URL}/transactionDetails`, {
+            transactionId: res.data.id,
+            vaccineId: val.vaccineId,
+            price: val.vaccine.price,
+            quantity: val.quantity,
+            totalPrice: val.vaccine.price * val.quantity,
+          })
+            .then((res) => {
+              console.log(res);
+              swal("Thank you!", "Your Transaction is Success", "success");
+              this.setState({ modalOpen: false });
+              // empty cart
+              this.state.cartData.map((val) => {
+                return this.deleteHandler(val.id);
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        });
+        console.log(res);
+        swal("Success", "your transaction is success", "success");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   toggleModal = () => {
     this.setState({ modalOpen: !this.state.modalOpen });
   };
+
   checkboxHandler = (e, idx) => {
     const { checked } = e.target;
     if (checked) {
@@ -229,6 +235,8 @@ class Cart extends React.Component {
         return priceFormatter(100000);
       case "non":
         return priceFormatter(50000);
+      default:
+        return priceFormatter(100000);
     }
   };
 
@@ -251,6 +259,8 @@ class Cart extends React.Component {
       case "non":
         shippingPrice = 50000;
         break;
+      default:
+        shippingPrice = 100000;
     }
 
     return totalPrice + shippingPrice;
@@ -391,6 +401,6 @@ const mapStateToProps = (state) => {
   };
 };
 const mapDispatchToProps = {
-  numberOfItemInCart: countCartHandler,
+  onFillCart: fillCart,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

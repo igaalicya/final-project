@@ -121,20 +121,20 @@
     {
       "userId": 1,
       "vaccineId": 5,
-      "quantity": 1,
+      "quantity": 2,
       "id": 1
+    },
+    {
+      "userId": 3,
+      "vaccineId": 4,
+      "quantity": 1,
+      "id": 4
     },
     {
       "userId": 2,
       "vaccineId": 2,
       "quantity": 1,
-      "id": 2
-    },
-    {
-      "userId": 2,
-      "vaccineId": 3,
-      "quantity": 2,
-      "id": 3
+      "id": 5
     }
   ]
 }

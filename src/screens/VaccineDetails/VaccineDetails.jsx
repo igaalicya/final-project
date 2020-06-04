@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import "./VaccineDetails.css";
 import Button from "../../components/Buttons/Button";
 import swal from "sweetalert";
-import { countCartHandler } from "../../redux/actions";
+import { fillCart } from "../../redux/actions";
 
 class VaccineDetails extends React.Component {
   state = {
@@ -26,7 +26,7 @@ class VaccineDetails extends React.Component {
     Axios.get(`${API_URL}/carts`, {
       params: {
         vaccineId: this.state.vaccineData.id,
-        userId: this.props.user.id,
+        // userId: this.props.user.id,
       },
     }).then((res) => {
       if (res.data.length > 0) {
@@ -40,6 +40,7 @@ class VaccineDetails extends React.Component {
               "success"
             );
             console.log(res);
+            this.props.onFillCart(this.props.user.id);
           })
           .catch((err) => {
             console.log(err);
@@ -57,8 +58,9 @@ class VaccineDetails extends React.Component {
               "Your item has been added to your cart",
               "success"
             );
+            this.props.onFillCart(this.props.user.id);
 
-            this.props.numberOfItemInCart(this.props.user.id);
+            // this.props.numberOfItemInCart(this.props.user.id);
           })
 
           .catch((err) => {
@@ -73,13 +75,14 @@ class VaccineDetails extends React.Component {
     Axios.get(`${API_URL}/vaccines/${this.props.match.params.vaccineId}`)
       .then((res) => {
         this.setState({ vaccineData: res.data });
+        this.props.onFillCart(this.props.user.id);
       })
       .catch((err) => {
         console.log(err);
       });
 
-    let userId = this.props.user.id;
-    this.props.numberOfItemInCart(userId);
+    // let userId = this.props.user.id;
+    // this.props.numberOfItemInCart(userId);
   }
 
   render() {
@@ -165,7 +168,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  numberOfItemInCart: countCartHandler,
+  onFillCart: fillCart,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(VaccineDetails);

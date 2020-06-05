@@ -17,7 +17,7 @@ th {
 }
 
 .admin-table tr:hover {
-  /* cursor: pointer; */
+  cursor: pointer;
   background-color: #f4f5f4;
 }
 

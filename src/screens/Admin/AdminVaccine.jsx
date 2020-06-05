@@ -5,15 +5,23 @@ import Axios from "axios";
 import { API_URL } from "../../constants/API";
 import swal from "sweetalert";
 import { Button } from "reactstrap";
+import TextField from "../../components/TextField/TextField";
 
 class AdminVaccine extends React.Component {
   state = {
     VaccineList: [],
-    editForm: {
-      id: 0,
+    createForm: {
       vaccineName: "",
       price: "",
       ageOfDose: "",
+      desc: "",
+      brand: "",
+    },
+    editForm: {
+      id: 0,
+      vaccineName: "",
+      price: 0,
+      ageOfDose: 0,
       desc: "",
       brand: "",
     },
@@ -90,6 +98,27 @@ class AdminVaccine extends React.Component {
     });
   };
 
+  addVaccineHandler = () => {
+    Axios.post(`${API_URL}/vaccines`, this.state.createForm)
+      .then((res) => {
+        swal("Success", "Your items has been added to the list", "success");
+        this.getVaccineList();
+        this.setState({
+          createForm: {
+            vaccineName: "",
+            price: "",
+            ageOfDose: "",
+            desc: "",
+            brand: "",
+          },
+        });
+        this.getVaccineList();
+      })
+      .catch((err) => {
+        swal("Error!", "Your item could not be added to the list", "error");
+      });
+  };
+
   editBtnHandler = (idx) => {
     this.setState({
       editForm: {
@@ -156,6 +185,59 @@ class AdminVaccine extends React.Component {
             <tbody>{this.renderVaccineList()}</tbody>
           </table>
         </div>
+        <div className="admin-form-container p-4">
+          <caption className="mb-4 mt-2">
+            <h2>Add Vaccine</h2>
+          </caption>
+          <div className="row">
+            <div className="col-8">
+              <TextField
+                value={this.state.createForm.vaccineName}
+                placeholder="Vaccine Name"
+                onChange={(e) =>
+                  this.inputHandler(e, "vaccineName", "createForm")
+                }
+              />
+            </div>
+            <div className="col-4">
+              <TextField
+                value={this.state.createForm.price}
+                placeholder="Price"
+                onChange={(e) => this.inputHandler(e, "price", "createForm")}
+              />
+            </div>
+            <div className="col-6 mt-3">
+              <TextField
+                value={this.state.createForm.ageOfDose}
+                placeholder="Age of Dose"
+                onChange={(e) =>
+                  this.inputHandler(e, "ageOfDose", "createForm")
+                }
+              />
+            </div>
+            <div className="col-6 mt-3">
+              <TextField
+                value={this.state.createForm.brand}
+                placeholder="Brand"
+                onChange={(e) => this.inputHandler(e, "brand", "createForm")}
+              />
+            </div>
+            <div className="col-12 mt-3">
+              <textarea
+                value={this.state.createForm.desc}
+                onChange={(e) => this.inputHandler(e, "desc", "createForm")}
+                style={{ resize: "none" }}
+                placeholder="Description"
+                className="custom-text-input"
+              ></textarea>
+            </div>
+            <div className="col-3 mt-3">
+              <Button onClick={this.addVaccineHandler} type="contained">
+                Add Vaccine
+              </Button>
+            </div>
+          </div>
+        </div>
 
         <Modal
           toggle={this.toggleModal}
@@ -172,6 +254,7 @@ class AdminVaccine extends React.Component {
               <div className="col-12">
                 <input
                   type="text"
+                  className="custom-text-input h-100 pl-3"
                   value={this.state.editForm.vaccineName}
                   placeholder="Vaccine Name"
                   onChange={(e) =>
@@ -182,6 +265,7 @@ class AdminVaccine extends React.Component {
               <div className="col-12 mt-3">
                 <input
                   type="text"
+                  className="custom-text-input h-100 pl-3"
                   value={this.state.editForm.price}
                   placeholder="Price"
                   onChange={(e) => this.inputHandler(e, "price", "editForm")}
@@ -190,6 +274,7 @@ class AdminVaccine extends React.Component {
               <div className="col-12 mt-3">
                 <input
                   type="text"
+                  className="custom-text-input h-100 pl-3"
                   value={this.state.editForm.ageOfDose}
                   placeholder="Age Of Dose"
                   onChange={(e) =>
@@ -200,6 +285,7 @@ class AdminVaccine extends React.Component {
               <div className="col-12 mt-3">
                 <input
                   type="text"
+                  className="custom-text-input h-100 pl-3"
                   value={this.state.editForm.desc}
                   placeholder="Description"
                   onChange={(e) => this.inputHandler(e, "desc", "editForm")}

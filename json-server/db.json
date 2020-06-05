@@ -47,9 +47,9 @@
   "vaccines": [
     {
       "vaccineName": "Hepatitis B",
-      "price": "130000",
-      "ageOfDose": 1,
-      "desc": "menangkal infeksi organ hati yang disebabkan oleh virus hepatitis B",
+      "price": "150000",
+      "ageOfDose": "1",
+      "desc": "menangkaal infeksi organ hati yang disebabkan oleh virus hepatitis B",
       "brand": "Engerix B",
       "image": "https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1527750304/ge2j5wjtigw1rdc2yvji.jpg",
       "id": 1
@@ -74,7 +74,7 @@
     },
     {
       "vaccineName": "Hepatitis B",
-      "price": 205000,
+      "price": "200000",
       "ageOfDose": 1,
       "desc": "menangkal penyakit Hepatitis B",
       "brand": "Euvax B",
@@ -89,6 +89,14 @@
       "brand": "Imovax Polio",
       "image": "https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1527750304/ge2j5wjtigw1rdc2yvji.jpg",
       "id": 5
+    },
+    {
+      "vaccineName": "Tetanus",
+      "price": "130000",
+      "ageOfDose": "2",
+      "desc": "vaksin mencegah tetanus",
+      "brand": "Bio TT",
+      "id": 6
     }
   ],
   "doctors": [
@@ -135,6 +143,12 @@
       "vaccineId": 2,
       "quantity": 1,
       "id": 5
+    },
+    {
+      "userId": 3,
+      "vaccineId": 3,
+      "quantity": 1,
+      "id": 6
     }
   ]
 }

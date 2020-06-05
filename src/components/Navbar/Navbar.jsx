@@ -132,7 +132,7 @@ class MyNavbar extends React.Component {
                     <DropdownItem>
                       <Link
                         style={{ color: "inherit", textDecoration: "none" }}
-                        to="/admin/doctor"
+                        to="/admin/doctors"
                       >
                         Doctors
                       </Link>

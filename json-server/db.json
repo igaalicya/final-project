@@ -101,28 +101,49 @@
   ],
   "doctors": [
     {
-      "fullName": "Doctor 1",
-      "image": "https://d1ojs48v3n42tp.cloudfront.net/personnels/242073_18-2-2020_16-38-29.jpg",
-      "specialist": "hdkasdhkjhfksahf",
+      "fullName": "dr. Kania Adhyanisitha, Sp.A",
+      "image": "https://res.cloudinary.com/dk0z4ums3/image/upload/w_100,h_100,c_fill,dpr_2.0/v1575012659/image_doctor/dr.%20Kania%20Adhyanisitha%2C%20Sp.A2.PNG.png",
+      "specialist": "pediatrician",
       "address": "BSD",
-      "desc": "I am an ambitious workaholic, but apart from that, pretty simple person.",
-      "id": 1
-    },
-    {
-      "fullName": "Doctor 2",
-      "image": "https://d1ojs48v3n42tp.cloudfront.net/personnels/242073_18-2-2020_16-38-29.jpg",
-      "specialist": "hdkasdhkjhfksahf",
-      "address": "BSD",
+      "phone": "08123848687",
       "desc": "I am an ambitious workaholic, but apart from that, pretty simple person.",
       "id": 2
     },
     {
-      "fullName": "Doctorr 3",
-      "image": "https://d1ojs48v3n42tp.cloudfront.net/personnels/242073_18-2-2020_16-38-29.jpg",
-      "specialist": "hdkasdhkjhfksahf",
+      "fullName": "Dr. dr. Naomi Esthernita Fauzia Dewanto, Sp.A(K)",
+      "image": "https://res.cloudinary.com/dk0z4ums3/image/upload/w_100,h_100,c_fill,dpr_2.0/v1580720752/image_doctor/dr.%20Naomi%2C%20Sneli.jpg.jpg",
+      "specialist": "pediatrician",
       "address": "BSD",
+      "phone": "089493738729",
       "desc": "I am an ambitious workaholic, but apart from that, pretty simple person.",
       "id": 3
+    },
+    {
+      "fullName": "dr. Sebastianus Hartanto, Sp.A",
+      "image": "https://res.cloudinary.com/dk0z4ums3/image/upload/w_100,h_100,c_fill,dpr_2.0/v1580722077/image_doctor/dr.%20Sebastianus%2C%20Sp.A.jpg.jpg",
+      "specialist": "pediatrician",
+      "address": "BSD",
+      "phone": "08123848687",
+      "desc": "I am an ambitious workaholic, but apart from that, pretty simple person.",
+      "id": 5
+    },
+    {
+      "fullName": "dr. Prisca Tallulembang, Sp.A",
+      "image": "https://res.cloudinary.com/dk0z4ums3/image/upload/w_100,h_100,c_fill,dpr_2.0/v1580721994/image_doctor/dr.%20Prisca%20Tallulembang%2C%20Sp.A.jpg.jpg",
+      "specialist": "pediatrician",
+      "address": "Bekasi",
+      "phone": "087777772163",
+      "desc": "dr. Prisca Santoso Kurniawan termasuk dalam Ikatan Dokter Anak Indonesia. Adapun layanan kesehatan yang dapat diberikan beliau meliputi : Konsultasi kesehatan anak menyeluruh",
+      "id": 6
+    },
+    {
+      "fullName": "dr. Hermawan Ludirdja, Sp.And, M.Kes",
+      "image": "https://res.cloudinary.com/dk0z4ums3/image/upload/w_76,h_76,c_fill,dpr_2.0/v1580723605/image_doctor/dr.Hermawan%20Ludirdja%2CSp.And.jpg.jpg",
+      "specialist": "Andrology",
+      "address": "Kebon Jeruk",
+      "phone": "0998329839",
+      "desc": "dr. Hermawan Ludirdja, Sp.And, M.Kes merupakan anggota dari Ikatan Dokter Indonesia (IDI), dan mampu memberikan bantuan pelayanan medis ",
+      "id": 7
     }
   ],
   "carts": [

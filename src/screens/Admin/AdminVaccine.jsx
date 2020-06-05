@@ -59,7 +59,7 @@ class AdminVaccine extends React.Component {
               }
             }}
           >
-            <td> {id} </td>
+            <td> {idx + 1} </td>
             <td> {vaccineName} </td>
             <td> {price} </td>
             <td> {ageOfDose}</td>
@@ -285,19 +285,19 @@ class AdminVaccine extends React.Component {
               <div className="col-12 mt-3">
                 <input
                   type="text"
-                  className="custom-text-input h-100 pl-3"
-                  value={this.state.editForm.desc}
-                  placeholder="Description"
-                  onChange={(e) => this.inputHandler(e, "desc", "editForm")}
-                />
-              </div>
-              <div className="col-12 mt-3">
-                <input
-                  type="text"
                   value={this.state.editForm.brand}
                   className="custom-text-input h-100 pl-3"
                   onChange={(e) => this.inputHandler(e, "brand", "editForm")}
                 />
+              </div>
+              <div className="col-12 mt-3">
+                <textarea
+                  value={this.state.editForm.desc}
+                  onChange={(e) => this.inputHandler(e, "desc", "editForm")}
+                  style={{ resize: "none" }}
+                  placeholder="Description"
+                  className="custom-text-input"
+                ></textarea>
               </div>
               <div className="col-5 mt-5 offset-1">
                 <Button

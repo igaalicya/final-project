@@ -174,6 +174,22 @@ class MyNavbar extends React.Component {
                       <DropdownItem>
                         <Link
                           style={{ color: "inherit", textDecoration: "none" }}
+                          to="/profileUser"
+                        >
+                          Profile
+                        </Link>
+                      </DropdownItem>
+                      <DropdownItem>
+                        <Link
+                          style={{ color: "inherit", textDecoration: "none" }}
+                          to="/changePassword"
+                        >
+                          Change Password
+                        </Link>
+                      </DropdownItem>
+                      <DropdownItem>
+                        <Link
+                          style={{ color: "inherit", textDecoration: "none" }}
                           to="/wishlist"
                         >
                           Wishlist

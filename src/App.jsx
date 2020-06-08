@@ -24,6 +24,8 @@ import AdminVaccine from "./screens/Admin/AdminVaccine";
 import Vaccine from "./screens/Vaccine/Vaccine";
 import VaccineDetails from "./screens/VaccineDetails/VaccineDetails";
 import Cart from "./screens/Cart/Cart";
+import ProfileUser from "./screens/Profile/ProfileUser";
+// import ChangePassword from "./screens/ChangePassword/ChangePassword";
 
 const cookieObj = new Cookie();
 
@@ -49,6 +51,18 @@ class App extends React.Component {
     }
   };
 
+  renderProtectedRoutes = () => {
+    if (this.props.user.id) {
+      return (
+        <>
+          <Route path="/cart" component={Cart} />
+          <Route path="/profileUser" component={ProfileUser} />
+          {/* <Route path="/changePassword" component={ChangePassword} /> */}
+        </>
+      );
+    }
+  };
+
   render() {
     return (
       <>
@@ -62,9 +76,9 @@ class App extends React.Component {
           <Route path="/doctors" component={Doctors} />
           <Route path="/vaccine" component={Vaccine} />
           <Route path="/vaccineDetails/:vaccineId" component={VaccineDetails} />
-          <Route path="/cart" component={Cart} />
           <Route path="/test" component={Test} />
           {this.renderAdminRoutes()}
+          {this.renderProtectedRoutes()}
           <Route path="*" component={PageNotFound} />
         </Switch>
       </>

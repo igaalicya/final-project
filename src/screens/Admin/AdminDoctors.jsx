@@ -43,7 +43,7 @@ class AdminDoctors extends React.Component {
 
   renderDoctorList = () => {
     return this.state.doctorList.map((val, idx) => {
-      const { id, fullName, specialist, phone, address } = val;
+      const { fullName, specialist, phone, address } = val;
       return (
         <>
           <tr

@@ -16,6 +16,7 @@ class AdminVaccine extends React.Component {
       ageOfDose: "",
       desc: "",
       brand: "",
+      image: "",
     },
     editForm: {
       id: 0,
@@ -24,6 +25,7 @@ class AdminVaccine extends React.Component {
       ageOfDose: 0,
       desc: "",
       brand: "",
+      image: "",
     },
     activeUsers: [],
     modalOpen: false,
@@ -41,7 +43,7 @@ class AdminVaccine extends React.Component {
 
   renderVaccineList = () => {
     return this.state.VaccineList.map((val, idx) => {
-      const { id, vaccineName, price, ageOfDose, brand } = val;
+      const { vaccineName, price, ageOfDose, brand } = val;
       return (
         <>
           <tr
@@ -110,6 +112,7 @@ class AdminVaccine extends React.Component {
             ageOfDose: "",
             desc: "",
             brand: "",
+            image: "",
           },
         });
         this.getVaccineList();
@@ -223,6 +226,13 @@ class AdminVaccine extends React.Component {
               />
             </div>
             <div className="col-12 mt-3">
+              <TextField
+                value={this.state.createForm.image}
+                placeholder="Image"
+                onChange={(e) => this.inputHandler(e, "image", "createForm")}
+              />
+            </div>
+            <div className="col-12 mt-3">
               <textarea
                 value={this.state.createForm.desc}
                 onChange={(e) => this.inputHandler(e, "desc", "createForm")}
@@ -288,6 +298,15 @@ class AdminVaccine extends React.Component {
                   value={this.state.editForm.brand}
                   className="custom-text-input h-100 pl-3"
                   onChange={(e) => this.inputHandler(e, "brand", "editForm")}
+                />
+              </div>
+              <div className="col-12 mt-3">
+                <input
+                  type="text"
+                  className="custom-text-input h-100 pl-3"
+                  value={this.state.editForm.image}
+                  placeholder="Image"
+                  onChange={(e) => this.inputHandler(e, "image", "editForm")}
                 />
               </div>
               <div className="col-12 mt-3">

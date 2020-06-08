@@ -21,6 +21,7 @@
     {
       "username": "pams",
       "fullName": "pamungkas",
+      "address": "BSD Tangerang",
       "password": "123",
       "email": "pamungkas@gmail.com",
       "role": "user",
@@ -29,7 +30,7 @@
     {
       "username": "rossa",
       "fullName": "Rossa",
-      "address": "",
+      "address": "Menteng Jakarta Pusat",
       "password": "1234",
       "email": "rossa@gmail.com",
       "role": "user",
@@ -48,10 +49,11 @@
     {
       "vaccineName": "Hepatitis B",
       "price": "150000",
-      "ageOfDose": "1",
+      "ageOfDose": 1,
       "desc": "menangkaal infeksi organ hati yang disebabkan oleh virus hepatitis B",
       "brand": "Engerix B",
       "image": "https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1527750304/ge2j5wjtigw1rdc2yvji.jpg",
+      "stock": 10,
       "id": 1
     },
     {
@@ -61,6 +63,7 @@
       "desc": "menangkal penyakit campak",
       "brand": "Trimovax",
       "image": "https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1527750304/ge2j5wjtigw1rdc2yvji.jpg",
+      "stock": 10,
       "id": 2
     },
     {
@@ -70,6 +73,7 @@
       "desc": "menangkal penyakit TBC",
       "brand": "BCG",
       "image": "https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1527750304/ge2j5wjtigw1rdc2yvji.jpg",
+      "stock": 10,
       "id": 3
     },
     {
@@ -79,6 +83,7 @@
       "desc": "menangkal penyakit Hepatitis B",
       "brand": "Euvax B",
       "image": "https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1527750304/ge2j5wjtigw1rdc2yvji.jpg",
+      "stock": 10,
       "id": 4
     },
     {
@@ -88,14 +93,17 @@
       "desc": "menangkal penyakit polio",
       "brand": "Imovax Polio",
       "image": "https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1527750304/ge2j5wjtigw1rdc2yvji.jpg",
+      "stock": 10,
       "id": 5
     },
     {
       "vaccineName": "Tetanus",
       "price": "130000",
-      "ageOfDose": "2",
+      "ageOfDose": 2,
       "desc": "vaksin mencegah tetanus",
       "brand": "Bio TT",
+      "image": "https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1527750304/ge2j5wjtigw1rdc2yvji.jpg",
+      "stock": 10,
       "id": 6
     }
   ],

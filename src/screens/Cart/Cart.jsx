@@ -7,15 +7,17 @@ import Axios from "axios";
 import { API_URL } from "../../constants/API";
 import Button from "../../components/Buttons/Button";
 import swal from "sweetalert";
-// import { countCartHandler } from "../../redux/actions";
-
 import { priceFormatter } from "../../supports/helpers/formatter";
 import { fillCart } from "../../redux/actions";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 class Cart extends React.Component {
   state = {
     dateCalendar: new Date(),
     cartData: [],
+    doctorData: [],
+    doctorList: [],
     modalOpen: false,
     // nyimpan id transac
     id: 0,
@@ -25,10 +27,15 @@ class Cart extends React.Component {
       status: "pending",
       transactionDate: "",
       completionDate: "",
+      doctorId: 0,
     },
+    doctorId: 1,
+    doctorName: "",
     delivery: 0,
     deliveryCost: 0,
     shipping: "jabodetabek",
+    vaccineDate: new Date(),
+    // startDate: new Date(),
   };
 
   inputHandler = (e, field) => {
@@ -36,8 +43,16 @@ class Cart extends React.Component {
     this.deliveryCostHandler();
   };
 
+  handleChange(date) {
+    this.setState({
+      vaccineDate: date,
+    });
+  }
+
   componentDidMount() {
     this.getCartData();
+    this.getDoctorList();
+    this.optionData();
     this.deliveryCostHandler();
     this.props.onFillCart(this.props.user.id);
     // this.props.numberOfItemInCart(this.props.user.id);
@@ -66,6 +81,7 @@ class Cart extends React.Component {
             userId: this.props.user.id,
             grandTotalPrice: grandTotalPrice + +this.state.delivery,
             transactionDate: this.state.dateCalendar.toLocaleDateString(),
+            doctorId: this.state.doctorId,
             // items: res.data
           },
         });
@@ -73,6 +89,23 @@ class Cart extends React.Component {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  getDoctorList = () => {
+    Axios.get(`${API_URL}/doctors`)
+      .then((res) => {
+        this.setState({ doctorList: res.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  optionData = () => {
+    return this.state.doctorList.map((val) => {
+      const { fullName, id } = val;
+      return <option value={id}>{fullName}</option>;
+    });
   };
 
   renderCart = () => {
@@ -133,8 +166,8 @@ class Cart extends React.Component {
   };
 
   checkoutHandlder = () => {
-    console.log(this.state.deliveryCost);
-    console.log(this.state.delivery);
+    // console.log(this.state.deliveryCost);
+    // console.log(this.state.delivery);
     const { cartData } = this.state;
     let totalPrice;
     return cartData.map((val, idx) => {
@@ -168,6 +201,7 @@ class Cart extends React.Component {
     Axios.post(`${API_URL}/transactions`, {
       ...this.state.checkoutData,
       grandTotalPrice: this.renderTotalPrice(),
+      doctorId: this.state.doctorId,
     })
       .then((res) => {
         this.state.cartData.map((val) => {
@@ -227,6 +261,32 @@ class Cart extends React.Component {
     });
 
     return totalPrice;
+  };
+
+  // renderDoctor = () => {
+  //   Axios.get(`${API_URL}/doctors/${this.state.doctorId}`)
+  //     .then((res) => {
+  //       console.log(res.data.fullName);
+  //       // console.log(JSON.parse(res.data).fullName);
+  //       this.setState({ doctorData: res.data });
+  //       // res.data.map((val) => {
+  //       //   const { fullName } = val;
+  //       //   return fullName;
+  //       // });
+  //       // this.setState({ doctorName: res.data.fullName });
+  //       // return res.data.fullName;
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+
+  renderDoctorName = () => {
+    return this.state.doctorList.map((val) => {
+      if (val.id == this.state.doctorId) {
+        return val.fullName;
+      }
+    });
   };
 
   renderShippingPrice = () => {
@@ -310,6 +370,19 @@ class Cart extends React.Component {
                     <option value="non">Non-Jabodetabek</option>
                   </select>
                 </div>
+                <div className="d-flex justify-content-between my-2 align-items-center">
+                  <label>Doctor</label>
+                  <select
+                    value={this.state.doctorId}
+                    onChange={(e) =>
+                      this.setState({ doctorId: e.target.value })
+                    }
+                    className="form-control w-50"
+                  >
+                    {this.optionData()}
+                  </select>
+                  {console.log(this.state.doctorId)}
+                </div>
                 <div className="cart-card-foot p-4">
                   <div className="d-flex justify-content-between my-2">
                     <div>Total</div>
@@ -345,6 +418,8 @@ class Cart extends React.Component {
             <div className="row d-flex justify-content-center">
               <div className="col-12 align-items-center">
                 <h5 className="mt-3">Customer : {this.props.user.fullName}</h5>
+                <br />
+                <h5 className="mt-3">Doctor: {this.renderDoctorName()}</h5>
                 <table className="admin-table text-center">
                   <thead>
                     <tr>

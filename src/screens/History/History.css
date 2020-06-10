@@ -1,0 +1,33 @@
+.collapse-item {
+  padding: 0 !important;
+  height: 0px;
+  opacity: 0;
+  transition: all 150ms ease-in-out;
+  visibility: collapse !important;
+}
+
+.collapse-item:hover {
+  background: white !important;
+  cursor: default !important;
+}
+
+.collapse-item img {
+  height: 160px;
+  object-fit: contain;
+  transition: all 150ms ease-in-out;
+  opacity: 0;
+}
+
+.collapse-item.active img {
+  height: 160px;
+  object-fit: contain;
+  opacity: 1;
+  transition: all 150ms ease-in-out;
+}
+
+.collapse-item.active {
+  height: 160px;
+  opacity: 1;
+  transition: all 150ms ease-in-out;
+  visibility: visible !important;
+}

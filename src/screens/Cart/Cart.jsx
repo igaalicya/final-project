@@ -16,7 +16,6 @@ class Cart extends React.Component {
   state = {
     dateCalendar: new Date(),
     cartData: [],
-    doctorData: [],
     doctorList: [],
     modalOpen: false,
     // nyimpan id transac
@@ -215,7 +214,17 @@ class Cart extends React.Component {
             .then((res) => {
               console.log(res);
               swal("Thank you!", "Your Transaction is Success", "success");
-              this.setState({ modalOpen: false });
+              this.setState({
+                modalOpen: false,
+                checkoutData: {
+                  userId: 0,
+                  grandTotalPrice: 0,
+                  status: "pending",
+                  transactionDate: "",
+                  completionDate: "",
+                  doctorId: 0,
+                },
+              });
               // empty cart
               this.state.cartData.map((val) => {
                 return this.deleteHandler(val.id);

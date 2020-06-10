@@ -158,14 +158,8 @@
     {
       "userId": 1,
       "vaccineId": 5,
-      "quantity": 2,
+      "quantity": 3,
       "id": 1
-    },
-    {
-      "userId": 3,
-      "vaccineId": 4,
-      "quantity": 1,
-      "id": 4
     },
     {
       "userId": 2,
@@ -182,45 +176,47 @@
   ],
   "transactions": [
     {
-      "userId": 1,
-      "grandTotalPrice": 500000,
+      "userId": 3,
+      "grandTotalPrice": 430000,
       "status": "completed",
-      "transactionDate": "22-03-2020",
-      "CompletionDate": "5/5/2020",
+      "transactionDate": "6/10/2020",
+      "completionDate": "",
+      "doctorId": 3,
       "id": 1
     },
     {
-      "userId": 2,
-      "grandTotalPrice": 400000,
-      "status": "completed",
-      "transactionDate": "22-03-2020",
-      "CompletionDate": "5/4/2020",
+      "userId": 3,
+      "grandTotalPrice": 305000,
+      "status": "pending",
+      "transactionDate": "6/10/2020",
+      "completionDate": "",
+      "doctorId": 1,
       "id": 2
     }
   ],
   "transactionDetails": [
     {
       "transactionId": 1,
-      "productId": 1,
-      "price": 500000,
+      "vaccineId": 4,
+      "price": "200000",
       "quantity": 1,
-      "totalPrice": 500000,
+      "totalPrice": 200000,
       "id": 1
     },
     {
-      "transactionId": 2,
-      "productId": 6,
-      "price": 200000,
+      "transactionId": 1,
+      "vaccineId": 6,
+      "price": "130000",
       "quantity": 1,
-      "totalPrice": 200000,
+      "totalPrice": 130000,
       "id": 2
     },
     {
       "transactionId": 2,
-      "productId": 3,
-      "price": 200000,
+      "vaccineId": 3,
+      "price": 205000,
       "quantity": 1,
-      "totalPrice": 200000,
+      "totalPrice": 205000,
       "id": 3
     }
   ],

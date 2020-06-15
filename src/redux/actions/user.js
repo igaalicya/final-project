@@ -173,3 +173,24 @@ export const fillCart = (userId) => {
       });
   };
 };
+
+export const changePasswordHandler = (passwordData) => {
+  const { id, newPassword } = passwordData;
+  return (dispatch) => {
+    Axios.patch(`${API_URL}/users/${id}`, {
+      password: newPassword,
+    })
+      .then((res) => {
+        console.log(res.data);
+        dispatch({
+          type: ON_LOGIN_SUCCESS,
+          payload: res.data,
+        });
+        swal("Berhasil", "Password berhasil diubah", "success");
+      })
+      .catch((err) => {
+        console.log(err);
+        swal("Gagal", "password gagal diubah", "error");
+      });
+  };
+};

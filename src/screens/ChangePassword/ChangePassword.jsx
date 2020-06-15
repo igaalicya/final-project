@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import {
   Card,
   Row,
@@ -14,14 +14,19 @@ import {
 import Axios from "axios";
 import { API_URL } from "../../constants/API";
 import "./ChangePassword.css";
+import swal from "sweetalert";
+import { changePasswordHandler } from "../../redux/actions";
 
 class ChangePassword extends React.Component {
   state = {
     editForm: {
-      id: 0,
-      password: "",
+      oldPassword: "",
       newPassword: "",
       confirmNewPassword: "",
+    },
+    userData: {
+      password: "",
+      id: 0,
     },
   };
 
@@ -38,8 +43,8 @@ class ChangePassword extends React.Component {
   getOldPassword = () => {
     Axios.get(`${API_URL}/users/${this.props.user.id}`)
       .then((res) => {
-        this.setState({ editForm: res.data });
-        console.log(res.data);
+        this.setState({ userData: res.data });
+        console.log(this.state.userData.password);
       })
       .catch((err) => {
         console.log(err);
@@ -47,15 +52,39 @@ class ChangePassword extends React.Component {
   };
 
   changePassHandler = () => {
-    Axios.patch(`${API_URL}/users/${this.props.user.id}`, {
-      password: this.state.newPassword,
-    })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // Axios.patch(`${API_URL}/users/${this.props.user.id}`, {
+    //   password: this.state.newPassword,
+    // })
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    const {
+      oldPassword,
+      newPassword,
+      confirmNewPassword,
+    } = this.state.editForm;
+    console.log(this.state.editForm);
+    const { id, password } = this.state.userData;
+    if (oldPassword === password && newPassword === confirmNewPassword) {
+      let passwordData = {
+        newPassword,
+        id,
+      };
+
+      this.props.onChangePassword(passwordData);
+    } else {
+      swal("Gagal", "Password gagal diubah", "error");
+    }
+    this.setState({
+      editForm: {
+        oldPassword: "",
+        newPassword: "",
+        confirmNewPassword: "",
+      },
+    });
   };
 
   componentDidMount() {
@@ -63,7 +92,7 @@ class ChangePassword extends React.Component {
   }
 
   render() {
-    const { password, newPassword } = this.state.editForm;
+    // const { password, newPassword } = this.state.editForm;
     return (
       <div style={{ display: "block" }}>
         <div className="container-pass p-5">
@@ -78,13 +107,15 @@ class ChangePassword extends React.Component {
                 <CardBody className="px-lg-5 py-lg-5">
                   <Form role="form">
                     <Input
+                      value={this.state.editForm.oldPassword}
                       onChange={(e) =>
-                        this.inputHandler(e, "password", "editForm")
+                        this.inputHandler(e, "oldPassword", "editForm")
                       }
                       placeholder="Old Password"
-                      type="text"
+                      type="password"
                     />
                     <Input
+                      value={this.state.editForm.newPassword}
                       className="mt-2"
                       onChange={(e) =>
                         this.inputHandler(e, "newPassword", "editForm")
@@ -94,6 +125,7 @@ class ChangePassword extends React.Component {
                       autoComplete="off"
                     />
                     <Input
+                      value={this.state.editForm.confirmNewPassword}
                       className="mt-2"
                       onChange={(e) =>
                         this.inputHandler(e, "confirmNewPassword", "editForm")
@@ -130,4 +162,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(ChangePassword);
+const mapDispatchToProps = {
+  onChangePassword: changePasswordHandler,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChangePassword);

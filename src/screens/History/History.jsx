@@ -6,7 +6,7 @@ import { API_URL } from "../../constants/API";
 import Button from "../../components/Buttons/Button";
 import { Table, Alert } from "reactstrap";
 
-import TextField from "../../components/TextField/TextField";
+// import TextField from "../../components/TextField/TextField";
 
 class History extends React.Component {
   state = {
@@ -50,13 +50,7 @@ class History extends React.Component {
 
   renderHistory = () => {
     return this.state.historyData.map((val, idx) => {
-      const {
-        userId,
-        grandTotalPrice,
-        transactionDate,
-        CompletionDate,
-        doctor,
-      } = val;
+      const { grandTotalPrice, transactionDate, CompletionDate, doctor } = val;
       return (
         <>
           <tr className="text-center">

@@ -3,29 +3,28 @@
   background: #f5fbff;
 }
 
-.doctor {
-  margin-bottom: 30px;
-  transition: all 0.3s ease;
+.doctor-card {
+  background: #f8f8ff;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
 }
 
-.doctor .img {
-  height: 300px;
-  width: 100%;
-  display: block;
-  background-position: top center;
-  transition: all 0.3s ease;
-  position: relative;
+.doctor-card:hover {
+  background: #fff;
 }
 
-.doctor:hover {
-  opacity: 1;
-  top: -40px;
+.doctor-card-img {
+  padding-top: 60px;
+  padding-bottom: 40px;
+  max-height: 260px;
 }
 
-.doctor:hover .img {
-  margin-top: -10px;
+.doctor-card-body {
+  padding: 10px 30px 40px 30px;
 }
 
-.doctor:hover .text h3 {
-  color: #207dff;
+.doctor-card-body h3 {
+  margin-bottom: 8px;
 }

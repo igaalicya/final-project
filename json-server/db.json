@@ -118,7 +118,7 @@
       "id": 1
     },
     {
-      "fullName": "Dr. dr. Naomi Esthernita Fauzia Dewanto, Sp.A(K)",
+      "fullName": "Dr. dr. Naomi E. F. D., Sp.A(K)",
       "image": "https://res.cloudinary.com/dk0z4ums3/image/upload/w_100,h_100,c_fill,dpr_2.0/v1580720752/image_doctor/dr.%20Naomi%2C%20Sneli.jpg.jpg",
       "specialist": "pediatrician",
       "address": "BSD",
@@ -141,17 +141,8 @@
       "specialist": "pediatrician",
       "address": "Bekasi",
       "phone": "087777772163",
-      "desc": "dr. Prisca Santoso Kurniawan termasuk dalam Ikatan Dokter Anak Indonesia. Adapun layanan kesehatan yang dapat diberikan beliau meliputi : Konsultasi kesehatan anak menyeluruh",
+      "desc": "dr. Prisca Santoso Kurniawan termasuk dalam Ikatan Dokter Anak Indonesia. ",
       "id": 6
-    },
-    {
-      "fullName": "dr. Hermawan Ludirdja, Sp.And, M.Kes",
-      "image": "https://res.cloudinary.com/dk0z4ums3/image/upload/w_76,h_76,c_fill,dpr_2.0/v1580723605/image_doctor/dr.Hermawan%20Ludirdja%2CSp.And.jpg.jpg",
-      "specialist": "Andrology",
-      "address": "Kebon Jeruk",
-      "phone": "0998329839",
-      "desc": "dr. Hermawan Ludirdja, Sp.And, M.Kes merupakan anggota dari Ikatan Dokter Indonesia (IDI), dan mampu memberikan bantuan pelayanan medis ",
-      "id": 7
     }
   ],
   "carts": [

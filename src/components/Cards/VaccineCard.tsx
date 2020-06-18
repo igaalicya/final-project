@@ -35,7 +35,7 @@ class VaccineCard extends React.Component<VaccineCardProps> {
             </div>
             <div className="col-lg-8 col-md-6">
               <div className="pt-3">
-                <h3 className="mb-2">{this.props.data.vaccineName}</h3>
+                <h4 className="mb-2">{this.props.data.vaccineName}</h4>
                 <span className="text-primary mb-2">
                   {new Intl.NumberFormat("id-ID", {
                     style: "currency",

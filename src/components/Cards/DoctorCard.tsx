@@ -23,8 +23,8 @@ class DoctorCard extends React.Component<DoctorCardProps> {
 
     return (
       <div>
-        <div className="doctor">
-          <div className="d-flex">
+        <div className="doctor-card text-center mb-4">
+          <div className="doctor-card-img">
             <img
               className="img align-self-stretch"
               src={this.props.data.image}
@@ -34,14 +34,12 @@ class DoctorCard extends React.Component<DoctorCardProps> {
               }}
             />
           </div>
-          <div className="text pt-3 text-center">
-            <h3 className="mb-2">{this.props.data.fullName}</h3>
+          <div className="doctor-card-body text-center">
+            <h3>{this.props.data.fullName}</h3>
             <span className="text-primary mb-2">
               {this.props.data.specialist}
             </span>
-            <div>
-              <p>{this.props.data.desc}</p>
-            </div>
+            <p>{this.props.data.desc}</p>
           </div>
         </div>
       </div>

@@ -1,0 +1,25 @@
+.article-card {
+  background: #fff;
+}
+
+.article-card .article-card-body {
+  padding: 20px 10px;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+}
+
+.article-card .article-card-body h4 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  margin-top: 25px;
+}
+
+.article-card .article-card-body p {
+  margin-bottom: 0;
+}
+
+.article-card:hover .article-card-body {
+  box-shadow: 0px 10px 20px 0px rgba(14, 30, 112, 0.1);
+}

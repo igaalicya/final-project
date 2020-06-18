@@ -1,81 +1,48 @@
-.container-home {
-  height: 600px;
+:root {
+  --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
 }
 
-.service-area {
-  background: #83c4ff;
+.doctor-banner {
+  padding-top: 20px;
 }
 
-.service-area .service {
-  padding: 40px 20px;
+.doctor-banner h1 {
+  text-transform: uppercase;
+  color: #6059f6;
+  margin-bottom: 15px;
+  font-size: 50px;
+}
+
+.doctor-banner-button {
+  padding: 12px 45px;
   box-sizing: border-box;
-  font-size: 26px;
-  font-weight: 500;
-  color: #fff;
 }
 
-.service-area .col-xl-4:nth-child(2) .service {
-  background: #5db2ff;
+.doctor-banner img {
+  width: 660px;
+  height: 660px;
 }
 
-.service-area .service p {
-  font-size: 16px;
-  margin-top: 10px;
-  margin-bottom: 26px;
+.section-intro {
+  max-width: 640px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
-.boxed-btn {
-  color: #fff;
-  display: inline-block;
-  padding: 9px 24px;
-  font-family: "Poppins", sans-serif;
-  font-size: 15px;
-  font-weight: 400;
-  border: 1px solid #fff;
-  border-radius: 5px;
-  text-align: center;
-  color: #fff !important;
-  cursor: pointer;
+.section-intro p {
+  margin-bottom: 0;
 }
 
-.service-area .single-service .boxed-btn {
-  padding: 5px 10px;
+.section-intro-img {
+  margin-bottom: 10px;
+  size: 12px;
 }
 
-.doctor-area {
-  padding-top: 50px;
-  background: #f5fbff;
-}
-
-.doctor {
-  margin-bottom: 30px;
-  transition: all 0.3s ease;
-}
-
-.doctor .img {
-  height: 300px;
-  width: 100%;
-  display: block;
-  background-position: top center;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.doctor:hover {
-  opacity: 1;
-  top: -40px;
-}
-
-.doctor:hover .img {
-  margin-top: -10px;
-}
-
-.doctor:hover .text h3 {
-  color: #207dff;
-}
-
-.card-img {
-  width: 100%;
-  height: 40vh;
-  object-fit: cover;
+.generic-margin {
+  margin-top: 100px;
+  margin-bottom: 100px;
 }

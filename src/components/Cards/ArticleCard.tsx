@@ -23,7 +23,7 @@ class ArticleCard extends React.Component<ArticleCardProps> {
     return (
       <div>
         <div className="article-card m-2">
-          <div className="card-img">
+          <div>
             <img
               className="card-img"
               src={this.props.data.image}
@@ -42,7 +42,7 @@ class ArticleCard extends React.Component<ArticleCardProps> {
               <h4>{this.props.data.title}</h4>
             </a>
             <FontAwesomeIcon icon={faCalendarAlt} /> {this.props.data.postDate}
-            <p>{this.props.data.text}</p>
+            <p className="mt-2">{this.props.data.text}</p>
           </div>
         </div>
       </div>

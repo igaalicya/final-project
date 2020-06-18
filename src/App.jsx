@@ -27,6 +27,7 @@ import Cart from "./screens/Cart/Cart";
 import ProfileUser from "./screens/Profile/ProfileUser";
 import History from "./screens/History/History";
 import ChangePassword from "./screens/ChangePassword/ChangePassword";
+import ArticleDetails from "./screens/ArticleDetails/ArticleDetails";
 
 const cookieObj = new Cookie();
 
@@ -78,6 +79,7 @@ class App extends React.Component {
           <Route path="/doctors" component={Doctors} />
           <Route path="/vaccine" component={Vaccine} />
           <Route path="/vaccineDetails/:vaccineId" component={VaccineDetails} />
+          <Route path="/articleDetails" component={ArticleDetails} />
           <Route path="/test" component={Test} />
           {this.renderAdminRoutes()}
           {this.renderProtectedRoutes()}

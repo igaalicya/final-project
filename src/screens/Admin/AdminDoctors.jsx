@@ -43,7 +43,7 @@ class AdminDoctors extends React.Component {
 
   renderDoctorList = () => {
     return this.state.doctorList.map((val, idx) => {
-      const { fullName, specialist, phone, address } = val;
+      const { fullName, specialist, phone, address, id } = val;
       return (
         <>
           <tr
@@ -77,7 +77,7 @@ class AdminDoctors extends React.Component {
             </td>
             <td>
               <Button
-                onClick={() => this.deleteHandler(idx)}
+                onClick={() => this.deleteHandler(id)}
                 className="w-80"
                 type="outlined"
               >
@@ -152,10 +152,12 @@ class AdminDoctors extends React.Component {
       .then((res) => {
         swal("Success!", "Doctor data has been deleted", "success");
         this.getDoctorList();
+        console.log(id);
       })
       .catch((err) => {
         swal("Error!", "Doctor data could not be deleted", "error");
         console.log(err);
+        console.log(id);
       });
   };
 

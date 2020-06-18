@@ -7,14 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons/";
 import { Link } from "react-router-dom";
 import DoctorCard from "../../components/Cards/DoctorCard.tsx";
-import {
-  Card,
-  CardTitle,
-  CardBody,
-  CardImg,
-  CardText,
-  CardDeck,
-} from "reactstrap";
 import Button from "../../components/Buttons/Button";
 import bg1 from "../../assets/images/banner/bg1.png";
 import ArticleCard from "../../components/Cards/ArticleCard";
@@ -86,7 +78,7 @@ class Home extends React.Component {
             to={`/article/${val.id}`}
             style={{ textDecoration: "none", color: "inherit" }}
           >
-            <ArticleCard data={val} className="m-2" />
+            <ArticleCard data={val} />
           </Link>
         </div>
       );
@@ -96,7 +88,7 @@ class Home extends React.Component {
   render() {
     return (
       <div>
-        <div className="hero-banner container">
+        <div className="doctor-banner container">
           <div className="row align-items-center text-center text-md-left">
             <div className="col-md-6 col-lg-5 mb-5 mb-md-0">
               <h1>We are here for your Care</h1>
@@ -123,6 +115,7 @@ class Home extends React.Component {
               <img
                 className="img align-self-stretch"
                 src={bg1}
+                alt="background banner"
                 style={{
                   objectFit: "cover",
                 }}
@@ -181,6 +174,7 @@ class Home extends React.Component {
                 </div>
               </div>
             </div>
+            {/* <div className="row">{this.renderArticle()}</div> */}
             {this.renderArticle()}
           </div>
         </div>

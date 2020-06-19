@@ -15,3 +15,32 @@
 .rounded {
   border-radius: 50% !important;
 }
+
+.banner-about {
+  padding-top: 20px;
+}
+
+.about-content h2 {
+  margin-bottom: 15px;
+}
+
+@media (min-width: 768px) {
+  .about-content h2 {
+    margin-bottom: 25px;
+  }
+}
+
+.about-content p {
+  margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+  .about-content p {
+    margin-bottom: 40px;
+  }
+}
+
+.img-about-fluid {
+  max-width: 100%;
+  height: auto;
+}

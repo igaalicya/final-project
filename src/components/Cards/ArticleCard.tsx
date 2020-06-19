@@ -23,17 +23,13 @@ class ArticleCard extends React.Component<ArticleCardProps> {
     return (
       <div>
         <div className="article-card m-2">
-          <div>
-            <img
-              className="card-img"
-              src={this.props.data.image}
-              alt={this.props.data.title}
-              style={{
-                objectFit: "contain",
-              }}
-            />
-          </div>
-          <div className="article-card-body">
+          <img
+            className="card-img"
+            src={this.props.data.image}
+            alt={this.props.data.title}
+            style={{ width: "334px", height: "272px", objectFit: "cover" }}
+          />
+          <div className="article-card-body text-justify">
             <a
               className="text-center"
               style={{ textDecoration: "none", color: "inherit" }}

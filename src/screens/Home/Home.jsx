@@ -151,29 +151,6 @@ class Home extends React.Component {
           </div>
 
           <div className="row  generic-margin">
-            <div className="col-md-6 col-lg-4 mb-4 mb-lg-0">
-              <div className="article-card">
-                <img
-                  className="card-img rounded-0"
-                  src="https://technext.github.io/safario/img/blog/blog-2.png"
-                  alt=""
-                />
-                <div className="article-card-body">
-                  <Link
-                    className="text-center"
-                    style={{ textDecoration: "none", color: "inherit" }}
-                    to="/article"
-                  >
-                    <h4>Forest responds to smoking in al fresco.</h4>
-                  </Link>
-                  <FontAwesomeIcon icon={faCalendarAlt} /> Jan 03, 2018
-                  <p>
-                    Varius metus morbi ferme libero vehic on porta malesuada ut
-                    interdu estmales torquent vehicula parturient{" "}
-                  </p>
-                </div>
-              </div>
-            </div>
             {/* <div className="row">{this.renderArticle()}</div> */}
             {this.renderArticle()}
           </div>

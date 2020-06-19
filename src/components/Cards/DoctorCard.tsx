@@ -35,7 +35,7 @@ class DoctorCard extends React.Component<DoctorCardProps> {
             />
           </div>
           <div className="doctor-card-body text-center">
-            <h3>{this.props.data.fullName}</h3>
+            <h5>{this.props.data.fullName}</h5>
             <span className="text-primary mb-2">
               {this.props.data.specialist}
             </span>

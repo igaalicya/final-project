@@ -69,7 +69,7 @@ class Login extends React.Component {
     }
     return (
       <div style={{ display: "block" }}>
-        <div className="container-login p-5">
+        <div className="container-login">
           <Row className="justify-content-center pt-5">
             <Col lg="4">
               <Card>

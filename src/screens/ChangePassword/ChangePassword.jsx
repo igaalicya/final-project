@@ -95,7 +95,7 @@ class ChangePassword extends React.Component {
     // const { password, newPassword } = this.state.editForm;
     return (
       <div style={{ display: "block" }}>
-        <div className="container-pass p-5">
+        <div className="container-pass">
           <Row className="justify-content-center pt-5">
             <Col lg="4">
               <Card>

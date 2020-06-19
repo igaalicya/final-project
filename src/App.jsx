@@ -45,9 +45,9 @@ class App extends React.Component {
     if (this.props.user.role === "admin") {
       return (
         <>
-          <Route path="/admin/members" component={AdminMembers} />
-          <Route path="/admin/doctors" component={AdminDoctors} />
-          <Route path="/admin/vaccine" component={AdminVaccine} />
+          <Route exact path="/admin/members" component={AdminMembers} />
+          <Route exact path="/admin/doctors" component={AdminDoctors} />
+          <Route exact path="/admin/vaccine" component={AdminVaccine} />
         </>
       );
     }
@@ -57,10 +57,10 @@ class App extends React.Component {
     if (this.props.user.id) {
       return (
         <>
-          <Route path="/cart" component={Cart} />
-          <Route path="/profileUser" component={ProfileUser} />
-          <Route path="/history" component={History} />
-          <Route path="/changePassword" component={ChangePassword} />
+          <Route exact path="/cart" component={Cart} />
+          <Route exact path="/profileUser" component={ProfileUser} />
+          <Route exact path="/history" component={History} />
+          <Route exact path="/changePassword" component={ChangePassword} />
         </>
       );
     }
@@ -73,17 +73,25 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/about" component={About} />
-          <Route path="/register" component={Register} />
-          <Route path="/login" component={Login} />
-          <Route path="/profileDoctor/:doctorId" component={ProfileDoctor} />
-          <Route path="/doctors" component={Doctors} />
-          <Route path="/vaccine" component={Vaccine} />
-          <Route path="/vaccineDetails/:vaccineId" component={VaccineDetails} />
-          <Route path="/articleDetails" component={ArticleDetails} />
-          <Route path="/test" component={Test} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/login" component={Login} />
+          <Route
+            exact
+            path="/profileDoctor/:doctorId"
+            component={ProfileDoctor}
+          />
+          <Route exact path="/doctors" component={Doctors} />
+          <Route exact path="/vaccine" component={Vaccine} />
+          <Route
+            exact
+            path="/vaccineDetails/:vaccineId"
+            component={VaccineDetails}
+          />
+          <Route exact path="/articleDetails" component={ArticleDetails} />
+          <Route exact path="/test" component={Test} />
           {this.renderAdminRoutes()}
           {this.renderProtectedRoutes()}
-          <Route path="*" component={PageNotFound} />
+          <Route path="*" exact={true} component={PageNotFound} />
         </Switch>
       </>
     );

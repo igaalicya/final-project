@@ -337,7 +337,7 @@ class Cart extends React.Component {
 
   render() {
     return (
-      <div className="container py-4">
+      <div className="container cart-container">
         <caption className="p-3">
           <h2>Cart</h2>
         </caption>

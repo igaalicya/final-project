@@ -169,7 +169,7 @@ class AdminVaccine extends React.Component {
 
   render() {
     return (
-      <div className="container py-4">
+      <div className="container admin-container">
         <div className="dashboard">
           <caption className="p-3">
             <h2>Vaccine</h2>

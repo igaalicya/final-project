@@ -8,7 +8,7 @@ import { faSyringe } from "@fortawesome/free-solid-svg-icons/";
 class About extends React.Component {
   render() {
     return (
-      <div className="container banner-about">
+      <div className="banner-about container">
         <div className="row align-items-center ">
           <div className="row">
             <div className="col-lg-7 col-md-6 mb-4 mb-md-0">

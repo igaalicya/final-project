@@ -51,7 +51,7 @@ class MyNavbar extends React.Component {
 
   render() {
     return (
-      <div className="d-flex flex-row justify-content-between align-items-center py-4 navbar-container">
+      <div className="d-flex flex-row justify-content-between align-items-center py-4 navbar-container navbar">
         <div className="logo-text">
           <Link className="navbar-brand" to="/">
             Vrome
@@ -112,7 +112,7 @@ class MyNavbar extends React.Component {
                       {this.props.user.username}
                     </p>
                   </DropdownToggle>
-                  <DropdownMenu className="mt-2">
+                  <DropdownMenu className="mt-2 navbar-dropdown">
                     <DropdownItem>
                       <Link
                         style={{ color: "inherit", textDecoration: "none" }}
@@ -178,7 +178,7 @@ class MyNavbar extends React.Component {
                         {this.props.user.username}
                       </span>
                     </DropdownToggle>
-                    <DropdownMenu className="mt-2">
+                    <DropdownMenu className="nav-dropdown mt-2">
                       <DropdownItem>
                         <Link
                           style={{ color: "inherit", textDecoration: "none" }}

@@ -85,7 +85,7 @@ class ProfileUser extends React.Component {
     const { fullName, address, email } = this.state.userData;
     return (
       <div style={{ display: "block" }}>
-        <div className="container-profile p-5">
+        <div className="container-profile">
           <Row className="justify-content-center pt-5">
             <Col lg="8">
               <Card>

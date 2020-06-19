@@ -35,7 +35,7 @@ class ProfileDoctor extends React.Component {
     } = this.state.doctorData;
     return (
       <div style={{ display: "block" }}>
-        <div className="container-profile p-5">
+        <div className="container-profile">
           <Row className="justify-content-center pt-5">
             <Col lg="8">
               <Card>

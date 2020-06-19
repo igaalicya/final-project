@@ -2,6 +2,10 @@
   width: 100%;
 }
 
+.admin-container {
+  padding-top: 160px;
+}
+
 .admin-table th,
 tr,
 td {

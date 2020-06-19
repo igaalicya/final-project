@@ -35,7 +35,7 @@ class ArticleDetails extends React.Component {
     } = this.state.doctorData;
     return (
       <div>
-        <div className="article-banner container">
+        <div className="article-container container">
           <div className="row">
             <div className="col-lg-2 col-sm-0"></div>
             <div className="col-lg-8 col-sm-12 posts-list">

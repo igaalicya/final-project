@@ -136,7 +136,7 @@ class History extends React.Component {
   };
   render() {
     return (
-      <div className="container py-4">
+      <div className="container history-container">
         <caption className="p-3">
           <h2>History</h2>
         </caption>

@@ -79,7 +79,7 @@ class Register extends React.Component {
   render() {
     return (
       <div style={{ display: "block" }}>
-        <div className="container-register p-5">
+        <div className="container-register">
           <Row className="justify-content-center pt-5">
             <Col lg="4">
               <Card>

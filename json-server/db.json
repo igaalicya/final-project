@@ -154,6 +154,22 @@
       "id": 7
     }
   ],
+  "articles": [
+    {
+      "title": "How Important BCG Vaccine",
+      "image": "https://images.newscientist.com/wp-content/uploads/2020/05/06154024/g2550116-bcg_vaccine_in_human_blood_cell_web.jpg",
+      "text": "There is no evidence that the Bacille Calmette-Guérin vaccine (BCG) protects people against infection with COVID-19 virus. Two clinical trials addressing this question are underway, and WHO will evaluate the evidence when it is available.",
+      "postDate": "03 Jan 20",
+      "id": 1
+    },
+    {
+      "title": "Vaccination greatly reduces disease",
+      "image": "https://www.pharmaceutical-technology.com/wp-content/uploads/sites/10/2019/09/virus.jpg",
+      "text": "Vaccination has greatly reduced the burden of infectious diseases. Only clean water, also considered to be a basic human right, performs better",
+      "postDate": "08 Jan 20",
+      "id": 2
+    }
+  ],
   "carts": [
     {
       "userId": 1,

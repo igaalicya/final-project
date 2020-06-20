@@ -103,7 +103,7 @@ class AdminDoctors extends React.Component {
   addDoctorHandler = () => {
     Axios.post(`${API_URL}/doctors`, this.state.createForm)
       .then((res) => {
-        swal("Success", "Your items has been added to the list", "success");
+        swal("Success", "Doctor Data has been added to the list", "success");
         this.getDoctorList();
         this.setState({
           createForm: {
@@ -118,7 +118,7 @@ class AdminDoctors extends React.Component {
         this.getDoctorList();
       })
       .catch((err) => {
-        swal("Error!", "Your item could not be added to the list", "error");
+        swal("Error!", "Doctor data could not be added to the list", "error");
       });
   };
 
@@ -192,7 +192,7 @@ class AdminDoctors extends React.Component {
         </div>
         <div className="admin-form-container p-4">
           <caption className="mb-4 mt-2">
-            <h2>Add Vaccine</h2>
+            <h2>Add Doctor</h2>
           </caption>
           <div className="row">
             <div className="col-8">

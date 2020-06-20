@@ -28,6 +28,7 @@ import ProfileUser from "./screens/Profile/ProfileUser";
 import History from "./screens/History/History";
 import ChangePassword from "./screens/ChangePassword/ChangePassword";
 import ArticleDetails from "./screens/ArticleDetails/ArticleDetails";
+import AdminArticles from "./screens/Admin/AdminArticles";
 
 const cookieObj = new Cookie();
 
@@ -48,6 +49,7 @@ class App extends React.Component {
           <Route exact path="/admin/members" component={AdminMembers} />
           <Route exact path="/admin/doctors" component={AdminDoctors} />
           <Route exact path="/admin/vaccine" component={AdminVaccine} />
+          <Route exact path="/admin/article" component={AdminArticles} />
         </>
       );
     }

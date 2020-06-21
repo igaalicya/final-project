@@ -133,7 +133,7 @@ class AdminArticles extends React.Component {
       .then((res) => {
         swal("Success!", "Article data has been edited", "success");
         this.setState({ modalOpen: false });
-        this.getarticleList();
+        this.getArticleList();
       })
       .catch((err) => {
         swal("Error!", "Article data could not be edited", "error");
@@ -145,7 +145,7 @@ class AdminArticles extends React.Component {
     Axios.delete(`${API_URL}/articles/${id}`)
       .then((res) => {
         swal("Success!", "Article data has been deleted", "success");
-        this.getarticleList();
+        this.getArticleList();
         console.log(id);
       })
       .catch((err) => {

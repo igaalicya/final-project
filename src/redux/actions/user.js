@@ -115,32 +115,46 @@ export const registerHandler = (userData) => {
           });
           swal("Gagal", "Username sudah digunakan", "error");
         } else {
-          Axios.post(`${API_URL}/users`, { ...userData, role: "user" })
-            .then((res) => {
-              console.log(res.data);
+          Axios.get(`${API_URL}/users`, {
+            params: {
+              email: userData.email,
+            },
+          }).then((res) => {
+            if (res.data.length > 0) {
               dispatch({
-                type: ON_LOGIN_SUCCESS,
-                payload: res.data,
+                type: "ON_REGISTER_FAIL",
+                payload: "email sudah digunakan",
               });
-              swal("Berhasil", "Registrasi akun berhasil", "success");
-              Axios.get(`${API_URL}/carts`, {
-                params: {
-                  userId: res.data[0].id,
-                },
-              })
+              swal("Gagal", "Email sudah digunakan", "error");
+            } else {
+              Axios.post(`${API_URL}/users`, { ...userData, role: "user" })
                 .then((res) => {
+                  console.log(res.data);
                   dispatch({
-                    type: "FILL_CART",
-                    payload: res.data.length,
+                    type: ON_LOGIN_SUCCESS,
+                    payload: res.data,
                   });
+                  swal("Berhasil", "Registrasi akun berhasil", "success");
+                  Axios.get(`${API_URL}/carts`, {
+                    params: {
+                      userId: res.data[0].id,
+                    },
+                  })
+                    .then((res) => {
+                      dispatch({
+                        type: "FILL_CART",
+                        payload: res.data.length,
+                      });
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
                 })
                 .catch((err) => {
                   console.log(err);
                 });
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+            }
+          });
         }
       })
       .catch((err) => {

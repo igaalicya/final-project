@@ -1,10 +1,7 @@
 import React from "react";
-import Background from "../../assets/images/carousel/background.jpg";
 import "./Home.css";
 import Axios from "axios";
 import { API_URL } from "../../constants/API";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons/";
 import { Link } from "react-router-dom";
 import DoctorCard from "../../components/Cards/DoctorCard.tsx";
 import Button from "../../components/Buttons/Button";

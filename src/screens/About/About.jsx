@@ -1,9 +1,6 @@
 import React from "react";
-import { Row, Col, Button } from "reactstrap";
 import "./About.css";
 import bg2 from "../../assets/images/banner/bg2.png";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSyringe } from "@fortawesome/free-solid-svg-icons/";
 
 class About extends React.Component {
   render() {

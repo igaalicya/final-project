@@ -29,6 +29,7 @@ import History from "./screens/History/History";
 import ChangePassword from "./screens/ChangePassword/ChangePassword";
 import ArticleDetails from "./screens/ArticleDetails/ArticleDetails";
 import AdminArticles from "./screens/Admin/AdminArticles";
+import Wishlist from "./screens/Wishlist/Wishlist";
 
 const cookieObj = new Cookie();
 
@@ -60,6 +61,7 @@ class App extends React.Component {
       return (
         <>
           <Route exact path="/cart" component={Cart} />
+          <Route exact path="/wishlist" component={Wishlist} />
           <Route exact path="/profileUser" component={ProfileUser} />
           <Route exact path="/history" component={History} />
           <Route exact path="/changePassword" component={ChangePassword} />
@@ -89,11 +91,12 @@ class App extends React.Component {
             path="/vaccineDetails/:vaccineId"
             component={VaccineDetails}
           />
-          <Route exact path="/articleDetails" component={ArticleDetails} />
+          <Route exact path="/article/:articleId" component={ArticleDetails} />
           <Route exact path="/test" component={Test} />
           {this.renderAdminRoutes()}
           {this.renderProtectedRoutes()}
-          <Route path="*" exact={true} component={PageNotFound} />
+          <Route path="*" component={PageNotFound} />
+          {/* <Route exact path="*" component={PageNotFound} /> */}
         </Switch>
       </>
     );

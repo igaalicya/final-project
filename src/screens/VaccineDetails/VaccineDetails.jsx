@@ -71,6 +71,36 @@ class VaccineDetails extends React.Component {
     console.log(this.state.vaccineData.id);
   };
 
+  addToWishlistHandler = () => {
+    Axios.get(`${API_URL}/wishlists`, {
+      params: {
+        userId: this.props.user.id,
+        vaccineId: this.state.vaccineData.id,
+      },
+    }).then((res) => {
+      if (res.data.length > 0) {
+        swal("Error", "The item is already exist on your wishlist", "error");
+      } else {
+        Axios.post(`${API_URL}/wishlists`, {
+          userId: this.props.user.id,
+          vaccineId: this.state.vaccineData.id,
+        })
+          .then((res) => {
+            console.log(res);
+            swal(
+              "Add to wishlist",
+              "Your item has been added to your wishlist",
+              "success"
+            );
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
+    console.log(this.state.vaccineData.id);
+  };
+
   componentDidMount() {
     Axios.get(`${API_URL}/vaccines/${this.props.match.params.vaccineId}`)
       .then((res) => {
@@ -141,12 +171,20 @@ class VaccineDetails extends React.Component {
                     </Row>
                     <Row className="justify-content-center">
                       <Button
+                        onClick={this.addToWishlistHandler}
+                        className="m-2"
+                        type="contained"
+                        value="buy"
+                      >
+                        Add To Wishlist
+                      </Button>
+                      <Button
                         onClick={this.addToCartHandler}
                         className="m-2"
                         type="contained"
                         value="buy"
                       >
-                        BUY
+                        Add To Cart
                       </Button>
                     </Row>
                   </div>

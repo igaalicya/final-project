@@ -1,38 +1,28 @@
 import React from "react";
-import { Card, Row, Col } from "reactstrap";
 import Axios from "axios";
 import { API_URL } from "../../constants/API";
 import "./ArticleDetails.css";
 
 class ArticleDetails extends React.Component {
   state = {
-    doctorData: {
-      fullName: "",
+    articleData: {
+      title: "",
       image: "",
-      specialist: "",
-      address: "",
-      desc: "",
-      id: 0,
+      text: "",
+      postDate: "",
     },
   };
 
   componentDidMount() {
-    Axios.get(`${API_URL}/doctors/${this.props.match.params.doctorId}`)
+    Axios.get(`${API_URL}/articles/${this.props.match.params.articleId}`)
       .then((res) => {
-        this.setState({ doctorData: res.data });
+        this.setState({ articleData: res.data });
       })
       .catch((err) => {
         console.log(err);
       });
   }
   render() {
-    const {
-      fullName,
-      image,
-      specialist,
-      desc,
-      address,
-    } = this.state.doctorData;
     return (
       <div>
         <div className="article-container container">
@@ -40,31 +30,20 @@ class ArticleDetails extends React.Component {
             <div className="col-lg-2 col-sm-0"></div>
             <div className="col-lg-8 col-sm-12 posts-list">
               <div className="single-post">
-                <div className="feature-img">
+                <div>
                   <img
-                    className="img-fluid pt-5"
-                    src="https://www.bumrungrad.com/getattachment/991f00c7-ae5a-428b-a33c-2f702154c1d9/image.jpg"
+                    className="img-article pt-5"
+                    src={this.state.articleData.image}
                     alt=""
+                    style={{ objectFit: "cover" }}
                   />
                 </div>
                 <div className="article_details">
-                  <h2>
-                    Second divided from form fish beast made every of seas all
-                    gathered us saying he our
+                  <h2 className="mt-3 text-center">
+                    {this.state.articleData.title}
                   </h2>
-                  <p className="excert">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Ipsa inventore sapiente hic eligendi ex nostrum autem
-                    repudiandae eaque itaque nemo ratione quasi suscipit quod
-                    facere minus amet praesentium, illo possimus! Lorem ipsum,
-                    dolor sit amet consectetur adipisicing elit. Doloremque
-                    magni neque animi nam commodi dicta tempore ducimus.
-                    Voluptatem officiis cumque, quia nobis ullam repellendus
-                    commodi alias vitae quas quasi ipsa? Lorem ipsum, dolor sit
-                    amet consectetur adipisicing elit. Doloremque magni neque
-                    animi nam commodi dicta tempore ducimus. Voluptatem officiis
-                    cumque, quia nobis ullam repellendus commodi alias vitae
-                    quas quasi ipsa?
+                  <p className="text-secondary">
+                    {this.state.articleData.text}
                   </p>
                   <p>
                     Lorem ipsum, dolor sit amet consectetur adipisicing elit.

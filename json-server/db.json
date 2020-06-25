@@ -246,6 +246,11 @@
       "userId": 2,
       "productId": 4,
       "id": 7
+    },
+    {
+      "userId": 3,
+      "vaccineId": 2,
+      "id": 8
     }
   ]
 }

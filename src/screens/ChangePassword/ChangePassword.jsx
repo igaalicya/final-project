@@ -1,5 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Alert } from "reactstrap";
+// import { Redirect } from "react-router-dom";
 // import { Link } from "react-router-dom";
 import {
   Card,
@@ -95,62 +97,70 @@ class ChangePassword extends React.Component {
     // const { password, newPassword } = this.state.editForm;
     return (
       <div style={{ display: "block" }}>
-        <div className="container-pass">
-          <Row className="justify-content-center pt-5">
-            <Col lg="4">
-              <Card>
-                <CardHeader className="pb-2">
-                  <h2 className="text-center font-weight-bold text-black">
-                    Change Password
-                  </h2>
-                </CardHeader>
-                <CardBody className="px-lg-5 py-lg-5">
-                  <Form role="form">
-                    <Input
-                      value={this.state.editForm.oldPassword}
-                      onChange={(e) =>
-                        this.inputHandler(e, "oldPassword", "editForm")
-                      }
-                      placeholder="Old Password"
-                      type="password"
-                    />
-                    <Input
-                      value={this.state.editForm.newPassword}
-                      className="mt-2"
-                      onChange={(e) =>
-                        this.inputHandler(e, "newPassword", "editForm")
-                      }
-                      placeholder="New Password"
-                      type="password"
-                      autoComplete="off"
-                    />
-                    <Input
-                      value={this.state.editForm.confirmNewPassword}
-                      className="mt-2"
-                      onChange={(e) =>
-                        this.inputHandler(e, "confirmNewPassword", "editForm")
-                      }
-                      placeholder="Confirm New Password"
-                      type="password"
-                      autoComplete="off"
-                    />
-                    <div className="text-center">
-                      <Button
-                        onClick={this.changePassHandler}
-                        className="my-4"
-                        color="primary"
-                        type="button"
-                        block
-                      >
-                        CHANGE
-                      </Button>
-                    </div>
-                  </Form>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
-        </div>
+        {this.props.user.verified > 0 ? (
+          <div className="container-pass">
+            <Row className="justify-content-center pt-5">
+              <Col lg="4">
+                <Card>
+                  <CardHeader className="pb-2">
+                    <h2 className="text-center font-weight-bold text-black">
+                      Change Password
+                    </h2>
+                  </CardHeader>
+                  <CardBody className="px-lg-5 py-lg-5">
+                    <Form role="form">
+                      <Input
+                        value={this.state.editForm.oldPassword}
+                        onChange={(e) =>
+                          this.inputHandler(e, "oldPassword", "editForm")
+                        }
+                        placeholder="Old Password"
+                        type="password"
+                      />
+                      <Input
+                        value={this.state.editForm.newPassword}
+                        className="mt-2"
+                        onChange={(e) =>
+                          this.inputHandler(e, "newPassword", "editForm")
+                        }
+                        placeholder="New Password"
+                        type="password"
+                        autoComplete="off"
+                      />
+                      <Input
+                        value={this.state.editForm.confirmNewPassword}
+                        className="mt-2"
+                        onChange={(e) =>
+                          this.inputHandler(e, "confirmNewPassword", "editForm")
+                        }
+                        placeholder="Confirm New Password"
+                        type="password"
+                        autoComplete="off"
+                      />
+                      <div className="text-center">
+                        <Button
+                          onClick={this.changePassHandler}
+                          className="my-4"
+                          color="primary"
+                          type="button"
+                          block
+                        >
+                          CHANGE
+                        </Button>
+                      </div>
+                    </Form>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </div>
+        ) : (
+          <div className="container-pass-0">
+            <Alert color="danger" className="ml-5">
+              Not Allowed! You must verified your account to change password
+            </Alert>
+          </div>
+        )}
       </div>
     );
   }

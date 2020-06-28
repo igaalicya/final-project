@@ -127,7 +127,11 @@ export const registerHandler = (userData) => {
               });
               swal("Gagal", "Email sudah digunakan", "error");
             } else {
-              Axios.post(`${API_URL}/users`, { ...userData, role: "user" })
+              Axios.post(`${API_URL}/users`, {
+                ...userData,
+                role: "user",
+                verified: 0,
+              })
                 .then((res) => {
                   console.log(res.data);
                   dispatch({

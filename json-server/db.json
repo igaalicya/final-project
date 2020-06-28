@@ -7,6 +7,7 @@
       "password": "123",
       "email": "admin@gmail.com",
       "role": "admin",
+      "verified": 1,
       "id": 1
     },
     {
@@ -16,6 +17,7 @@
       "password": "123",
       "email": "igaaa@gmail.com",
       "role": "user",
+      "verified": 1,
       "id": 2
     },
     {
@@ -25,6 +27,7 @@
       "password": "123",
       "email": "pamungkas@gmail.com",
       "role": "user",
+      "verified": 0,
       "id": 3
     },
     {
@@ -34,15 +37,38 @@
       "password": "1234",
       "email": "rossa@gmail.com",
       "role": "user",
+      "verified": 0,
       "id": 4
-    }
-  ],
-  "children": [
+    },
     {
-      "childrenName": "Sekala",
-      "dateOfBirth": "5/5/2020",
-      "parentId": 1,
-      "id": 1
+      "username": "cikajes",
+      "fullName": "cika jessica",
+      "address": "",
+      "password": "123",
+      "email": "cika@gmail.com",
+      "role": "user",
+      "verified": 0,
+      "id": 5
+    },
+    {
+      "username": "wilda",
+      "fullName": "wilda",
+      "address": "",
+      "password": "123",
+      "email": "wilda@gmail.com",
+      "role": "user",
+      "verified": 0,
+      "id": 6
+    },
+    {
+      "username": "hilal",
+      "fullName": "hilal",
+      "address": "",
+      "password": "123",
+      "email": "hilal@gmail.com",
+      "role": "user",
+      "verified": 0,
+      "id": 7
     }
   ],
   "vaccines": [

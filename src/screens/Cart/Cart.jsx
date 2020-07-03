@@ -9,6 +9,8 @@ import Button from "../../components/Buttons/Button";
 import swal from "sweetalert";
 import { priceFormatter } from "../../supports/helpers/formatter";
 import { fillCart } from "../../redux/actions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -37,10 +39,10 @@ class Cart extends React.Component {
     // startDate: new Date(),
   };
 
-  inputHandler = (e, field) => {
-    this.setState({ [field]: e.target.value });
-    this.deliveryCostHandler();
-  };
+  // inputHandler = (e, field) => {
+  //   this.setState({ [field]: e.target.value });
+  //   this.deliveryCostHandler();
+  // };
 
   handleChange(date) {
     this.setState({
@@ -127,9 +129,9 @@ class Cart extends React.Component {
             }).format(val.vaccine.price)}
           </td>
           <td>{val.quantity}</td>
-          <td>
+          <td align="center">
             <Button type="outlined" onClick={() => this.deleteHandler(val.id)}>
-              Delete Item
+              Delete
             </Button>
           </td>
         </tr>
@@ -165,8 +167,8 @@ class Cart extends React.Component {
   };
 
   checkoutHandlder = () => {
-    // console.log(this.state.deliveryCost);
-    // console.log(this.state.delivery);
+    console.log(this.state.deliveryCost);
+    console.log(this.state.delivery);
     const { cartData } = this.state;
     let totalPrice;
     return cartData.map((val, idx) => {
@@ -392,6 +394,16 @@ class Cart extends React.Component {
                   </select>
                   {console.log(this.state.doctorId)}
                 </div>
+                <div className="d-flex justify-content-between my-2 ">
+                  <label>Tanggal</label>
+                  <input
+                    type="date"
+                    className="form-control w-50"
+                    name="date"
+                    placeholder="Pick a date"
+                  />
+                </div>
+
                 <div className="cart-card-foot p-4">
                   <div className="d-flex justify-content-between my-2">
                     <div>Total</div>

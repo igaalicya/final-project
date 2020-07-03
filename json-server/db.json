@@ -222,8 +222,9 @@
       "grandTotalPrice": 430000,
       "status": "completed",
       "transactionDate": "6/10/2020",
-      "completionDate": "",
+      "completionDate": "9/10/2020",
       "doctorId": 3,
+      "rejectionReason": "",
       "id": 1
     },
     {
@@ -233,6 +234,7 @@
       "transactionDate": "6/10/2020",
       "completionDate": "",
       "doctorId": 1,
+      "rejectionReason": "bukti transfer palsu",
       "id": 2
     }
   ],

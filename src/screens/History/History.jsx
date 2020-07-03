@@ -23,7 +23,7 @@ class History extends React.Component {
     Axios.get(`${API_URL}/transactions`, {
       params: {
         userId: this.props.user.id,
-        status: "completed",
+        // status: "completed",
         _embed: "transactionDetail",
         _expand: "doctor",
       },
@@ -50,7 +50,7 @@ class History extends React.Component {
 
   renderHistory = () => {
     return this.state.historyData.map((val, idx) => {
-      const { grandTotalPrice, transactionDate, CompletionDate, doctor } = val;
+      const { grandTotalPrice, transactionDate, completionDate, doctor } = val;
       return (
         <>
           <tr className="text-center">
@@ -65,7 +65,7 @@ class History extends React.Component {
                 currency: "IDR",
               }).format(grandTotalPrice)}{" "}
             </td>
-            <td>
+            <td align="center">
               <Button
                 onClick={() => {
                   if (this.state.activeProducts.includes(idx)) {
@@ -110,7 +110,7 @@ class History extends React.Component {
                         style={{ fontWeight: "normal" }}
                         className="text-justify"
                       >
-                        {CompletionDate}
+                        {completionDate}
                       </span>
                     </h6>
                     <h6>
@@ -125,6 +125,9 @@ class History extends React.Component {
                         }).format(grandTotalPrice)}
                       </span>
                     </h6>
+                    {completionDate == "" ? (
+                      <Button>Upload Bukti Transfer</Button>
+                    ) : null}
                   </div>
                 </div>
               </div>
@@ -138,7 +141,8 @@ class History extends React.Component {
     return (
       <div className="container history-container">
         <caption className="p-3">
-          <h2>History</h2>
+          {/* Transaction sama history jadiin satu aja, kalo statusnya belum selese ada button buat upload bukti tf */}
+          <h2>Transaction</h2>
         </caption>
         {this.state.historyData.length > 0 ? (
           <Table>

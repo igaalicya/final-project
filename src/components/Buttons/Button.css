@@ -84,3 +84,8 @@
   box-sizing: border-box;
   color: var(--accent-white);
 }
+
+.custom-btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}

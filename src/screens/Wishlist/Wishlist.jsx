@@ -66,9 +66,9 @@ class Wishlist extends React.Component {
               currency: "IDR",
             }).format(val.vaccine.price)}
           </td>
-          <td>
+          <td align="center">
             <Button type="outlined" onClick={() => this.deleteHandler(val.id)}>
-              Delete Item
+              Delete
             </Button>
           </td>
         </tr>

@@ -30,6 +30,7 @@ import ChangePassword from "./screens/ChangePassword/ChangePassword";
 import ArticleDetails from "./screens/ArticleDetails/ArticleDetails";
 import AdminArticles from "./screens/Admin/AdminArticles";
 import Wishlist from "./screens/Wishlist/Wishlist";
+import AdminPayment from "./screens/Admin/AdminPayment";
 
 const cookieObj = new Cookie();
 
@@ -51,6 +52,7 @@ class App extends React.Component {
           <Route exact path="/admin/doctors" component={AdminDoctors} />
           <Route exact path="/admin/vaccine" component={AdminVaccine} />
           <Route exact path="/admin/article" component={AdminArticles} />
+          <Route exact path="/admin/payment" component={AdminPayment} />
         </>
       );
     }
@@ -63,7 +65,7 @@ class App extends React.Component {
           <Route exact path="/cart" component={Cart} />
           <Route exact path="/wishlist" component={Wishlist} />
           <Route exact path="/profileUser" component={ProfileUser} />
-          <Route exact path="/history" component={History} />
+          <Route exact path="/transaction" component={History} />
           <Route exact path="/changePassword" component={ChangePassword} />
         </>
       );

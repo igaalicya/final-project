@@ -150,10 +150,8 @@ class VaccineDetails extends React.Component {
                       }).format(price)}
                     </h6>
                     <h6 className="mt-4">
-                      vaksin ini untuk usia{" "}
-                      <span className="font-weight-bold">
-                        {ageOfDose} bulan
-                      </span>
+                      vaksin diberikan saat{" "}
+                      <span className="font-weight-bold">{ageOfDose}</span>
                     </h6>
                   </div>
                   <div className="mt-5 py-3 border-top text-center">

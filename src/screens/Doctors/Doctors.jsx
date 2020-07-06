@@ -50,10 +50,8 @@ class Doctors extends React.Component {
               <div className="col-md-8 text-center">
                 <h2 className="mb-4 font-weight-bold">Our Qualified Doctors</h2>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-                  id voluptates optio inventore accusamus eveniet eaque
-                  perspiciatis voluptatem eum! Harum architecto dignissimos
-                  dicta, quos illum autem nobis eum impedit dolorem!
+                  Our team is carefully selected for their expert professional
+                  qualifications and dedication to patient care.
                 </p>
               </div>
             </div>

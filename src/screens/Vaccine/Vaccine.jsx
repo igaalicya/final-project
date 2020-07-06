@@ -50,10 +50,13 @@ class Vaccine extends React.Component {
               <div className="col-md-8 text-center">
                 <h2 className="mb-4 font-weight-bold">Vaccine</h2>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-                  id voluptates optio inventore accusamus eveniet eaque
-                  perspiciatis voluptatem eum! Harum architecto dignissimos
-                  dicta, quos illum autem nobis eum impedit dolorem!
+                  immunisations are the best tool to prevent the transmission of
+                  diseases like yellow fever, meningitis or typhoid. it can be
+                  live attenuated immunisations (those that use a weakened form
+                  of the germ that causes the disease) and inactivated
+                  immunisations (which use a dead version of the germ). Both are
+                  designed to stimulate the immune system without causing
+                  disease.
                 </p>
               </div>
             </div>

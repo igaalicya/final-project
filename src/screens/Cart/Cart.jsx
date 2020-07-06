@@ -33,16 +33,10 @@ class Cart extends React.Component {
     doctorId: 1,
     doctorName: "",
     delivery: 0,
-    deliveryCost: 0,
     shipping: "jabodetabek",
     vaccineDate: new Date(),
     // startDate: new Date(),
   };
-
-  // inputHandler = (e, field) => {
-  //   this.setState({ [field]: e.target.value });
-  //   this.deliveryCostHandler();
-  // };
 
   handleChange(date) {
     this.setState({
@@ -54,9 +48,7 @@ class Cart extends React.Component {
     this.getCartData();
     this.getDoctorList();
     this.optionData();
-    this.deliveryCostHandler();
     this.props.onFillCart(this.props.user.id);
-    // this.props.numberOfItemInCart(this.props.user.id);
   }
 
   getCartData = () => {
@@ -83,7 +75,6 @@ class Cart extends React.Component {
             grandTotalPrice: grandTotalPrice + +this.state.delivery,
             transactionDate: this.state.dateCalendar.toLocaleDateString(),
             doctorId: this.state.doctorId,
-            // items: res.data
           },
         });
       })
@@ -145,19 +136,10 @@ class Cart extends React.Component {
         console.log(res);
         this.getCartData();
         this.props.onFillCart(this.props.user.id);
-        // this.props.numberOfItemInCart(this.props.user.id);
       })
       .catch((err) => {
         console.log("gagal");
       });
-  };
-
-  deliveryCostHandler = () => {
-    if (this.state.delivery === "jabodetabek") {
-      this.setState({ deliveryCost: 100000 });
-    } else if (this.state.delivery === "non") {
-      this.setState({ deliveryCost: 50000 });
-    }
   };
 
   checkoutBtnHandler = () => {
@@ -167,7 +149,6 @@ class Cart extends React.Component {
   };
 
   checkoutHandlder = () => {
-    console.log(this.state.deliveryCost);
     console.log(this.state.delivery);
     const { cartData } = this.state;
     let totalPrice;
@@ -273,24 +254,6 @@ class Cart extends React.Component {
 
     return totalPrice;
   };
-
-  // renderDoctor = () => {
-  //   Axios.get(`${API_URL}/doctors/${this.state.doctorId}`)
-  //     .then((res) => {
-  //       console.log(res.data.fullName);
-  //       // console.log(JSON.parse(res.data).fullName);
-  //       this.setState({ doctorData: res.data });
-  //       // res.data.map((val) => {
-  //       //   const { fullName } = val;
-  //       //   return fullName;
-  //       // });
-  //       // this.setState({ doctorName: res.data.fullName });
-  //       // return res.data.fullName;
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
 
   renderDoctorName = () => {
     return this.state.doctorList.map((val) => {
@@ -439,9 +402,8 @@ class Cart extends React.Component {
             <div className="row d-flex justify-content-center">
               <div className="col-12 align-items-center">
                 <h5 className="mt-3">Customer : {this.props.user.fullName}</h5>
-                <br />
                 <h5 className="mt-3">Doctor: {this.renderDoctorName()}</h5>
-                <table className="admin-table text-center">
+                <table className="admin-table text-center mt-3">
                   <thead>
                     <tr>
                       <th>No.</th>
@@ -451,17 +413,16 @@ class Cart extends React.Component {
                       <th>Total Price</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {this.checkoutHandlder()}
-
-                    <tr colSpan={2}>
+                  <tbody>{this.checkoutHandlder()}</tbody>
+                  <tfoot>
+                    <tr colSpan={3}>
                       Delivery Cost : {this.renderShippingPrice()}
                     </tr>
                     <tr colSpan={3}>
                       grand Total Price :
                       {priceFormatter(this.renderTotalPrice())}
                     </tr>
-                  </tbody>
+                  </tfoot>
                 </table>
               </div>
 

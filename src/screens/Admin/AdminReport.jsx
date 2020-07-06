@@ -7,7 +7,7 @@ import swal from "sweetalert";
 import { Button } from "reactstrap";
 import TextField from "../../components/TextField/TextField";
 
-class AdminDoctors extends React.Component {
+class AdminReport extends React.Component {
   state = {
     doctorList: [],
     createForm: {
@@ -253,4 +253,4 @@ class AdminDoctors extends React.Component {
   }
 }
 
-export default AdminDoctors;
+export default AdminReport;

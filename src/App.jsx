@@ -10,6 +10,7 @@ import { userKeepLogin, cookieChecker } from "./redux/actions";
 
 // import Navbar from "./components/Navbar/Navbar";
 import MyNavbar from "./components/Navbar/Navbar";
+import MyFooter from "./components/Footer/Footer";
 import Home from "./screens/Home/Home";
 import PageNotFound from "./screens/PageNotFound/PageNotFound";
 import Login from "./screens/Auth/Login";
@@ -100,6 +101,7 @@ class App extends React.Component {
           <Route path="*" component={PageNotFound} />
           {/* <Route exact path="*" component={PageNotFound} /> */}
         </Switch>
+        <MyFooter />
       </>
     );
   }

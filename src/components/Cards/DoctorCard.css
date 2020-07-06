@@ -16,9 +16,11 @@
 }
 
 .doctor-card-img {
+  border-radius: 50px;
   padding-top: 60px;
   padding-bottom: 40px;
   max-height: 260px;
+  /* margin-bottom: 40px; */
 }
 
 .doctor-card-body {

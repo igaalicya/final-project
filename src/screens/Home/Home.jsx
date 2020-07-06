@@ -3,6 +3,9 @@ import "./Home.css";
 import Axios from "axios";
 import { API_URL } from "../../constants/API";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMedkit, faBolt, faHome } from "@fortawesome/free-solid-svg-icons";
+
 import DoctorCard from "../../components/Cards/DoctorCard.tsx";
 import Button from "../../components/Buttons/Button";
 import bg1 from "../../assets/images/banner/bg1.png";
@@ -89,11 +92,13 @@ class Home extends React.Component {
           <div className="row align-items-center text-center text-md-left">
             <div className="col-md-6 col-lg-5 mb-5 mb-md-0">
               <h1>We are here for your Care</h1>
-              <p className="text-secondary mb-4">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Perferendis molestias reprehenderit earum? Tempora magni nisi
-                accusamus omnis inventore temporibus molestias ipsum, quia enim
-                quae soluta at aliquid unde eos doloremque.
+              <p className="text-secondary mb-4" style={{ fontSize: "17px" }}>
+                Vromo provides a comprehensive services performed by a specially
+                trained medical team on vaccinations that help you prevent the
+                most common diseases. We are continually updates our facilities
+                and staff qualification. In improving the quality of vaccination
+                services, Vrome applies values that prioritize patient’s safety,
+                quality info to patients and proper medical records.
               </p>
               <Link
                 style={{ textDecoration: "none", color: "inherit" }}
@@ -120,6 +125,58 @@ class Home extends React.Component {
             </div>
           </div>
         </div>
+
+        <div className="container section-margin generic-margin">
+          <div className="section-intro text-center pb-90px">
+            <h2>Our Service</h2>
+            <p>We provide the best service to help you get vaccination</p>
+          </div>
+          <div className="row generic-margin">
+            <div className=" col-lg-4 col-md-6 col-sm-6">
+              <div className="single-services text-center mb-30">
+                <div className="services-icon">
+                  <FontAwesomeIcon icon={faMedkit} />
+                </div>
+                <div className="services-cap">
+                  <h5 className="service-text">Vaccination Info</h5>
+                  <p>
+                    We provides you information on vaccines that help you
+                    prevent the most common diseases.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className=" col-lg-4 col-md-6 col-sm-6">
+              <div className="single-services text-center mb-30">
+                <div className="services-icon">
+                  <FontAwesomeIcon icon={faHome} />
+                </div>
+                <div className="services-cap">
+                  <h5 className="service-text">Home Service</h5>
+                  <p>
+                    Don't worry, we provide home service for you who are not
+                    able get service in our clinic.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className=" col-lg-4 col-md-6 col-sm-6">
+              <div className="single-services text-center mb-30">
+                <div className="services-icon">
+                  <FontAwesomeIcon icon={faBolt} />
+                </div>
+                <div className="services-cap">
+                  <h5 className="service-text">Fast Booking</h5>
+                  <p>
+                    You're in a hurry? Book online now and get your vaccinations
+                    as soon as possible
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* DOCTOR */}
         <div className="container section-margin generic-margin">
           <div className="section-intro text-center pb-90px">
@@ -129,18 +186,18 @@ class Home extends React.Component {
               alt=""
             /> */}
             <h2>Our Qualified Doctors</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+            <p>
+              Our team is carefully selected
+              <br />
+              for their expert professional qualifications and dedication to
+              patient care
+            </p>
           </div>
           <div className="row generic-margin">{this.renderDoctor()}</div>
         </div>
         {/* ARTICLE */}
-        <div className="container section-margin generic-margin">
+        {/* <div className="container section-margin generic-margin">
           <div className="section-intro text-center pb-90px">
-            {/* <img
-              className="section-intro-img"
-              src="img/home/section-icon.png"
-              alt=""
-            /> */}
             <h2>From our Blog</h2>
             <p>
               Fowl have fruit moveth male they are that place you will lesser
@@ -148,10 +205,9 @@ class Home extends React.Component {
           </div>
 
           <div className="row  generic-margin">
-            {/* <div className="row">{this.renderArticle()}</div> */}
             {this.renderArticle()}
           </div>
-        </div>
+        </div> */}
       </div>
     );
   }

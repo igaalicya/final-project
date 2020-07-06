@@ -47,3 +47,26 @@
   margin-top: 100px;
   margin-bottom: 100px;
 }
+
+.single-services {
+  border: 1px solid transparent;
+  background: #f2fcfc;
+  border-radius: 6px;
+  padding: 79px 33px;
+}
+
+.services-icon {
+  margin-bottom: 50px;
+  width: 100px;
+  height: 100px;
+  background: #dcedfc;
+  line-height: 100px;
+  text-align: center;
+  border-radius: 50px;
+  display: inline-block;
+  font-size: 50px;
+}
+
+.service-text {
+  color: #007bff;
+}

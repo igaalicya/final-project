@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import logos from "../../assets/images/logo/logos.png";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
@@ -54,7 +55,7 @@ class MyNavbar extends React.Component {
       <div className="d-flex flex-row justify-content-between align-items-center py-4 navbar-container navbar">
         <div className="logo-text">
           <Link className="navbar-brand" to="/">
-            Vrome
+            <img className="navbar-logo" src={logos} alt="" />
           </Link>
         </div>
         {/* <div

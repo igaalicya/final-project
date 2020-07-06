@@ -1,0 +1,33 @@
+.footer {
+  background: #343a40;
+  padding-top: 55px;
+  text-align: left;
+}
+
+.footer p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.footer h2 {
+  font-weight: normal;
+  color: #fff;
+  margin-bottom: 40px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.footer-icon {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-right: 12px;
+}
+
+.footer-icon-socmed {
+  font-size: 22px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-right: 12px;
+}
+
+.text {
+  margin-left: 10px;
+}

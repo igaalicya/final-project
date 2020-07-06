@@ -21,14 +21,12 @@ class About extends React.Component {
                 <span>Right At Your Home</span>
               </h2>
               <p>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Numquam illo corporis vero! Dolores fugit voluptatem reiciendis
-                tempore ab molestias velit magnam illum, odio molestiae!
-                Quisquam dolorem possimus provident iusto laudantium? Lorem
-                ipsum dolor sit amet consectetur adipisicing elit. Molestias sit
-                error, quis, in ut, eligendi dolorum vel nisi corrupti sapiente
-                quam iusto. Quis quaerat dignissimos consectetur ratione
-                perferendis repellendus vel?
+                Vromo provides a comprehensive services performed by a specially
+                trained medical team on vaccinations that help you prevent the
+                most common diseases. We are continually updates our facilities
+                and staff qualification. In improving the quality of vaccination
+                services, Vrome applies values that prioritize patient’s safety,
+                quality info to patients and proper medical records.
               </p>
             </div>
           </div>

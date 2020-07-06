@@ -26,7 +26,7 @@ class DoctorCard extends React.Component<DoctorCardProps> {
         <div className="doctor-card text-center mb-4">
           <div className="doctor-card-img">
             <img
-              className="img align-self-stretch"
+              className="img profile-image rounded"
               src={this.props.data.image}
               alt={this.props.data.fullName}
               style={{

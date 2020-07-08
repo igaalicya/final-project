@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "./Footer.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -75,8 +74,7 @@ class Footer extends React.Component {
                       />{" "}
                     </span>
                     <span class="text">
-                      BSD Green Office Park, GOP 9 - G Floor, BSD City,
-                      Tangerang Banten
+                      BSD Green Office Park, GOP 9 - G Floor, BSD City
                     </span>
                   </p>
                   <p>

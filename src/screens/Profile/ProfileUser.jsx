@@ -31,7 +31,11 @@ class ProfileUser extends React.Component {
   };
 
   getUserData = () => {
-    Axios.get(`${API_URL}/users/${this.props.user.id}`)
+    Axios.get(`${API_URL}/users/id`, {
+      params: {
+        id: this.props.user.id,
+      },
+    })
       .then((res) => {
         this.setState({ userData: res.data });
         console.log(res.data);

@@ -11,7 +11,7 @@ class ProfileDoctor extends React.Component {
       image: "",
       specialist: "",
       address: "",
-      desc: "",
+      description: "",
       id: 0,
     },
   };
@@ -19,7 +19,8 @@ class ProfileDoctor extends React.Component {
   componentDidMount() {
     Axios.get(`${API_URL}/doctors/${this.props.match.params.doctorId}`)
       .then((res) => {
-        this.setState({ doctorData: res.data });
+        console.log(res.data[0]);
+        this.setState({ doctorData: res.data[0] });
       })
       .catch((err) => {
         console.log(err);
@@ -30,7 +31,7 @@ class ProfileDoctor extends React.Component {
       fullName,
       image,
       specialist,
-      desc,
+      description,
       address,
     } = this.state.doctorData;
     return (
@@ -55,12 +56,12 @@ class ProfileDoctor extends React.Component {
                     <h3>{fullName}</h3>
                     <h6 className="font-weight-light">{address}</h6>
                     <h6 className="mt-4">{specialist}</h6>
-                    <h6 className="text-secondary">Paramadina University</h6>
+                    {/* <h6 className="text-secondary">Paramadina University</h6> */}
                   </div>
                   <div className="mt-5 py-5 border-top text-center">
                     <Row className="justify-content-center">
                       <Col lg="9">
-                        <p>{desc}</p>
+                        <p>{description}</p>
                       </Col>
                     </Row>
                   </div>

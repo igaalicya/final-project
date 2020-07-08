@@ -22,8 +22,9 @@ class AdminMembers extends React.Component {
   };
 
   getUserList = () => {
-    Axios.get(`${API_URL}/users`)
+    Axios.get(`${API_URL}/users/all`)
       .then((res) => {
+        console.log(res.data);
         this.setState({ userList: res.data });
       })
       .catch((err) => {
@@ -56,7 +57,7 @@ class AdminMembers extends React.Component {
             <td> {username} </td>
             <td> {fullName}</td>
             <td> {email}</td>
-            <td> {password}</td>
+            {/* <td> {password}</td> */}
             <td>
               <Button
                 onClick={() => this.editBtnHandler(idx)}
@@ -148,7 +149,7 @@ class AdminMembers extends React.Component {
                 <th>Username</th>
                 <th>Full Name</th>
                 <th>Email</th>
-                <th>Password</th>
+                {/* <th>Password</th> */}
                 <th colSpan={2}>Action</th>
               </tr>
             </thead>

@@ -11,9 +11,8 @@ const init_state = {
   id: 0,
   username: "",
   fullName: "",
-  address: "",
   role: "",
-  verified: 0,
+  isVerified: 0,
   errMsg: "",
   cookieChecked: false,
 };
@@ -21,13 +20,13 @@ const init_state = {
 export default (state = init_state, action) => {
   switch (action.type) {
     case ON_LOGIN_SUCCESS:
-      const { username, fullName, role, id, verified } = action.payload;
+      const { username, fullName, role, id, isVerified } = action.payload;
       return {
         ...state,
         username,
         fullName,
         role,
-        verified,
+        isVerified,
         id,
         cookieChecked: true,
       };

@@ -30,10 +30,10 @@ class Wishlist extends React.Component {
   }
 
   getwishlistData = () => {
-    Axios.get(`${API_URL}/wishlists`, {
+    Axios.get(`${API_URL}/wishlists/thisUser`, {
       params: {
-        userId: this.props.user.id,
-        _expand: "vaccine",
+        usersId: this.props.user.id,
+        // _expand: "vaccine",
       },
     })
       .then((res) => {
@@ -55,16 +55,16 @@ class Wishlist extends React.Component {
           <td>
             <img
               alt=""
-              src={val.vaccine.image}
+              src={val.vaccines.image}
               style={{ width: "100%", objectFit: "contain", height: "100px" }}
             />
           </td>
-          <td>{val.vaccine.vaccineName}</td>
+          <td>{val.vaccines.vaccineName}</td>
           <td>
             {new Intl.NumberFormat("id-ID", {
               style: "currency",
               currency: "IDR",
-            }).format(val.vaccine.price)}
+            }).format(val.vaccines.price)}
           </td>
           <td align="center">
             <Button type="outlined" onClick={() => this.deleteHandler(val.id)}>

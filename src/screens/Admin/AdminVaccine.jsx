@@ -9,23 +9,26 @@ import TextField from "../../components/TextField/TextField";
 
 class AdminVaccine extends React.Component {
   state = {
+    selectedFile: null,
     VaccineList: [],
     createForm: {
       vaccineName: "",
       price: "",
       ageOfDose: "",
-      desc: "",
+      description: "",
       brand: "",
       image: "",
+      stock: 0,
     },
     editForm: {
       id: 0,
       vaccineName: "",
       price: 0,
       ageOfDose: 0,
-      desc: "",
+      description: "",
       brand: "",
       image: "",
+      stock: 0,
     },
     activeUsers: [],
     modalOpen: false,
@@ -43,7 +46,7 @@ class AdminVaccine extends React.Component {
 
   renderVaccineList = () => {
     return this.state.VaccineList.map((val, idx) => {
-      const { vaccineName, price, ageOfDose, brand } = val;
+      const { vaccineName, price, ageOfDose, brand, stock } = val;
       return (
         <>
           <tr
@@ -66,6 +69,7 @@ class AdminVaccine extends React.Component {
             <td> {price} </td>
             <td> {ageOfDose}</td>
             <td> {brand}</td>
+            <td> {stock} </td>
             <td>
               <Button
                 onClick={() => this.editBtnHandler(idx)}
@@ -100,8 +104,21 @@ class AdminVaccine extends React.Component {
     });
   };
 
+  fileChangeHandler = (e) => {
+    this.setState({ selectedFile: e.target.files[0] });
+  };
+
   addVaccineHandler = () => {
-    Axios.post(`${API_URL}/vaccines`, this.state.createForm)
+    let formData = new FormData();
+
+    formData.append(
+      "file",
+      this.state.selectedFile,
+      this.state.selectedFile.name
+    );
+    formData.append("vaccinesData", JSON.stringify(this.state.createForm));
+
+    Axios.post(`${API_URL}/vaccines`, formData)
       .then((res) => {
         swal("Success", "Your items has been added to the list", "success");
         this.getVaccineList();
@@ -110,9 +127,10 @@ class AdminVaccine extends React.Component {
             vaccineName: "",
             price: "",
             ageOfDose: "",
-            desc: "",
+            description: "",
             brand: "",
             image: "",
+            stock: 0,
           },
         });
         this.getVaccineList();
@@ -182,6 +200,7 @@ class AdminVaccine extends React.Component {
                 <th>Price</th>
                 <th>Age of dose</th>
                 <th>Merk</th>
+                <th>Stock</th>
                 <th colSpan={2}>Action</th>
               </tr>
             </thead>
@@ -225,17 +244,26 @@ class AdminVaccine extends React.Component {
                 onChange={(e) => this.inputHandler(e, "brand", "createForm")}
               />
             </div>
-            <div className="col-12 mt-3">
+            <div className="col-6 mt-3">
               <TextField
-                value={this.state.createForm.image}
-                placeholder="Image"
-                onChange={(e) => this.inputHandler(e, "image", "createForm")}
+                value={this.state.createForm.stock}
+                placeholder="Stock"
+                onChange={(e) => this.inputHandler(e, "stock", "createForm")}
+              />
+            </div>
+            <div className="col-12 mt-3">
+              <input
+                type="file"
+                name="Image"
+                onChange={this.fileChangeHandler}
               />
             </div>
             <div className="col-12 mt-3">
               <textarea
-                value={this.state.createForm.desc}
-                onChange={(e) => this.inputHandler(e, "desc", "createForm")}
+                value={this.state.createForm.description}
+                onChange={(e) =>
+                  this.inputHandler(e, "description", "createForm")
+                }
                 style={{ resize: "none" }}
                 placeholder="Description"
                 className="custom-text-input"
@@ -303,6 +331,14 @@ class AdminVaccine extends React.Component {
               <div className="col-12 mt-3">
                 <input
                   type="text"
+                  value={this.state.editForm.stock}
+                  className="custom-text-input h-100 pl-3"
+                  onChange={(e) => this.inputHandler(e, "stock", "editForm")}
+                />
+              </div>
+              <div className="col-12 mt-3">
+                <input
+                  type="text"
                   className="custom-text-input h-100 pl-3"
                   value={this.state.editForm.image}
                   placeholder="Image"
@@ -311,8 +347,10 @@ class AdminVaccine extends React.Component {
               </div>
               <div className="col-12 mt-3">
                 <textarea
-                  value={this.state.editForm.desc}
-                  onChange={(e) => this.inputHandler(e, "desc", "editForm")}
+                  value={this.state.editForm.description}
+                  onChange={(e) =>
+                    this.inputHandler(e, "description", "editForm")
+                  }
                   style={{ resize: "none" }}
                   placeholder="Description"
                   className="custom-text-input"

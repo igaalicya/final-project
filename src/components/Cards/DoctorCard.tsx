@@ -10,7 +10,7 @@ interface DoctorCardData {
   address?: number;
   image?: string;
   specialist?: string;
-  desc?: string;
+  description?: string;
 }
 
 type DoctorCardProps = {
@@ -39,7 +39,7 @@ class DoctorCard extends React.Component<DoctorCardProps> {
             <span className="text-primary mb-2">
               {this.props.data.specialist}
             </span>
-            <p>{this.props.data.desc}</p>
+            <p>{this.props.data.description}</p>
           </div>
         </div>
       </div>

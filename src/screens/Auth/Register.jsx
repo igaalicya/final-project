@@ -35,7 +35,6 @@ class Register extends React.Component {
       email: "",
       password: "",
       confirmPassword: "",
-      address: "",
     },
   };
 
@@ -59,17 +58,10 @@ class Register extends React.Component {
   };
 
   registerBtnHandler = () => {
-    const {
-      username,
-      fullName,
-      address,
-      password,
-      email,
-    } = this.state.registerForm;
+    const { username, fullName, password, email } = this.state.registerForm;
     let newUser = {
       username,
       fullName,
-      address,
       password,
       email,
     };

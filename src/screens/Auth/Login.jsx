@@ -61,6 +61,7 @@ class Login extends React.Component {
     this.props.onLogin(newUser);
 
     console.log(this.state.loginForm.username);
+    console.log(this.state.loginForm.password);
   };
 
   render() {

@@ -14,21 +14,24 @@ class VaccineDetails extends React.Component {
       vaccineName: "",
       price: 0,
       ageOfDose: "",
-      desc: "",
+      description: "",
       brand: "",
       image: "",
+      stock: 0,
       id: 0,
     },
   };
 
   addToCartHandler = () => {
     console.log(this.state.vaccineData.id);
-    Axios.get(`${API_URL}/carts`, {
+    console.log(this.props.user.id);
+    Axios.get(`${API_URL}/carts/check`, {
       params: {
-        vaccineId: this.state.vaccineData.id,
-        // userId: this.props.user.id,
+        vaccinesId: this.state.vaccineData.id,
+        usersId: this.props.user.id,
       },
     }).then((res) => {
+      console.log(res.data);
       if (res.data.length > 0) {
         Axios.patch(`${API_URL}/carts/${res.data[0].id}`, {
           quantity: res.data[0].quantity + 1,
@@ -46,11 +49,16 @@ class VaccineDetails extends React.Component {
             console.log(err);
           });
       } else {
-        Axios.post(`${API_URL}/carts`, {
-          userId: this.props.user.id,
-          vaccineId: this.state.vaccineData.id,
-          quantity: 1,
-        })
+        Axios.post(
+          `${API_URL}/carts/${this.props.user.id}/${this.state.vaccineData.id}`,
+          {
+            quantity: 1,
+            // params: {
+            //   vaccinesId: this.state.vaccineData.id,
+            //   usersId: this.props.user.id,
+            // },
+          }
+        )
           .then((res) => {
             console.log(res);
             swal(
@@ -72,19 +80,25 @@ class VaccineDetails extends React.Component {
   };
 
   addToWishlistHandler = () => {
-    Axios.get(`${API_URL}/wishlists`, {
+    Axios.get(`${API_URL}/wishlists/check`, {
       params: {
-        userId: this.props.user.id,
-        vaccineId: this.state.vaccineData.id,
+        usersId: this.props.user.id,
+        vaccinesId: this.state.vaccineData.id,
       },
     }).then((res) => {
+      console.log(res.data);
+      console.log(this.props.user.id);
+      console.log(this.state.vaccineData.id);
       if (res.data.length > 0) {
         swal("Error", "The item is already exist on your wishlist", "error");
       } else {
-        Axios.post(`${API_URL}/wishlists`, {
-          userId: this.props.user.id,
-          vaccineId: this.state.vaccineData.id,
-        })
+        Axios.post(
+          `${API_URL}/wishlists/${this.props.user.id}/${this.state.vaccineData.id}`,
+          {
+            usersId: this.props.user.id,
+            vaccinesId: this.state.vaccineData.id,
+          }
+        )
           .then((res) => {
             console.log(res);
             swal(
@@ -104,8 +118,10 @@ class VaccineDetails extends React.Component {
   componentDidMount() {
     Axios.get(`${API_URL}/vaccines/${this.props.match.params.vaccineId}`)
       .then((res) => {
-        this.setState({ vaccineData: res.data });
+        console.log(res.data[0]);
+        this.setState({ vaccineData: res.data[0] });
         this.props.onFillCart(this.props.user.id);
+        console.log(this.state.vaccineData);
       })
       .catch((err) => {
         console.log(err);
@@ -120,7 +136,7 @@ class VaccineDetails extends React.Component {
       vaccineName,
       price,
       ageOfDose,
-      desc,
+      description,
       brand,
       image,
     } = this.state.vaccineData;
@@ -158,7 +174,7 @@ class VaccineDetails extends React.Component {
                     <Row className="justify-content-center">
                       <Col lg="9">
                         <p>
-                          {desc}
+                          {description}
                           Lorem ipsum dolor sit amet consectetur adipisicing
                           elit. Alias, porro, tenetur fugit ea velit quo
                           obcaecati qui, perferendis soluta aut eaque facere
@@ -182,7 +198,9 @@ class VaccineDetails extends React.Component {
                         type="contained"
                         value="buy"
                       >
-                        Add To Cart
+                        {this.state.vaccineData.stock > 0
+                          ? "Add To Cart"
+                          : "Sold Out"}
                       </Button>
                     </Row>
                   </div>

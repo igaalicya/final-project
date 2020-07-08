@@ -5,7 +5,7 @@ import bg2 from "../../assets/images/banner/bg2.png";
 class About extends React.Component {
   render() {
     return (
-      <div className="banner-about container">
+      <div className="container banner-about">
         <div className="row align-items-center ">
           <div className="row">
             <div className="col-lg-7 col-md-6 mb-4 mb-md-0">
@@ -21,7 +21,7 @@ class About extends React.Component {
                 <span>Right At Your Home</span>
               </h2>
               <p>
-                Vromo provides a comprehensive services performed by a specially
+                Vrome provides a comprehensive services performed by a specially
                 trained medical team on vaccinations that help you prevent the
                 most common diseases. We are continually updates our facilities
                 and staff qualification. In improving the quality of vaccination

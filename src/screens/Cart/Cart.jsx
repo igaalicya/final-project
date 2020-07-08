@@ -23,7 +23,7 @@ class Cart extends React.Component {
     // nyimpan id transac
     id: 0,
     checkoutData: {
-      userId: 0,
+      usersId: 0,
       grandTotalPrice: 0,
       status: "pending",
       transactionDate: "",
@@ -54,16 +54,16 @@ class Cart extends React.Component {
   getCartData = () => {
     let grandTotalPrice = 0;
 
-    Axios.get(`${API_URL}/carts`, {
+    Axios.get(`${API_URL}/carts/thisUser`, {
       params: {
-        userId: this.props.user.id,
-        _expand: "vaccine",
+        usersId: this.props.user.id,
+        // _expand: "vaccine",
       },
     })
       .then((res) => {
         console.log(res.data);
         res.data.map((val) => {
-          grandTotalPrice += val.quantity * val.vaccine.price;
+          grandTotalPrice += val.quantity * val.vaccines.price;
           return grandTotalPrice;
         });
 
@@ -71,7 +71,7 @@ class Cart extends React.Component {
           cartData: res.data,
           checkoutData: {
             ...this.state.checkoutData,
-            userId: this.props.user.id,
+            usersId: this.props.user.id,
             grandTotalPrice: grandTotalPrice + +this.state.delivery,
             transactionDate: this.state.dateCalendar.toLocaleDateString(),
             doctorId: this.state.doctorId,
@@ -81,6 +81,7 @@ class Cart extends React.Component {
       .catch((err) => {
         console.log(err);
       });
+    console.log(this.state.cartData);
   };
 
   getDoctorList = () => {
@@ -108,16 +109,16 @@ class Cart extends React.Component {
           <td>
             <img
               alt=""
-              src={val.vaccine.image}
+              src={val.vaccines.image}
               style={{ width: "100%", objectFit: "contain", height: "100px" }}
             />
           </td>
-          <td>{val.vaccine.vaccineName}</td>
+          <td>{val.vaccines.vaccineName}</td>
           <td>
             {new Intl.NumberFormat("id-ID", {
               style: "currency",
               currency: "IDR",
-            }).format(val.vaccine.price)}
+            }).format(val.vaccines.price)}
           </td>
           <td>{val.quantity}</td>
           <td align="center">
@@ -153,18 +154,18 @@ class Cart extends React.Component {
     const { cartData } = this.state;
     let totalPrice;
     return cartData.map((val, idx) => {
-      const { quantity, vaccine } = val;
-      totalPrice = quantity * vaccine.price;
+      const { quantity, vaccines } = val;
+      totalPrice = quantity * vaccines.price;
       return (
         <>
           <tr>
             <td>{idx + 1}</td>
-            <td>{vaccine.vaccineName}</td>
+            <td>{vaccines.vaccineName}</td>
             <td>
               {new Intl.NumberFormat("id-ID", {
                 style: "currency",
                 currency: "IDR",
-              }).format(vaccine.price)}
+              }).format(vaccines.price)}
             </td>
             <td>{quantity}</td>
             <td>
@@ -189,8 +190,8 @@ class Cart extends React.Component {
         this.state.cartData.map((val) => {
           Axios.post(`${API_URL}/transactionDetails`, {
             transactionId: res.data.id,
-            vaccineId: val.vaccineId,
-            price: val.vaccine.price,
+            vaccinesId: val.vaccinesId,
+            price: val.vaccines.price,
             quantity: val.quantity,
             totalPrice: val.vaccine.price * val.quantity,
           })
@@ -200,7 +201,7 @@ class Cart extends React.Component {
               this.setState({
                 modalOpen: false,
                 checkoutData: {
-                  userId: 0,
+                  usersId: 0,
                   grandTotalPrice: 0,
                   status: "pending",
                   transactionDate: "",
@@ -246,8 +247,8 @@ class Cart extends React.Component {
     let totalPrice = 0;
 
     this.state.cartData.forEach((val) => {
-      const { quantity, vaccine } = val;
-      const { price } = vaccine;
+      const { quantity, vaccines } = val;
+      const { price } = vaccines;
 
       totalPrice += quantity * price;
     });
@@ -278,8 +279,8 @@ class Cart extends React.Component {
     let totalPrice = 0;
 
     this.state.cartData.forEach((val) => {
-      const { quantity, vaccine } = val;
-      const { price } = vaccine;
+      const { quantity, vaccines } = val;
+      const { price } = vaccines;
 
       totalPrice += quantity * price;
     });

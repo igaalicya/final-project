@@ -97,6 +97,7 @@ class MyNavbar extends React.Component {
           >
             <span>Doctors</span>
           </Link>
+          {console.log(this.props.user.username)}
           {this.props.user.username ? (
             <>
               {this.props.user.role === "admin" ? (

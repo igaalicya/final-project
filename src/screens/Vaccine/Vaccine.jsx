@@ -15,7 +15,7 @@ class Vaccine extends React.Component {
     Axios.get(`${API_URL}/vaccines`)
       .then((res) => {
         this.setState({ vaccineList: res.data });
-        console.log(res);
+        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);

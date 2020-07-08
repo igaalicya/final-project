@@ -20,12 +20,12 @@ class History extends React.Component {
   }
 
   getHistoryData = () => {
-    Axios.get(`${API_URL}/transactions`, {
+    Axios.get(`${API_URL}/transactions/thisUser`, {
       params: {
-        userId: this.props.user.id,
+        usersId: this.props.user.id,
         // status: "completed",
-        _embed: "transactionDetail",
-        _expand: "doctor",
+        // _embed: "transactionDetail",
+        // _expand: "doctor",
       },
     })
       .then((res) => {
@@ -50,14 +50,14 @@ class History extends React.Component {
 
   renderHistory = () => {
     return this.state.historyData.map((val, idx) => {
-      const { grandTotalPrice, transactionDate, completionDate, doctor } = val;
+      const { grandTotalPrice, transactionDate, completionDate, doctors } = val;
       return (
         <>
           <tr className="text-center">
             <td> {idx + 1} </td>
             {/* <td> {userId} </td> */}
             <td> {transactionDate} </td>
-            <td> {doctor.fullName} </td>
+            <td> {doctors.fullName} </td>
             <td>
               {" "}
               {new Intl.NumberFormat("id-ID", {

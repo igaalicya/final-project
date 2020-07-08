@@ -19,21 +19,22 @@ export const loginHandler = (userData) => {
       },
     })
       .then((res) => {
-        if (res.data.length > 0) {
+        console.log(res.data);
+        if (Object.keys(res.data).length > 0) {
           dispatch({
             type: ON_LOGIN_SUCCESS,
-            payload: res.data[0],
+            payload: res.data,
           });
           swal("Berhasil", "Login berhasil", "success");
           Axios.get(`${API_URL}/carts`, {
             params: {
-              userId: res.data[0].id,
+              userId: res.data.id,
             },
           })
             .then((res) => {
               dispatch({
                 type: "FILL_CART",
-                payload: res.data.length,
+                payload: Object.keys(res.data).length,
               });
             })
             .catch((err) => {
@@ -53,28 +54,66 @@ export const loginHandler = (userData) => {
   };
 };
 
+// export const userKeepLogin = (userData) => {
+//   return (dispatch) => {
+//     Axios.get(`${API_URL}/users/${userData.id}`)
+//       .then((res) => {
+//         console.log(res.data);
+//         if (res.data.length > 0) {
+//           dispatch({
+//             type: ON_LOGIN_SUCCESS,
+//             payload: res.data[0],
+//           });
+//           Axios.get(`${API_URL}/carts`, {
+//             params: {
+//               userId: res.data[0].id,
+//             },
+//           })
+//             .then((res) => {
+//               dispatch({
+//                 type: "FILL_CART",
+//                 payload: res.data.length,
+//               });
+//             })
+//             .catch((err) => {
+//               console.log(err);
+//             });
+//         } else {
+//           dispatch({
+//             type: ON_LOGIN_FAIL,
+//             payload: "Username atau password salah",
+//           });
+//         }
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   };
+// };
+
 export const userKeepLogin = (userData) => {
   return (dispatch) => {
-    Axios.get(`${API_URL}/users`, {
+    Axios.get(`${API_URL}/users/id`, {
       params: {
         id: userData.id,
       },
     })
       .then((res) => {
-        if (res.data.length > 0) {
+        console.log(res.data);
+        if (Object.keys(res.data).length > 0) {
           dispatch({
             type: ON_LOGIN_SUCCESS,
-            payload: res.data[0],
+            payload: res.data,
           });
           Axios.get(`${API_URL}/carts`, {
             params: {
-              userId: res.data[0].id,
+              userId: res.data.id,
             },
           })
             .then((res) => {
               dispatch({
                 type: "FILL_CART",
-                payload: res.data.length,
+                payload: Object.keys(res.data).length,
               });
             })
             .catch((err) => {
@@ -102,25 +141,25 @@ export const logoutHandler = () => {
 
 export const registerHandler = (userData) => {
   return (dispatch) => {
-    Axios.get(`${API_URL}/users`, {
+    Axios.get(`${API_URL}/users/username`, {
       params: {
         username: userData.username,
       },
     })
       .then((res) => {
-        if (res.data.length > 0) {
+        if (Object.keys(res.data).length > 0) {
           dispatch({
             type: "ON_REGISTER_FAIL",
             payload: "username sudah digunakan",
           });
           swal("Gagal", "Username sudah digunakan", "error");
         } else {
-          Axios.get(`${API_URL}/users`, {
+          Axios.get(`${API_URL}/users/email`, {
             params: {
               email: userData.email,
             },
           }).then((res) => {
-            if (res.data.length > 0) {
+            if (Object.keys(res.data).length > 0) {
               dispatch({
                 type: "ON_REGISTER_FAIL",
                 payload: "email sudah digunakan",
@@ -130,7 +169,7 @@ export const registerHandler = (userData) => {
               Axios.post(`${API_URL}/users`, {
                 ...userData,
                 role: "user",
-                verified: 0,
+                isVerified: 0,
               })
                 .then((res) => {
                   console.log(res.data);
@@ -141,13 +180,13 @@ export const registerHandler = (userData) => {
                   swal("Berhasil", "Registrasi akun berhasil", "success");
                   Axios.get(`${API_URL}/carts`, {
                     params: {
-                      userId: res.data[0].id,
+                      userId: res.data.id,
                     },
                   })
                     .then((res) => {
                       dispatch({
                         type: "FILL_CART",
-                        payload: res.data.length,
+                        payload: Object.keys(res.data).length,
                       });
                     })
                     .catch((err) => {
@@ -183,7 +222,7 @@ export const fillCart = (userId) => {
       .then((res) => {
         dispatch({
           type: "FILL_CART",
-          payload: res.data.length,
+          payload: Object.keys(res.data).length,
         });
       })
       .catch((err) => {

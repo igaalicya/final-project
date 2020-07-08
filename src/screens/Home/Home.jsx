@@ -52,7 +52,7 @@ class Home extends React.Component {
 
   renderDoctor = () => {
     return this.state.doctorList.map((val) => {
-      console.log(val);
+      // console.log(val);
       return (
         <Link
           className="col-md-6 col-lg-4 mb-4 mb-lg-0"

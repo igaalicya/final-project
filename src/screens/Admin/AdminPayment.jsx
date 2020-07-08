@@ -24,14 +24,14 @@ class AdminPayment extends React.Component {
   };
 
   getTransactionCompleted = () => {
-    Axios.get(`${API_URL}/transactions`, {
+    Axios.get(`${API_URL}/transactions/status`, {
       params: {
         status: "completed",
       },
     })
       .then((res) => {
         this.setState({ transactionCompleted: res.data });
-        // console.log(res.data);
+        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -39,14 +39,14 @@ class AdminPayment extends React.Component {
   };
 
   getTransactionPending = () => {
-    Axios.get(`${API_URL}/transactions`, {
+    Axios.get(`${API_URL}/transactions/status`, {
       params: {
         status: "pending",
       },
     })
       .then((res) => {
         this.setState({ transactionPending: res.data });
-        // console.log(res.data);
+        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -60,13 +60,13 @@ class AdminPayment extends React.Component {
       return this.state.transactionCompleted.map((val, idx) => {
         const {
           id,
-          userId,
+          users,
           grandTotalPrice,
           status,
           transactionDate,
           completionDate,
         } = val;
-
+        console.log(val);
         return (
           <>
             <tr
@@ -88,7 +88,7 @@ class AdminPayment extends React.Component {
               }}
             >
               <td> {idx + 1} </td>
-              <td> {userId} </td>
+              <td> {users.username} </td>
               <td>
                 {" "}
                 {new Intl.NumberFormat("id-ID", {

@@ -55,7 +55,7 @@ class App extends React.Component {
           <Route exact path="/admin/doctors" component={AdminDoctors} />
           <Route exact path="/admin/vaccine" component={AdminVaccine} />
           <Route exact path="/admin/article" component={AdminArticles} />
-          <Route exact path="/admin/payment" component={AdminPayment} />
+          <Route exact path="/admin/transaction" component={AdminPayment} />
         </>
       );
     }

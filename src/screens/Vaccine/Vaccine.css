@@ -8,3 +8,16 @@
   border-radius: 12px;
   border: 1px solid gray;
 }
+
+.btn-page {
+  border-radius: 50%;
+  border: 1px solid var(--accent-default);
+  background-color: var(--accent-default);
+  color: white;
+}
+
+.btn-page.disabled,
+.btn-page:disabled {
+  /* border-radius: 50%; */
+  opacity: 0.65;
+}

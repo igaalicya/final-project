@@ -150,9 +150,9 @@ class MyNavbar extends React.Component {
                     <DropdownItem>
                       <Link
                         style={{ color: "inherit", textDecoration: "none" }}
-                        to="/admin/payment"
+                        to="/admin/transaction"
                       >
-                        Payments
+                        Transactions
                       </Link>
                     </DropdownItem>
                     <DropdownItem>

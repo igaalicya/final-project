@@ -4,7 +4,8 @@ import "./History.css";
 import Axios from "axios";
 import { API_URL } from "../../constants/API";
 import Button from "../../components/Buttons/Button";
-import { Table, Alert } from "reactstrap";
+import { Table, Alert, Modal, ModalBody, ModalHeader } from "reactstrap";
+import swal from "sweetalert";
 
 // import TextField from "../../components/TextField/TextField";
 
@@ -13,11 +14,24 @@ class History extends React.Component {
     historyData: [],
     modalOpen: false,
     activeProducts: [],
+    selectedFile: null,
+    transactionsId: 0,
+    transactionData: {},
+    // transactionData: {
+    //   grandTotalPrice: 0,
+    //   transactionDate: "",
+    //   completionDate: "",
+    //   doctors: {},
+    // },
   };
 
   componentDidMount() {
     this.getHistoryData();
   }
+
+  fileChangeHandler = (e) => {
+    this.setState({ selectedFile: e.target.files[0] });
+  };
 
   getHistoryData = () => {
     Axios.get(`${API_URL}/transactions/thisUser`, {
@@ -42,15 +56,56 @@ class History extends React.Component {
       });
   };
 
-  detailTransactions = (idx) => {
+  uploadBuktiTransfer = (id) => {
+    let formData = new FormData();
+
+    formData.append(
+      "file",
+      this.state.selectedFile,
+      this.state.selectedFile.name
+    );
+    // formData.append(
+    //   "transactionsData",
+    //   JSON.stringify(this.state.transactionData)
+    // );
+
+    Axios.put(`${API_URL}/transactions/uploadBukti/${id}`, formData)
+      .then((res) => {
+        console.log(res.data);
+        swal("Success!", "Your data has been uploaded", "success");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  uploadBuktiBtnHandler = (idx) => {
     this.setState({
+      transactionData: {
+        ...this.state.historyData[idx],
+      },
+      transactionsId: this.state.historyData[idx].id,
       modalOpen: true,
+      // transactionsId: id,
     });
+    console.log(this.state.historyData[idx].id);
+    console.log(this.state.transactionData);
+  };
+
+  toggleModal = () => {
+    this.setState({ modalOpen: !this.state.modalOpen });
   };
 
   renderHistory = () => {
     return this.state.historyData.map((val, idx) => {
-      const { grandTotalPrice, transactionDate, completionDate, doctors } = val;
+      const {
+        grandTotalPrice,
+        transactionDate,
+        completionDate,
+        doctors,
+        status,
+        rejectionReason,
+      } = val;
       return (
         <>
           <tr className="text-center">
@@ -92,7 +147,8 @@ class History extends React.Component {
               this.state.activeProducts.includes(idx) ? "active" : null
             }`}
           >
-            <td className="" colSpan={3}>
+            <td colSpan={1}></td>
+            <td colSpan={1} className="text-left">
               <div className="d-flex justify-content-around align-items-center">
                 <div className="d-flex">
                   <div className="d-flex flex-column ml-4 justify-content-center">
@@ -114,6 +170,16 @@ class History extends React.Component {
                       </span>
                     </h6>
                     <h6>
+                      Status:
+                      <span
+                        style={{ fontWeight: "normal" }}
+                        className="text-justify"
+                      >
+                        {" "}
+                        {status}
+                      </span>
+                    </h6>
+                    <h6>
                       Price:
                       <span
                         style={{ fontWeight: "normal" }}
@@ -125,8 +191,38 @@ class History extends React.Component {
                         }).format(grandTotalPrice)}
                       </span>
                     </h6>
-                    {completionDate == "" ? (
-                      <Button>Upload Bukti Transfer</Button>
+                    {status === "rejected" ? (
+                      <>
+                        <h6>
+                          Rejection Reason:
+                          <span
+                            style={{ fontWeight: "normal" }}
+                            className="text-justify"
+                          >
+                            {" "}
+                            {rejectionReason}
+                          </span>
+                        </h6>
+                      </>
+                    ) : (
+                      <>
+                        <h6>
+                          <span
+                            style={{ fontWeight: "normal" }}
+                            className="text-justify"
+                          >
+                            {" "}
+                          </span>
+                        </h6>
+                      </>
+                    )}
+                    {completionDate === "" ? (
+                      <Button
+                        className="mt-2"
+                        onClick={() => this.uploadBuktiBtnHandler(idx)}
+                      >
+                        Upload Bukti Transfer
+                      </Button>
                     ) : null}
                   </div>
                 </div>
@@ -162,6 +258,50 @@ class History extends React.Component {
         ) : (
           <Alert>Your History is empty!</Alert>
         )}
+        <Modal
+          toggle={this.toggleModal}
+          isOpen={this.state.modalOpen}
+          className="edit-modal"
+        >
+          <ModalHeader toggle={this.toggleModal}>
+            <caption>
+              <h4>Upload Bukti Transfer</h4>
+            </caption>
+          </ModalHeader>
+          <ModalBody>
+            <div className="row">
+              <div className="col-12 mt-3">
+                <input
+                  type="file"
+                  name="Image"
+                  onChange={(e) => {
+                    this.fileChangeHandler(e, "selectedFile");
+                  }}
+                />
+              </div>
+              <div className="col-5 mt-5 offset-1">
+                <Button
+                  className="w-100"
+                  onClick={this.toggleModal}
+                  type="outlined"
+                >
+                  Cancel
+                </Button>
+              </div>
+              <div className="col-5 mt-5">
+                <Button
+                  className="w-100"
+                  onClick={() =>
+                    this.uploadBuktiTransfer(this.state.transactionsId)
+                  }
+                  type="contained"
+                >
+                  Submit
+                </Button>
+              </div>
+            </div>
+          </ModalBody>
+        </Modal>
       </div>
     );
   }

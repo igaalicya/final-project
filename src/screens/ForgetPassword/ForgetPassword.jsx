@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Alert } from "reactstrap";
+// import { Alert } from "reactstrap";
 // import { Redirect } from "react-router-dom";
 // import { Link } from "react-router-dom";
 import {

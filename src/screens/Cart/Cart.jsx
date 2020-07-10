@@ -9,9 +9,7 @@ import Button from "../../components/Buttons/Button";
 import swal from "sweetalert";
 import { priceFormatter } from "../../supports/helpers/formatter";
 import { fillCart } from "../../redux/actions";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar } from "@fortawesome/free-solid-svg-icons";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 class Cart extends React.Component {
@@ -155,6 +153,7 @@ class Cart extends React.Component {
     let totalPrice;
     return cartData.map((val, idx) => {
       const { quantity, vaccines } = val;
+
       totalPrice = quantity * vaccines.price;
       return (
         <>
@@ -255,9 +254,11 @@ class Cart extends React.Component {
 
     this.state.cartData.forEach((val) => {
       const { quantity, vaccines } = val;
-      const { price } = vaccines;
+      const { price, stock } = vaccines;
 
-      totalPrice += quantity * price;
+      if (quantity <= stock) {
+        totalPrice += quantity * price;
+      }
     });
 
     return totalPrice;
@@ -265,7 +266,7 @@ class Cart extends React.Component {
 
   renderDoctorName = () => {
     return this.state.doctorList.map((val) => {
-      if (val.id == this.state.doctorId) {
+      if (val.id === this.state.doctorId) {
         return val.fullName;
       }
     });
@@ -287,9 +288,11 @@ class Cart extends React.Component {
 
     this.state.cartData.forEach((val) => {
       const { quantity, vaccines } = val;
-      const { price } = vaccines;
+      const { price, stock } = vaccines;
 
-      totalPrice += quantity * price;
+      if (quantity <= stock) {
+        totalPrice += quantity * price;
+      }
     });
 
     let shippingPrice = 0;

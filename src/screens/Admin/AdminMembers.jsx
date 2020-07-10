@@ -34,7 +34,7 @@ class AdminMembers extends React.Component {
 
   renderUserList = () => {
     return this.state.userList.map((val, idx) => {
-      const { id, username, fullName, password, email, role } = val;
+      const { id, username, fullName, email, role } = val;
       return (
         <>
           <tr

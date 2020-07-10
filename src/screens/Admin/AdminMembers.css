@@ -34,3 +34,7 @@ th {
   border-top-right-radius: 0px;
   width: 100%;
 }
+
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}

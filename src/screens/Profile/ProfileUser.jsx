@@ -89,6 +89,7 @@ class ProfileUser extends React.Component {
 
   render() {
     const { fullName, userAddress, email } = this.state.userData;
+
     return (
       <div style={{ display: "block" }}>
         <div className="container-profile">
@@ -109,9 +110,11 @@ class ProfileUser extends React.Component {
                     <h3>{fullName}</h3>
                     {/* <h6 className="text-secondary">{username}</h6> */}
                     <h6 className="">{email}</h6>
-                    <h6 className="font-weight-light mt-4">
-                      {userAddress.shippingAddress}
-                    </h6>
+                    {userAddress ? (
+                      <h6 className="font-weight-light mt-4">
+                        {userAddress.shippingAddress}
+                      </h6>
+                    ) : null}
                   </div>
                   <div className="py-3 text-center">
                     <Row className="justify-content-center">

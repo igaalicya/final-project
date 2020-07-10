@@ -108,11 +108,13 @@ class AdminDoctors extends React.Component {
   addDoctorHandler = () => {
     let formData = new FormData();
 
-    formData.append(
-      "file",
-      this.state.selectedFile,
-      this.state.selectedFile.name
-    );
+    if (this.state.selectedFile) {
+      formData.append(
+        "file",
+        this.state.selectedFile,
+        this.state.selectedFile.name
+      );
+    }
     formData.append("doctorsData", JSON.stringify(this.state.createForm));
 
     Axios.post(`${API_URL}/doctors`, formData)
@@ -147,11 +149,13 @@ class AdminDoctors extends React.Component {
 
   editDoctorHandler = () => {
     let formData = new FormData();
-    formData.append(
-      "file",
-      this.state.selectedFile,
-      this.state.selectedFile.name
-    );
+    if (this.state.selectedFile) {
+      formData.append(
+        "file",
+        this.state.selectedFile,
+        this.state.selectedFile.name
+      );
+    }
     formData.append("doctorsData", JSON.stringify(this.state.editForm));
 
     Axios.put(`${API_URL}/doctors/edit/${this.state.editForm.id}`, formData)
@@ -247,8 +251,11 @@ class AdminDoctors extends React.Component {
             <div className="col-12 mt-3">
               <input
                 type="file"
+                // className="custom-file-input"
                 name="Image"
-                onChange={this.fileChangeHandler}
+                onChange={(e) => {
+                  this.fileChangeHandler(e, "selectedFile");
+                }}
               />
             </div>
             <div className="col-12 mt-3">
@@ -321,10 +328,18 @@ class AdminDoctors extends React.Component {
                 />
               </div>
               <div className="col-12 mt-3">
+                <img
+                  alt="..."
+                  className="ml-4"
+                  style={{ width: "30%" }}
+                  src={this.state.editForm.image}
+                />
                 <input
                   type="file"
                   name="Image"
-                  onChange={this.fileChangeHandler}
+                  onChange={(e) => {
+                    this.fileChangeHandler(e, "selectedFile");
+                  }}
                 />
               </div>
               <div className="col-12 mt-3">

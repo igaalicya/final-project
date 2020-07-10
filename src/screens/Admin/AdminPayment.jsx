@@ -13,15 +13,31 @@ class AdminPayment extends React.Component {
     transactionRejected: [],
     transactionList: [],
     modalOpen: false,
+    viewImage: false,
     dateCalendar: new Date(),
     activeProducts: [],
     activePage: "pending",
-    rejectionReasons: "",
+    rejectForm: {
+      rejectionReasons: "xxxx",
+    },
     paymentId: 0,
   };
 
-  inputHandler = (e, field) => {
-    this.setState({ [field]: e.target.value });
+  inputHandler = (e, field, form) => {
+    let { value } = e.target;
+    this.setState({
+      [form]: {
+        ...this.state[form],
+        [field]: value,
+      },
+    });
+    console.log(e.target);
+  };
+
+  viewImageHandler = (idx) => {
+    this.setState({
+      viewImage: true,
+    });
   };
 
   getTransactionCompleted = () => {
@@ -32,7 +48,7 @@ class AdminPayment extends React.Component {
     })
       .then((res) => {
         this.setState({ transactionCompleted: res.data });
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -71,11 +87,10 @@ class AdminPayment extends React.Component {
 
   renderTransactionList = () => {
     const { activePage } = this.state;
-    if (activePage == "completed") {
+    if (activePage === "completed") {
       // console.log(this.state.transactionCompleted);
       return this.state.transactionCompleted.map((val, idx) => {
         const {
-          id,
           users,
           grandTotalPrice,
           status,
@@ -151,11 +166,10 @@ class AdminPayment extends React.Component {
           </>
         );
       });
-    } else if (activePage == "rejected") {
+    } else if (activePage === "rejected") {
       // console.log(this.state.transactionCompleted);
       return this.state.transactionRejected.map((val, idx) => {
         const {
-          id,
           users,
           grandTotalPrice,
           status,
@@ -273,8 +287,16 @@ class AdminPayment extends React.Component {
                   currency: "IDR",
                 }).format(grandTotalPrice)}{" "}
               </td>
-              <td>{buktiTransfer}</td>
               <td>{status}</td>
+              <td>
+                <img
+                  onClick={this.viewImageHandler}
+                  style={{ width: "100px" }}
+                  src="https://media.karousell.com/media/photos/products/2017/11/27/bukti_transfer_1511770644_d1d5a6a2.jpg"
+                  alt=""
+                />
+                {console.log(buktiTransfer)}
+              </td>
               <td align="right">
                 {" "}
                 <Button
@@ -340,6 +362,15 @@ class AdminPayment extends React.Component {
                   </span>
                 </h6>
               </td>
+              <td colSpan={4}>
+                {/* <h6>Bukti Transfer :</h6>
+                <span>
+                  <img
+                    src="https://media.karousell.com/media/photos/products/2017/11/27/bukti_transfer_1511770644_d1d5a6a2.jpg"
+                    alt=""
+                  />
+                </span> */}
+              </td>
             </tr>
           </>
         );
@@ -348,7 +379,7 @@ class AdminPayment extends React.Component {
   };
 
   confirmPayment = (id) => {
-    Axios.patch(`${API_URL}/transactions/${id}`, {
+    Axios.put(`${API_URL}/transactions/accept/${id}`, {
       status: "completed",
       completionDate: this.state.dateCalendar.toLocaleDateString(),
     })
@@ -372,9 +403,10 @@ class AdminPayment extends React.Component {
   };
 
   addRejectionReason = () => {
-    console.log(this.state.rejectionReason);
-    Axios.patch(`${API_URL}/transactions/${this.state.paymentId}`, {
-      rejectionReason: this.state.rejectionReason,
+    console.log(this.state.rejectForm.rejectionReasons);
+    Axios.put(`${API_URL}/transactions/reject/${this.state.paymentId}`, {
+      rejectionReason: this.state.rejectForm.rejectionReasons,
+      status: "rejected",
     })
       .then((res) => {
         swal("Success!", "Rejection reason has been recorded", "success");
@@ -392,6 +424,10 @@ class AdminPayment extends React.Component {
     this.setState({ modalOpen: !this.state.modalOpen });
   };
 
+  toggleModalBukti = () => {
+    this.setState({ viewImage: !this.state.viewImage });
+  };
+
   componentDidMount() {
     this.getTransactionCompleted();
     this.getTransactionPending();
@@ -407,28 +443,28 @@ class AdminPayment extends React.Component {
           </caption>
           <div className="d-flex flex-row">
             <Button
-              className={`${
-                this.state.activePage == "pending" ? "active" : null
+              className="ml-3"
+              type={`${
+                this.state.activePage === "pending" ? "contained" : "outlined"
               }`}
-              type="outlined"
               onClick={() => this.setState({ activePage: "pending" })}
             >
               Pending
             </Button>
             <Button
-              className={`ml-3 ${
-                this.state.activePage == "completed" ? "active" : null
+              className="ml-3"
+              type={`${
+                this.state.activePage === "completed" ? "contained" : "outlined"
               }`}
-              type="outlined"
               onClick={() => this.setState({ activePage: "completed" })}
             >
               Completed
             </Button>
             <Button
-              className={`ml-3 ${
-                this.state.activePage == "rejected" ? "active" : null
+              className="ml-3"
+              type={`${
+                this.state.activePage === "rejected" ? "contained" : "outlined"
               }`}
-              type="outlined"
               onClick={() => this.setState({ activePage: "rejected" })}
             >
               Rejected
@@ -442,9 +478,12 @@ class AdminPayment extends React.Component {
                 <th>User ID</th>
                 <th>Total Price</th>
                 <th>Status</th>
-                <th>Bukti Transfer</th>
-                {this.state.activePage == "pending" ? (
-                  <th colSpan={2}>Action</th>
+
+                {this.state.activePage === "pending" ? (
+                  <>
+                    <th>Bukti Transfer</th>
+                    <th colSpan={2}>Action</th>
+                  </>
                 ) : null}
               </tr>
             </thead>
@@ -465,7 +504,10 @@ class AdminPayment extends React.Component {
             <div className="row">
               <div className="col-12 mt-3">
                 <textarea
-                  onChange={(e) => this.inputHandler(e, "rejectionReasons")}
+                  value={this.state.rejectForm.rejectionReasons}
+                  onChange={(e) =>
+                    this.inputHandler(e, "rejectionReasons", "rejectForm")
+                  }
                   style={{ resize: "none" }}
                   placeholder="Description"
                   className="custom-text-input"
@@ -489,6 +531,28 @@ class AdminPayment extends React.Component {
                   Save
                 </Button>
               </div>
+            </div>
+          </ModalBody>
+        </Modal>
+        <Modal
+          toggle={this.toggleModalBukti}
+          isOpen={this.state.viewImage}
+          className="edit-modal"
+          // size="lg"
+        >
+          <ModalHeader toggle={this.toggleModalBukti}>
+            <caption>
+              <h3>Bukti Transfer</h3>
+            </caption>
+          </ModalHeader>
+          <ModalBody className="justify-content-center">
+            <div className="justify-content-center">
+              <img
+                className="center"
+                style={{ width: "460px" }}
+                src="https://media.karousell.com/media/photos/products/2017/11/27/bukti_transfer_1511770644_d1d5a6a2.jpg"
+                alt=""
+              />
             </div>
           </ModalBody>
         </Modal>

@@ -10,6 +10,7 @@ import DoctorCard from "../../components/Cards/DoctorCard.tsx";
 import Button from "../../components/Buttons/Button";
 import bg1 from "../../assets/images/banner/bg1.png";
 import ArticleCard from "../../components/Cards/ArticleCard";
+import VaccineCard from "../../components/Cards/VaccineCard.tsx";
 
 const dummyArticles = [
   {
@@ -35,12 +36,39 @@ const dummyArticles = [
 class Home extends React.Component {
   state = {
     doctorList: [],
+    vaccineList: [],
     modalOpen: false,
+  };
+
+  getVaccineList = () => {
+    Axios.get(`${API_URL}/vaccines/home`)
+      .then((res) => {
+        this.setState({ vaccineList: res.data });
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  renderVaccine = () => {
+    return this.state.vaccineList.map((val) => {
+      console.log(val);
+      return (
+        <Link
+          className="vaccine-card col-md-4 col-lg-3 m-3"
+          to={`/vaccineDetails/${val.id}`}
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <VaccineCard data={val} className="m-2" />
+        </Link>
+      );
+    });
   };
 
   // kalo sudah pake springtools limit data jadi 3
   getDoctorList = () => {
-    Axios.get(`${API_URL}/doctors`)
+    Axios.get(`${API_URL}/doctors/home`)
       .then((res) => {
         this.setState({ doctorList: res.data });
         console.log(res);
@@ -67,6 +95,7 @@ class Home extends React.Component {
 
   componentDidMount() {
     this.getDoctorList();
+    this.getVaccineList();
   }
 
   renderArticle = () => {
@@ -176,7 +205,25 @@ class Home extends React.Component {
             </div>
           </div>
         </div>
-
+        {/* VACCINE */}
+        <div className="container section-margin generic-margin">
+          <div className="section-intro text-center pb-90px">
+            {/* <img
+              className="section-intro-img"
+              src="https://cdn1.iconfinder.com/data/icons/medical-2-19/512/medical-healthcare-hospital-26-64.png"
+              alt=""
+            /> */}
+            <h2>Find Your Vaccine</h2>
+            <p>
+              immunisations are the best tool to prevent the transmission of
+              diseases. it can be live attenuated immunisations and inactivated
+              immunisations.
+            </p>
+          </div>
+          <div className="row generic-margin justify-content-center">
+            {this.renderVaccine()}
+          </div>
+        </div>
         {/* DOCTOR */}
         <div className="container section-margin generic-margin">
           <div className="section-intro text-center pb-90px">

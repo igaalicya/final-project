@@ -111,11 +111,14 @@ class AdminVaccine extends React.Component {
   addVaccineHandler = () => {
     let formData = new FormData();
 
-    formData.append(
-      "file",
-      this.state.selectedFile,
-      this.state.selectedFile.name
-    );
+    if (this.state.selectedFile) {
+      formData.append(
+        "file",
+        this.state.selectedFile,
+        this.state.selectedFile.name
+      );
+    }
+
     formData.append("vaccinesData", JSON.stringify(this.state.createForm));
 
     Axios.post(`${API_URL}/vaccines`, formData)
@@ -132,7 +135,6 @@ class AdminVaccine extends React.Component {
             image: "",
             stock: 0,
           },
-          selectedFile: null,
         });
         this.getVaccineList();
       })
@@ -146,7 +148,7 @@ class AdminVaccine extends React.Component {
       editForm: {
         ...this.state.VaccineList[idx],
       },
-      selectedFile: this.state.VaccineList[idx].image,
+      // selectedFile: this.state.VaccineList[idx].image,
       modalOpen: true,
     });
     console.log(this.state.selectedFile);
@@ -154,11 +156,14 @@ class AdminVaccine extends React.Component {
 
   editVaccineHandler = () => {
     let formData = new FormData();
-    formData.append(
-      "file",
-      this.state.selectedFile,
-      this.state.selectedFile.name
-    );
+    if (this.state.selectedFile) {
+      formData.append(
+        "file",
+        this.state.selectedFile,
+        this.state.selectedFile.name
+      );
+    }
+
     formData.append("vaccinesData", JSON.stringify(this.state.editForm));
 
     Axios.put(`${API_URL}/vaccines/edit/${this.state.editForm.id}`, formData)
@@ -263,7 +268,9 @@ class AdminVaccine extends React.Component {
               <input
                 type="file"
                 name="Image"
-                onChange={this.fileChangeHandler}
+                onChange={(e) => {
+                  this.fileChangeHandler(e, "selectedFile");
+                }}
               />
             </div>
             <div className="col-12 mt-3">
@@ -345,10 +352,18 @@ class AdminVaccine extends React.Component {
                 />
               </div>
               <div className="col-12 mt-3">
+                <img
+                  alt="..."
+                  className="ml-4"
+                  style={{ width: "30%" }}
+                  src={this.state.editForm.image}
+                />
                 <input
                   type="file"
                   name="Image"
-                  onChange={this.fileChangeHandler}
+                  onChange={(e) => {
+                    this.fileChangeHandler(e, "selectedFile");
+                  }}
                 />
               </div>
               <div className="col-12 mt-3">

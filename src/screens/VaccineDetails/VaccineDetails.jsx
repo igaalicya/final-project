@@ -183,26 +183,39 @@ class VaccineDetails extends React.Component {
                         </p>
                       </Col>
                     </Row>
-                    <Row className="justify-content-center">
-                      <Button
-                        onClick={this.addToWishlistHandler}
-                        className="m-2"
-                        type="contained"
-                        value="buy"
-                      >
-                        Add To Wishlist
-                      </Button>
-                      <Button
-                        onClick={this.addToCartHandler}
-                        className="m-2"
-                        type="contained"
-                        value="buy"
-                      >
-                        {this.state.vaccineData.stock > 0
-                          ? "Add To Cart"
-                          : "Sold Out"}
-                      </Button>
-                    </Row>
+                    {this.props.user.username ? (
+                      <Row className="justify-content-center">
+                        <Button
+                          onClick={this.addToWishlistHandler}
+                          className="m-2"
+                          type="contained"
+                          value="buy"
+                        >
+                          Add To Wishlist
+                        </Button>
+                        {this.state.vaccineData.stock > 0 ? (
+                          <Button
+                            onClick={this.addToCartHandler}
+                            className="m-2"
+                            type="contained"
+                            value="buy"
+                          >
+                            Add To Cart
+                          </Button>
+                        ) : (
+                          <Button
+                            // onClick={this.addToCartHandler}
+                            className="m-2"
+                            type="disabled"
+                            value="buy"
+                          >
+                            Sold Out
+                          </Button>
+                        )}
+                      </Row>
+                    ) : (
+                      <Row className="mt-5"></Row>
+                    )}
                   </div>
                 </div>
               </Card>

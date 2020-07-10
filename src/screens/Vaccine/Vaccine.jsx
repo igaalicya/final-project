@@ -44,7 +44,7 @@ class Vaccine extends React.Component {
   render() {
     return (
       <div>
-        <div className="doctor-area">
+        <div className="vaccine-area">
           <div className="container p-0">
             <div className="row justify-content-center mb-5 pb-2">
               <div className="col-md-8 text-center">

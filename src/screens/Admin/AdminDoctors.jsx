@@ -16,7 +16,7 @@ class AdminDoctors extends React.Component {
       specialist: "",
       address: "",
       phone: "",
-      desc: "",
+      description: "",
     },
     editForm: {
       id: 0,
@@ -25,10 +25,11 @@ class AdminDoctors extends React.Component {
       specialist: "",
       address: "",
       phone: "",
-      desc: "",
+      description: "",
     },
     activeUsers: [],
     modalOpen: false,
+    selectedFile: null,
   };
 
   getDoctorList = () => {
@@ -100,8 +101,21 @@ class AdminDoctors extends React.Component {
     });
   };
 
+  fileChangeHandler = (e) => {
+    this.setState({ selectedFile: e.target.files[0] });
+  };
+
   addDoctorHandler = () => {
-    Axios.post(`${API_URL}/doctors`, this.state.createForm)
+    let formData = new FormData();
+
+    formData.append(
+      "file",
+      this.state.selectedFile,
+      this.state.selectedFile.name
+    );
+    formData.append("doctorsData", JSON.stringify(this.state.createForm));
+
+    Axios.post(`${API_URL}/doctors`, formData)
       .then((res) => {
         swal("Success", "Doctor Data has been added to the list", "success");
         this.getDoctorList();
@@ -112,7 +126,7 @@ class AdminDoctors extends React.Component {
             specialist: "",
             address: "",
             phone: "",
-            desc: "",
+            description: "",
           },
         });
         this.getDoctorList();
@@ -132,10 +146,15 @@ class AdminDoctors extends React.Component {
   };
 
   editDoctorHandler = () => {
-    Axios.put(
-      `${API_URL}/doctors/${this.state.editForm.id}`,
-      this.state.editForm
-    )
+    let formData = new FormData();
+    formData.append(
+      "file",
+      this.state.selectedFile,
+      this.state.selectedFile.name
+    );
+    formData.append("doctorsData", JSON.stringify(this.state.editForm));
+
+    Axios.put(`${API_URL}/doctors/edit/${this.state.editForm.id}`, formData)
       .then((res) => {
         swal("Success!", "Doctor data has been edited", "success");
         this.setState({ modalOpen: false });
@@ -226,16 +245,18 @@ class AdminDoctors extends React.Component {
               />
             </div>
             <div className="col-12 mt-3">
-              <TextField
-                value={this.state.createForm.image}
-                placeholder="Doctor's Photo"
-                onChange={(e) => this.inputHandler(e, "image", "createForm")}
+              <input
+                type="file"
+                name="Image"
+                onChange={this.fileChangeHandler}
               />
             </div>
             <div className="col-12 mt-3">
               <textarea
-                value={this.state.createForm.desc}
-                onChange={(e) => this.inputHandler(e, "desc", "createForm")}
+                value={this.state.createForm.description}
+                onChange={(e) =>
+                  this.inputHandler(e, "description", "createForm")
+                }
                 style={{ resize: "none" }}
                 placeholder="Description"
                 className="custom-text-input"
@@ -301,17 +322,17 @@ class AdminDoctors extends React.Component {
               </div>
               <div className="col-12 mt-3">
                 <input
-                  type="text"
-                  className="custom-text-input h-100 pl-3"
-                  value={this.state.editForm.image}
-                  placeholder="Doctor's Photos"
-                  onChange={(e) => this.inputHandler(e, "image", "editForm")}
+                  type="file"
+                  name="Image"
+                  onChange={this.fileChangeHandler}
                 />
               </div>
               <div className="col-12 mt-3">
                 <textarea
-                  value={this.state.editForm.desc}
-                  onChange={(e) => this.inputHandler(e, "desc", "editForm")}
+                  value={this.state.editForm.description}
+                  onChange={(e) =>
+                    this.inputHandler(e, "description", "editForm")
+                  }
                   style={{ resize: "none" }}
                   placeholder="Description"
                   className="custom-text-input"

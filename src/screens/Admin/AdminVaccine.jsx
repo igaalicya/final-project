@@ -132,6 +132,7 @@ class AdminVaccine extends React.Component {
             image: "",
             stock: 0,
           },
+          selectedFile: null,
         });
         this.getVaccineList();
       })
@@ -145,15 +146,22 @@ class AdminVaccine extends React.Component {
       editForm: {
         ...this.state.VaccineList[idx],
       },
+      selectedFile: this.state.VaccineList[idx].image,
       modalOpen: true,
     });
+    console.log(this.state.selectedFile);
   };
 
   editVaccineHandler = () => {
-    Axios.put(
-      `${API_URL}/vaccines/${this.state.editForm.id}`,
-      this.state.editForm
-    )
+    let formData = new FormData();
+    formData.append(
+      "file",
+      this.state.selectedFile,
+      this.state.selectedFile.name
+    );
+    formData.append("vaccinesData", JSON.stringify(this.state.editForm));
+
+    Axios.put(`${API_URL}/vaccines/edit/${this.state.editForm.id}`, formData)
       .then((res) => {
         swal("Success!", "Vaccine data has been edited", "success");
         this.setState({ modalOpen: false });
@@ -338,11 +346,9 @@ class AdminVaccine extends React.Component {
               </div>
               <div className="col-12 mt-3">
                 <input
-                  type="text"
-                  className="custom-text-input h-100 pl-3"
-                  value={this.state.editForm.image}
-                  placeholder="Image"
-                  onChange={(e) => this.inputHandler(e, "image", "editForm")}
+                  type="file"
+                  name="Image"
+                  onChange={this.fileChangeHandler}
                 />
               </div>
               <div className="col-12 mt-3">

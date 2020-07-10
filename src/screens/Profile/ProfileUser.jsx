@@ -12,21 +12,23 @@ class ProfileUser extends React.Component {
     userData: {
       username: "",
       fullName: "",
-      address: "",
+      userAddress: {},
       password: "",
       email: "",
       role: "",
       id: 0,
     },
-    editForm: {
-      username: "",
-      fullName: "",
-      address: "",
-      password: "",
-      email: "",
-      role: "",
-      id: 0,
-    },
+    // editForm: {
+    //   username: "",
+    //   fullName: "",
+    //   // address: "",
+    //   password: "",
+    //   email: "",
+    //   role: "",
+    //   id: 0,
+    // },
+    // userData: {},
+    editForm: {},
     modalOpen: false,
   };
 
@@ -86,7 +88,7 @@ class ProfileUser extends React.Component {
   }
 
   render() {
-    const { fullName, address, email } = this.state.userData;
+    const { fullName, userAddress, email } = this.state.userData;
     return (
       <div style={{ display: "block" }}>
         <div className="container-profile">
@@ -107,7 +109,9 @@ class ProfileUser extends React.Component {
                     <h3>{fullName}</h3>
                     {/* <h6 className="text-secondary">{username}</h6> */}
                     <h6 className="">{email}</h6>
-                    <h6 className="font-weight-light mt-4">{address}</h6>
+                    <h6 className="font-weight-light mt-4">
+                      {userAddress.shippingAddress}
+                    </h6>
                   </div>
                   <div className="py-3 text-center">
                     <Row className="justify-content-center">
@@ -156,7 +160,7 @@ class ProfileUser extends React.Component {
                   onChange={(e) => this.inputHandler(e, "fullName", "editForm")}
                 />
               </div>
-              <div className="col-12 mt-3">
+              {/* <div className="col-12 mt-3">
                 <input
                   type="text"
                   className="custom-text-input h-100 pl-3"
@@ -164,7 +168,7 @@ class ProfileUser extends React.Component {
                   placeholder="Address"
                   onChange={(e) => this.inputHandler(e, "address", "editForm")}
                 />
-              </div>
+              </div> */}
               <div className="col-12 mt-3">
                 <input
                   type="text"

@@ -10,11 +10,12 @@ class AdminPayment extends React.Component {
   state = {
     transactionCompleted: [],
     transactionPending: [],
+    transactionRejected: [],
     transactionList: [],
     modalOpen: false,
     dateCalendar: new Date(),
     activeProducts: [],
-    activePage: "completed",
+    activePage: "pending",
     rejectionReasons: "",
     paymentId: 0,
   };
@@ -46,6 +47,21 @@ class AdminPayment extends React.Component {
     })
       .then((res) => {
         this.setState({ transactionPending: res.data });
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  getTransactionRejected = () => {
+    Axios.get(`${API_URL}/transactions/status`, {
+      params: {
+        status: "rejected",
+      },
+    })
+      .then((res) => {
+        this.setState({ transactionRejected: res.data });
         console.log(res.data);
       })
       .catch((err) => {
@@ -135,16 +151,97 @@ class AdminPayment extends React.Component {
           </>
         );
       });
+    } else if (activePage == "rejected") {
+      // console.log(this.state.transactionCompleted);
+      return this.state.transactionRejected.map((val, idx) => {
+        const {
+          id,
+          users,
+          grandTotalPrice,
+          status,
+          transactionDate,
+          completionDate,
+        } = val;
+        console.log(val);
+        return (
+          <>
+            <tr
+              className="text-center"
+              onClick={() => {
+                if (this.state.activeProducts.includes(idx)) {
+                  this.setState({
+                    activeProducts: [
+                      ...this.state.activeProducts.filter(
+                        (item) => item !== idx
+                      ),
+                    ],
+                  });
+                } else {
+                  this.setState({
+                    activeProducts: [...this.state.activeProducts, idx],
+                  });
+                }
+              }}
+            >
+              <td> {idx + 1} </td>
+              <td> {users.username} </td>
+              <td>
+                {" "}
+                {new Intl.NumberFormat("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                }).format(grandTotalPrice)}{" "}
+              </td>
+              <td>{status}</td>
+            </tr>
+            <tr
+              className={`collapse-item ${
+                this.state.activeProducts.includes(idx) ? "active" : null
+              }`}
+            >
+              <td colSpan={1}></td>
+              <td className="text-left" colSpan={2}>
+                <h6 className="mt-2">
+                  Transaction Date:
+                  <span style={{ fontWeight: "normal" }}>
+                    {" "}
+                    {transactionDate}
+                  </span>
+                </h6>
+                <h6>
+                  Completion Date:
+                  <span
+                    style={{ fontWeight: "normal" }}
+                    className="text-justify"
+                  >
+                    {completionDate}
+                  </span>
+                </h6>
+                <h6>
+                  Total Price:
+                  <span
+                    style={{ fontWeight: "normal" }}
+                    className="text-justify"
+                  >
+                    {grandTotalPrice}
+                  </span>
+                </h6>
+              </td>
+            </tr>
+          </>
+        );
+      });
     } else {
       // console.log(this.state.transactionPending);
       return this.state.transactionPending.map((val, idx) => {
         const {
           id,
-          userId,
+          users,
           grandTotalPrice,
           status,
           transactionDate,
           completionDate,
+          buktiTransfer,
         } = val;
 
         return (
@@ -168,7 +265,7 @@ class AdminPayment extends React.Component {
               }}
             >
               <td> {idx + 1} </td>
-              <td> {userId} </td>
+              <td> {users.username} </td>
               <td>
                 {" "}
                 {new Intl.NumberFormat("id-ID", {
@@ -176,6 +273,7 @@ class AdminPayment extends React.Component {
                   currency: "IDR",
                 }).format(grandTotalPrice)}{" "}
               </td>
+              <td>{buktiTransfer}</td>
               <td>{status}</td>
               <td align="right">
                 {" "}
@@ -297,6 +395,7 @@ class AdminPayment extends React.Component {
   componentDidMount() {
     this.getTransactionCompleted();
     this.getTransactionPending();
+    this.getTransactionRejected();
   }
 
   render() {
@@ -304,20 +403,11 @@ class AdminPayment extends React.Component {
       <div className="container admin-container">
         <div className="dashboard">
           <caption className="p-3">
-            <h2>Payment</h2>
+            <h2>Payment {this.state.activePage}</h2>
           </caption>
           <div className="d-flex flex-row">
             <Button
-              className={` ${
-                this.state.activePage == "completed" ? "active" : null
-              }`}
-              type="contained"
-              onClick={() => this.setState({ activePage: "completed" })}
-            >
-              Completed
-            </Button>
-            <Button
-              className={`ml-3 ${
+              className={`${
                 this.state.activePage == "pending" ? "active" : null
               }`}
               type="outlined"
@@ -325,7 +415,26 @@ class AdminPayment extends React.Component {
             >
               Pending
             </Button>
+            <Button
+              className={`ml-3 ${
+                this.state.activePage == "completed" ? "active" : null
+              }`}
+              type="outlined"
+              onClick={() => this.setState({ activePage: "completed" })}
+            >
+              Completed
+            </Button>
+            <Button
+              className={`ml-3 ${
+                this.state.activePage == "rejected" ? "active" : null
+              }`}
+              type="outlined"
+              onClick={() => this.setState({ activePage: "rejected" })}
+            >
+              Rejected
+            </Button>
           </div>
+          {/* <h3>{this.state.activePage}</h3> */}
           <table className="admin-table text-center mt-5">
             <thead>
               <tr className="text-center">
@@ -333,6 +442,7 @@ class AdminPayment extends React.Component {
                 <th>User ID</th>
                 <th>Total Price</th>
                 <th>Status</th>
+                <th>Bukti Transfer</th>
                 {this.state.activePage == "pending" ? (
                   <th colSpan={2}>Action</th>
                 ) : null}

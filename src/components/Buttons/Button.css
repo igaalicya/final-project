@@ -89,3 +89,13 @@
   background-color: #dc3545;
   border-color: #dc3545;
 }
+
+.custom-btn-disabled {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+
+.custom-btn-disabled:hover {
+  cursor: default;
+}

@@ -32,6 +32,8 @@ import ArticleDetails from "./screens/ArticleDetails/ArticleDetails";
 import AdminArticles from "./screens/Admin/AdminArticles";
 import Wishlist from "./screens/Wishlist/Wishlist";
 import AdminPayment from "./screens/Admin/AdminPayment";
+import ForgetPassword from "./screens/ForgetPassword/ForgetPassword";
+import ResetPassword from "./screens/ForgetPassword/ResetPassword";
 
 const cookieObj = new Cookie();
 
@@ -82,6 +84,12 @@ class App extends React.Component {
           <Route exact path="/about" component={About} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/forgetPassword" component={ForgetPassword} />
+          <Route
+            exact
+            path="/resetPassword/:userId/:token"
+            component={ResetPassword}
+          />
           <Route
             exact
             path="/profileDoctor/:doctorId"

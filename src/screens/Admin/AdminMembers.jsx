@@ -172,6 +172,7 @@ class AdminMembers extends React.Component {
               <div className="col-12">
                 <input
                   type="text"
+                  className="custom-text-input h-100 pl-3"
                   value={this.state.editForm.username}
                   placeholder="Username"
                   onChange={(e) => this.inputHandler(e, "username", "editForm")}
@@ -180,6 +181,7 @@ class AdminMembers extends React.Component {
               <div className="col-12 mt-3">
                 <input
                   type="text"
+                  className="custom-text-input h-100 pl-3"
                   value={this.state.editForm.fullName}
                   placeholder="Full Name"
                   onChange={(e) => this.inputHandler(e, "fullName", "editForm")}
@@ -188,6 +190,7 @@ class AdminMembers extends React.Component {
               <div className="col-12 mt-3">
                 <input
                   type="text"
+                  className="custom-text-input h-100 pl-3"
                   value={this.state.editForm.email}
                   placeholder="Email"
                   onChange={(e) => this.inputHandler(e, "email", "editForm")}
@@ -196,6 +199,7 @@ class AdminMembers extends React.Component {
               <div className="col-12 mt-3">
                 <input
                   type="text"
+                  className="custom-text-input h-100 pl-3"
                   value={this.state.editForm.password}
                   placeholder="Password"
                   onChange={(e) => this.inputHandler(e, "password", "editForm")}

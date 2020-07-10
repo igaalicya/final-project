@@ -181,20 +181,27 @@ class Cart extends React.Component {
   };
 
   confirmPayment = () => {
-    Axios.post(`${API_URL}/transactions`, {
-      ...this.state.checkoutData,
-      grandTotalPrice: this.renderTotalPrice(),
-      doctorId: this.state.doctorId,
-    })
+    Axios.post(
+      `${API_URL}/transactions/${this.state.doctorId}/${this.props.user.id}`,
+      {
+        ...this.state.checkoutData,
+        grandTotalPrice: this.renderTotalPrice(),
+        doctorId: this.state.doctorId,
+      }
+    )
       .then((res) => {
         this.state.cartData.map((val) => {
-          Axios.post(`${API_URL}/transactionDetails`, {
-            transactionId: res.data.id,
-            vaccinesId: val.vaccinesId,
-            price: val.vaccines.price,
-            quantity: val.quantity,
-            totalPrice: val.vaccine.price * val.quantity,
-          })
+          console.log(res.data.id);
+          Axios.post(
+            `${API_URL}/transactions/details/${val.vaccines.id}/${res.data.id}`,
+            {
+              // transactionsId: res.data.id,
+              // vaccinesId: val.vaccines.id,
+              price: val.vaccines.price,
+              quantity: val.quantity,
+              totalPrice: val.vaccines.price * val.quantity,
+            }
+          )
             .then((res) => {
               console.log(res);
               swal("Thank you!", "Your Transaction is Success", "success");

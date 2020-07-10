@@ -31,8 +31,8 @@ class VaccineCard extends React.Component<VaccineCardProps> {
               <img
                 style={{ objectFit: "contain" }}
                 alt="..."
-                className="vaccine-image mt-3"
-                src="https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1527750304/ge2j5wjtigw1rdc2yvji.jpg"
+                className="vaccine-image"
+                src={this.props.data.image}
               />
             </div>
             <div className="col-lg-8 col-md-6">

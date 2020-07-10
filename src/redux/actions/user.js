@@ -251,3 +251,23 @@ export const changePasswordHandler = (passwordData) => {
       });
   };
 };
+
+export const forgetPasswordHandler = (email) => {
+  return (dispatch) => {
+    Axios.post(`${API_URL}/users/`, {
+      email,
+    })
+      .then((res) => {
+        console.log(res.data);
+        dispatch({
+          type: ON_LOGIN_SUCCESS,
+          payload: res.data,
+        });
+        swal("Berhasil", "Password berhasil diubah", "success");
+      })
+      .catch((err) => {
+        console.log(err);
+        swal("Gagal", "password gagal diubah", "error");
+      });
+  };
+};

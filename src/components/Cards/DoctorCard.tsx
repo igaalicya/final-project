@@ -7,7 +7,7 @@ import "./DoctorCard.css";
 interface DoctorCardData {
   id?: number;
   fullName?: string;
-  address?: number;
+  address?: string;
   image?: string;
   specialist?: string;
   description?: string;

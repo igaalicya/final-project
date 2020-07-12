@@ -64,15 +64,20 @@ class History extends React.Component {
       this.state.selectedFile,
       this.state.selectedFile.name
     );
-    // formData.append(
-    //   "transactionsData",
-    //   JSON.stringify(this.state.transactionData)
-    // );
+    formData.append(
+      "transactionsData",
+      JSON.stringify(this.state.transactionData)
+    );
 
-    Axios.put(`${API_URL}/transactions/uploadBukti/${id}`, formData)
+    Axios.put(
+      `${API_URL}/transactions/uploadBukti/${this.state.transactionData.id}`,
+      formData
+    )
       .then((res) => {
         console.log(res.data);
         swal("Success!", "Your data has been uploaded", "success");
+        this.setState({ modalOpen: false });
+        this.getHistoryData();
       })
       .catch((err) => {
         console.log(err);
@@ -216,12 +221,21 @@ class History extends React.Component {
                         </h6>
                       </>
                     )}
-                    {completionDate === "" ? (
+                    {status === "pending" ? (
                       <Button
                         className="mt-2"
                         onClick={() => this.uploadBuktiBtnHandler(idx)}
                       >
                         Upload Bukti Transfer
+                      </Button>
+                    ) : null}
+
+                    {status === "rejected" ? (
+                      <Button
+                        className="mt-2"
+                        onClick={() => this.uploadBuktiBtnHandler(idx)}
+                      >
+                        Re-upload Bukti Transfer
                       </Button>
                     ) : null}
                   </div>

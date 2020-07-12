@@ -11,6 +11,9 @@ class AdminVaccine extends React.Component {
   state = {
     selectedFile: null,
     VaccineList: [],
+    categoryList: [],
+    categoriesId: 4,
+    categoriesIdEdit: 0,
     createForm: {
       vaccineName: "",
       price: "",
@@ -19,6 +22,7 @@ class AdminVaccine extends React.Component {
       brand: "",
       image: "",
       stock: 0,
+      categories: {},
     },
     editForm: {
       id: 0,
@@ -29,9 +33,11 @@ class AdminVaccine extends React.Component {
       brand: "",
       image: "",
       stock: 0,
+      categories: {},
     },
     activeUsers: [],
     modalOpen: false,
+    categories: {},
   };
 
   getVaccineList = () => {
@@ -44,6 +50,20 @@ class AdminVaccine extends React.Component {
       });
   };
 
+  getCategories = () => {
+    Axios.get(`${API_URL}/categories/id`, {
+      params: {
+        id: this.state.categoriesId,
+      },
+    })
+      .then((res) => {
+        this.setState({ categories: res.data });
+        console.log(this.state.categories);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   renderVaccineList = () => {
     return this.state.VaccineList.map((val, idx) => {
       const { vaccineName, price, ageOfDose, brand, stock } = val;
@@ -108,7 +128,31 @@ class AdminVaccine extends React.Component {
     this.setState({ selectedFile: e.target.files[0] });
   };
 
+  getCategoriesList = () => {
+    Axios.get(`${API_URL}/categories`)
+      .then((res) => {
+        this.setState({ categoryList: res.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  optionData = () => {
+    return this.state.categoryList.map((val) => {
+      const { categoryName, id } = val;
+      return <option value={id}>{categoryName}</option>;
+    });
+  };
+
   addVaccineHandler = () => {
+    this.setState({
+      createForm: {
+        ...this.state.createForm,
+        categoriesId: this.state.categoriesId,
+      },
+    });
+
     let formData = new FormData();
 
     if (this.state.selectedFile) {
@@ -121,7 +165,7 @@ class AdminVaccine extends React.Component {
 
     formData.append("vaccinesData", JSON.stringify(this.state.createForm));
 
-    Axios.post(`${API_URL}/vaccines`, formData)
+    Axios.post(`${API_URL}/vaccines/${this.state.categoriesId}`, formData)
       .then((res) => {
         swal("Success", "Your items has been added to the list", "success");
         this.getVaccineList();
@@ -166,10 +210,13 @@ class AdminVaccine extends React.Component {
 
     formData.append("vaccinesData", JSON.stringify(this.state.editForm));
 
-    Axios.put(`${API_URL}/vaccines/edit/${this.state.editForm.id}`, formData)
+    Axios.put(
+      `${API_URL}/vaccines/edit/${this.state.editForm.id}/${this.state.categoriesIdEdit}`,
+      formData
+    )
       .then((res) => {
         swal("Success!", "Vaccine data has been edited", "success");
-        this.setState({ modalOpen: false });
+        this.setState({ modalOpen: false, categoriesIdEdit: 4 });
         this.getVaccineList();
       })
       .catch((err) => {
@@ -196,6 +243,8 @@ class AdminVaccine extends React.Component {
 
   componentDidMount() {
     this.getVaccineList();
+    this.getCategories();
+    this.getCategoriesList();
   }
 
   render() {
@@ -263,6 +312,20 @@ class AdminVaccine extends React.Component {
                 placeholder="Stock"
                 onChange={(e) => this.inputHandler(e, "stock", "createForm")}
               />
+            </div>
+            <div className="col-6 mt-3">
+              <select
+                value={this.state.categoriesId}
+                onChange={(e) =>
+                  this.setState({
+                    categoriesId: e.target.value,
+                  })
+                }
+                className="form-control"
+              >
+                {this.optionData()}
+              </select>
+              {console.log(this.state.categoriesId)}
             </div>
             <div className="col-12 mt-3">
               <input
@@ -350,6 +413,19 @@ class AdminVaccine extends React.Component {
                   className="custom-text-input h-100 pl-3"
                   onChange={(e) => this.inputHandler(e, "stock", "editForm")}
                 />
+              </div>
+              <div className="col-12 mt-3">
+                <select
+                  value={this.state.editForm.categories.id}
+                  onChange={(e) =>
+                    this.setState({
+                      categoriesIdEdit: e.target.value,
+                    })
+                  }
+                  className="form-control"
+                >
+                  {this.optionData()}
+                </select>
               </div>
               <div className="col-12 mt-3">
                 <img

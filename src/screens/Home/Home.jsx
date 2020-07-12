@@ -44,7 +44,7 @@ class Home extends React.Component {
     Axios.get(`${API_URL}/vaccines/home`)
       .then((res) => {
         this.setState({ vaccineList: res.data });
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -53,7 +53,7 @@ class Home extends React.Component {
 
   renderVaccine = () => {
     return this.state.vaccineList.map((val) => {
-      console.log(val);
+      // console.log(val);
       return (
         <Link
           className="vaccine-card col-md-4 col-lg-3 m-3"

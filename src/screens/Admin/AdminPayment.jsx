@@ -18,7 +18,7 @@ class AdminPayment extends React.Component {
     activeProducts: [],
     activePage: "pending",
     rejectForm: {
-      rejectionReasons: "xxxx",
+      rejectionReasons: "",
     },
     paymentId: 0,
   };
@@ -175,6 +175,7 @@ class AdminPayment extends React.Component {
           status,
           transactionDate,
           completionDate,
+          rejectionReason,
         } = val;
         console.log(val);
         return (
@@ -240,6 +241,31 @@ class AdminPayment extends React.Component {
                     {grandTotalPrice}
                   </span>
                 </h6>
+                {status === "rejected" ? (
+                  <>
+                    <h6>
+                      Rejection Reason:
+                      <span
+                        style={{ fontWeight: "normal" }}
+                        className="text-justify"
+                      >
+                        {" "}
+                        {rejectionReason}
+                      </span>
+                    </h6>
+                  </>
+                ) : (
+                  <>
+                    <h6>
+                      <span
+                        style={{ fontWeight: "normal" }}
+                        className="text-justify"
+                      >
+                        {" "}
+                      </span>
+                    </h6>
+                  </>
+                )}
               </td>
             </tr>
           </>
@@ -292,7 +318,7 @@ class AdminPayment extends React.Component {
                 <img
                   onClick={this.viewImageHandler}
                   style={{ width: "100px" }}
-                  src="https://media.karousell.com/media/photos/products/2017/11/27/bukti_transfer_1511770644_d1d5a6a2.jpg"
+                  src={buktiTransfer}
                   alt=""
                 />
                 {console.log(buktiTransfer)}

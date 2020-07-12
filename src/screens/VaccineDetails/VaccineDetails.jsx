@@ -33,9 +33,12 @@ class VaccineDetails extends React.Component {
     }).then((res) => {
       console.log(res.data);
       if (res.data.length > 0) {
-        Axios.patch(`${API_URL}/carts/${res.data[0].id}`, {
-          quantity: res.data[0].quantity + 1,
-        })
+        Axios.put(
+          `${API_URL}/carts/updateQuantity/${res.data[0].id}/${this.props.user.id}/${this.state.vaccineData.id}`,
+          {
+            quantity: res.data[0].quantity + 1,
+          }
+        )
           .then((res) => {
             swal(
               "Add to cart",

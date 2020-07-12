@@ -47,6 +47,7 @@ class Cart extends React.Component {
     this.getDoctorList();
     this.optionData();
     this.props.onFillCart(this.props.user.id);
+    this.renderDoctorName();
   }
 
   getCartData = () => {
@@ -145,10 +146,11 @@ class Cart extends React.Component {
     this.setState({
       modalOpen: true,
     });
+    this.renderDoctorName();
   };
 
   checkoutHandlder = () => {
-    console.log(this.state.delivery);
+    // console.log(this.state.delivery);
     const { cartData } = this.state;
     let totalPrice;
     return cartData.map((val, idx) => {
@@ -189,6 +191,7 @@ class Cart extends React.Component {
       }
     )
       .then((res) => {
+        this.renderDoctorName();
         this.state.cartData.map((val) => {
           console.log(res.data.id);
           Axios.post(
@@ -202,8 +205,23 @@ class Cart extends React.Component {
             }
           )
             .then((res) => {
-              console.log(res);
               swal("Thank you!", "Your Transaction is Success", "success");
+              if (val.vaccines.stock >= val.quantity) {
+                console.log(val.vaccines.stock);
+                // console.log(val.vaccines.stock - val.quantity);
+                Axios.put(`${API_URL}/vaccines/checkout/${val.vaccines.id}`, {
+                  stock: val.vaccines.stock - val.quantity,
+                  id: val.id,
+                })
+                  .then((res) => {
+                    console.log(res);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              } else {
+                swal("stok gudang kurang dari quanity", "warning");
+              }
               this.setState({
                 modalOpen: false,
                 checkoutData: {

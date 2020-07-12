@@ -26,10 +26,7 @@ class ChangePassword extends React.Component {
       newPassword: "",
       confirmNewPassword: "",
     },
-    userData: {
-      password: "",
-      id: 0,
-    },
+    userData: {},
   };
 
   inputHandler = (e, field, form) => {
@@ -42,11 +39,16 @@ class ChangePassword extends React.Component {
     });
   };
 
-  getOldPassword = () => {
-    Axios.get(`${API_URL}/users/${this.props.user.id}`)
+  getUserData = () => {
+    Axios.get(`${API_URL}/users/id`, {
+      params: {
+        id: this.props.user.id,
+      },
+    })
       .then((res) => {
         this.setState({ userData: res.data });
         console.log(this.state.userData.password);
+        console.log(this.state.userData);
       })
       .catch((err) => {
         console.log(err);
@@ -54,6 +56,35 @@ class ChangePassword extends React.Component {
   };
 
   changePassHandler = () => {
+    Axios.get(`${API_URL}/users/checkOldPassword/${this.props.user.id}`, {
+      params: {
+        password: this.state.editForm.oldPassword,
+      },
+    })
+
+      .then((res) => {
+        console.log(res);
+        Axios.put(`${API_URL}/users/changePassword/${this.props.user.id}`, {
+          password: this.state.editForm.newPassword,
+          username: this.props.user.username,
+          fullName: this.props.user.fullName,
+          email: this.props.user.email,
+          address: this.props.user.address,
+          role: this.props.user.role,
+        })
+          .then((res) => {
+            console.log(res);
+            swal("success", "Your password successfully changed", "success");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+        swal("error", "Wrong old password", "error");
+      });
+
     // Axios.patch(`${API_URL}/users/${this.props.user.id}`, {
     //   password: this.state.newPassword,
     // })
@@ -63,34 +94,34 @@ class ChangePassword extends React.Component {
     //   .catch((err) => {
     //     console.log(err);
     //   });
-    const {
-      oldPassword,
-      newPassword,
-      confirmNewPassword,
-    } = this.state.editForm;
-    console.log(this.state.editForm);
-    const { id, password } = this.state.userData;
-    if (oldPassword === password && newPassword === confirmNewPassword) {
-      let passwordData = {
-        newPassword,
-        id,
-      };
+    // const {
+    //   oldPassword,
+    //   newPassword,
+    //   confirmNewPassword,
+    // } = this.state.editForm;
+    // console.log(this.state.editForm);
+    // const { id, password } = this.state.userData;
+    // if (oldPassword === password && newPassword === confirmNewPassword) {
+    //   let passwordData = {
+    //     newPassword,
+    //     id,
+    //   };
 
-      this.props.onChangePassword(passwordData);
-    } else {
-      swal("Gagal", "Password gagal diubah", "error");
-    }
-    this.setState({
-      editForm: {
-        oldPassword: "",
-        newPassword: "",
-        confirmNewPassword: "",
-      },
-    });
+    //   this.props.onChangePassword(passwordData);
+    // } else {
+    //   swal("Gagal", "Password gagal diubah", "error");
+    // }
+    // this.setState({
+    //   editForm: {
+    //     oldPassword: "",
+    //     newPassword: "",
+    //     confirmNewPassword: "",
+    //   },
+    // });
   };
 
   componentDidMount() {
-    this.getOldPassword();
+    this.getUserData();
   }
 
   render() {

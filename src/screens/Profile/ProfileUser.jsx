@@ -12,7 +12,7 @@ class ProfileUser extends React.Component {
     userData: {
       username: "",
       fullName: "",
-      userAddress: {},
+      address: "",
       password: "",
       email: "",
       role: "",
@@ -67,7 +67,10 @@ class ProfileUser extends React.Component {
   };
 
   editUserHandler = () => {
-    Axios.put(`${API_URL}/users/${this.props.user.id}`, this.state.editForm)
+    Axios.put(
+      `${API_URL}/users/editProfileUser/${this.props.user.id}`,
+      this.state.editForm
+    )
       .then((res) => {
         swal("Success!", "Your data has been edited", "success");
         this.setState({ modalOpen: false });
@@ -88,7 +91,7 @@ class ProfileUser extends React.Component {
   }
 
   render() {
-    const { fullName, userAddress, email } = this.state.userData;
+    const { fullName, address, email } = this.state.userData;
 
     return (
       <div style={{ display: "block" }}>
@@ -110,10 +113,8 @@ class ProfileUser extends React.Component {
                     <h3>{fullName}</h3>
                     {/* <h6 className="text-secondary">{username}</h6> */}
                     <h6 className="">{email}</h6>
-                    {userAddress ? (
-                      <h6 className="font-weight-light mt-4">
-                        {userAddress.shippingAddress}
-                      </h6>
+                    {address ? (
+                      <h6 className="font-weight-light mt-4">{address}</h6>
                     ) : null}
                   </div>
                   <div className="py-3 text-center">
@@ -163,7 +164,7 @@ class ProfileUser extends React.Component {
                   onChange={(e) => this.inputHandler(e, "fullName", "editForm")}
                 />
               </div>
-              {/* <div className="col-12 mt-3">
+              <div className="col-12 mt-3">
                 <input
                   type="text"
                   className="custom-text-input h-100 pl-3"
@@ -171,7 +172,7 @@ class ProfileUser extends React.Component {
                   placeholder="Address"
                   onChange={(e) => this.inputHandler(e, "address", "editForm")}
                 />
-              </div> */}
+              </div>
               <div className="col-12 mt-3">
                 <input
                   type="text"

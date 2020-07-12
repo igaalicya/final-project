@@ -77,7 +77,7 @@ class Wishlist extends React.Component {
   };
 
   deleteHandler = (id) => {
-    Axios.delete(`${API_URL}/carts/${id}`)
+    Axios.delete(`${API_URL}/wishlists/${id}`)
       .then((res) => {
         console.log(res);
         this.getwishlistData();

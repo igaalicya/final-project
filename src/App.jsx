@@ -34,6 +34,8 @@ import Wishlist from "./screens/Wishlist/Wishlist";
 import AdminPayment from "./screens/Admin/AdminPayment";
 import ForgetPassword from "./screens/ForgetPassword/ForgetPassword";
 import ResetPassword from "./screens/ForgetPassword/ResetPassword";
+import AdminCategories from "./screens/Admin/AdminCategories";
+import AdminPackage from "./screens/Admin/AdminPackage";
 
 const cookieObj = new Cookie();
 
@@ -56,6 +58,8 @@ class App extends React.Component {
           <Route exact path="/admin/vaccine" component={AdminVaccine} />
           <Route exact path="/admin/article" component={AdminArticles} />
           <Route exact path="/admin/transaction" component={AdminPayment} />
+          <Route exact path="/admin/categories" component={AdminCategories} />
+          <Route exact path="/admin/package" component={AdminPackage} />
         </>
       );
     }

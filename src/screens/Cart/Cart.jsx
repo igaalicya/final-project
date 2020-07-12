@@ -431,7 +431,7 @@ class Cart extends React.Component {
             <div className="row d-flex justify-content-center">
               <div className="col-12 align-items-center">
                 <h5 className="mt-3">Customer : {this.props.user.fullName}</h5>
-                <h5 className="mt-3">Doctor: {this.renderDoctorName()}</h5>
+                {/* <h5 className="mt-3">Doctor: {this.renderDoctorName()}</h5> */}
                 <table className="admin-table text-center mt-3">
                   <thead>
                     <tr>

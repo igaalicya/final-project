@@ -1,10 +1,10 @@
 import React from "react";
 import "./AdminMembers.css";
-import { Modal, ModalHeader, ModalBody } from "reactstrap";
+import { Modal, ModalHeader, ModalBody, Table } from "reactstrap";
 import Axios from "axios";
 import { API_URL } from "../../constants/API";
 import swal from "sweetalert";
-import { Button } from "reactstrap";
+import Button from "../../components/Buttons/Button";
 import TextField from "../../components/TextField/TextField";
 
 class AdminVaccine extends React.Component {
@@ -66,7 +66,7 @@ class AdminVaccine extends React.Component {
   };
   renderVaccineList = () => {
     return this.state.VaccineList.map((val, idx) => {
-      const { vaccineName, price, ageOfDose, brand, stock } = val;
+      const { vaccineName, price, ageOfDose, brand, stock, id } = val;
       return (
         <>
           <tr
@@ -101,9 +101,9 @@ class AdminVaccine extends React.Component {
             </td>
             <td>
               <Button
-                onClick={() => this.deleteHandler(idx)}
-                className="w-80"
-                type="outlined"
+                onClick={() => this.deleteHandler(id)}
+                className="w-80 custom-btn-danger"
+                type="contained"
               >
                 Delete
               </Button>
@@ -149,7 +149,6 @@ class AdminVaccine extends React.Component {
     this.setState({
       createForm: {
         ...this.state.createForm,
-        categoriesId: this.state.categoriesId,
       },
     });
 
@@ -179,6 +178,7 @@ class AdminVaccine extends React.Component {
             image: "",
             stock: 0,
           },
+          selectedFile: null,
         });
         this.getVaccineList();
       })
@@ -192,10 +192,12 @@ class AdminVaccine extends React.Component {
       editForm: {
         ...this.state.VaccineList[idx],
       },
+      categoriesIdEdit: this.state.VaccineList[idx].categories.id,
       // selectedFile: this.state.VaccineList[idx].image,
       modalOpen: true,
     });
-    console.log(this.state.selectedFile);
+    console.log(this.state.VaccineList[idx]);
+    console.log(this.state.VaccineList[idx].categories);
   };
 
   editVaccineHandler = () => {
@@ -226,6 +228,7 @@ class AdminVaccine extends React.Component {
   };
 
   deleteHandler = (id) => {
+    console.log(id);
     Axios.delete(`${API_URL}/vaccines/${id}`)
       .then((res) => {
         swal("Success!", "Vaccine data has been deleted", "success");
@@ -254,7 +257,7 @@ class AdminVaccine extends React.Component {
           <caption className="p-3">
             <h2>Vaccine</h2>
           </caption>
-          <table className="admin-table text-center">
+          <Table hover className="text-center">
             <thead>
               <tr>
                 <th>No.</th>
@@ -267,7 +270,7 @@ class AdminVaccine extends React.Component {
               </tr>
             </thead>
             <tbody>{this.renderVaccineList()}</tbody>
-          </table>
+          </Table>
         </div>
         <div className="admin-form-container p-4">
           <caption className="mb-4 mt-2">
@@ -416,7 +419,7 @@ class AdminVaccine extends React.Component {
               </div>
               <div className="col-12 mt-3">
                 <select
-                  value={this.state.editForm.categories.id}
+                  value={this.state.categoriesIdEdit}
                   onChange={(e) =>
                     this.setState({
                       categoriesIdEdit: e.target.value,

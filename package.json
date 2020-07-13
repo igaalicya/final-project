@@ -17,6 +17,7 @@
     "@types/react-dom": "^16.9.8",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
+    "chart.js": "^2.9.3",
     "font-awesome": "^4.7.0",
     "react": "^16.13.1",
     "react-datepicker": "^3.0.0",

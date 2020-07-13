@@ -4,7 +4,7 @@ import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import Axios from "axios";
 import { API_URL } from "../../constants/API";
 import swal from "sweetalert";
-import { Button } from "reactstrap";
+import Button from "../../components/Buttons/Button";
 import TextField from "../../components/TextField/TextField";
 
 class AdminDoctors extends React.Component {
@@ -79,8 +79,8 @@ class AdminDoctors extends React.Component {
             <td>
               <Button
                 onClick={() => this.deleteHandler(id)}
-                className="w-80"
-                type="outlined"
+                className="w-80 custom-btn-danger"
+                type="contained"
               >
                 Delete
               </Button>

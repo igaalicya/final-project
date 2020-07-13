@@ -58,7 +58,7 @@ class AdminCategories extends React.Component {
             <td align="right">
               <Button
                 onClick={() => this.editBtnHandler(idx)}
-                className="w-80"
+                className="w-80 pr-4 pl-4"
                 type="contained"
               >
                 Edit

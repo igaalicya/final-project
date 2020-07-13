@@ -4,27 +4,25 @@ import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import Axios from "axios";
 import { API_URL } from "../../constants/API";
 import swal from "sweetalert";
-import { Button } from "reactstrap";
+import Button from "../../components/Buttons/Button";
 import TextField from "../../components/TextField/TextField";
 
 class AdminPackage extends React.Component {
   state = {
-    doctorList: [],
+    packageList: [],
     createForm: {
-      fullName: "",
+      packageName: "",
       image: "",
-      specialist: "",
-      address: "",
-      phone: "",
+      price: 0,
+      stock: 0,
       description: "",
     },
     editForm: {
       id: 0,
-      fullName: "",
+      packageName: "",
       image: "",
-      specialist: "",
-      address: "",
-      phone: "",
+      price: 0,
+      stock: 0,
       description: "",
     },
     activeUsers: [],
@@ -32,19 +30,19 @@ class AdminPackage extends React.Component {
     selectedFile: null,
   };
 
-  getDoctorList = () => {
-    Axios.get(`${API_URL}/doctors`)
+  getPackageList = () => {
+    Axios.get(`${API_URL}/package`)
       .then((res) => {
-        this.setState({ doctorList: res.data });
+        this.setState({ packageList: res.data });
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  renderDoctorList = () => {
-    return this.state.doctorList.map((val, idx) => {
-      const { fullName, specialist, phone, address, id } = val;
+  renderPackageList = () => {
+    return this.state.packageList.map((val, idx) => {
+      const { packageName, price, stock, id } = val;
       return (
         <>
           <tr
@@ -63,10 +61,9 @@ class AdminPackage extends React.Component {
             }}
           >
             <td> {idx + 1} </td>
-            <td className="text-left"> {fullName}</td>
-            <td> {specialist} </td>
-            <td> {phone}</td>
-            <td> {address}</td>
+            <td className="text-left"> {packageName}</td>
+            <td> {price} </td>
+            <td> {stock}</td>
             <td>
               <Button
                 onClick={() => this.editBtnHandler(idx)}
@@ -79,8 +76,8 @@ class AdminPackage extends React.Component {
             <td>
               <Button
                 onClick={() => this.deleteHandler(id)}
-                className="w-80"
-                type="outlined"
+                className="w-80 custom-btn-danger"
+                type="contained"
               >
                 Delete
               </Button>
@@ -105,7 +102,7 @@ class AdminPackage extends React.Component {
     this.setState({ selectedFile: e.target.files[0] });
   };
 
-  addDoctorHandler = () => {
+  addPackageHandler = () => {
     let formData = new FormData();
 
     if (this.state.selectedFile) {
@@ -115,39 +112,38 @@ class AdminPackage extends React.Component {
         this.state.selectedFile.name
       );
     }
-    formData.append("doctorsData", JSON.stringify(this.state.createForm));
+    formData.append("packageData", JSON.stringify(this.state.createForm));
 
-    Axios.post(`${API_URL}/doctors`, formData)
+    Axios.post(`${API_URL}/package`, formData)
       .then((res) => {
-        swal("Success", "Doctor Data has been added to the list", "success");
-        this.getDoctorList();
+        swal("Success", "Package Data has been added to the list", "success");
+        this.getPackageList();
         this.setState({
           createForm: {
-            fullName: "",
+            packageName: "",
             image: "",
-            specialist: "",
-            address: "",
-            phone: "",
+            price: "",
+            stock: "",
             description: "",
           },
         });
-        this.getDoctorList();
+        this.getPackageList();
       })
       .catch((err) => {
-        swal("Error!", "Doctor data could not be added to the list", "error");
+        swal("Error!", "Package data could not be added to the list", "error");
       });
   };
 
   editBtnHandler = (idx) => {
     this.setState({
       editForm: {
-        ...this.state.doctorList[idx],
+        ...this.state.packageList[idx],
       },
       modalOpen: true,
     });
   };
 
-  editDoctorHandler = () => {
+  editPackageHandler = () => {
     let formData = new FormData();
     if (this.state.selectedFile) {
       formData.append(
@@ -156,29 +152,29 @@ class AdminPackage extends React.Component {
         this.state.selectedFile.name
       );
     }
-    formData.append("doctorsData", JSON.stringify(this.state.editForm));
+    formData.append("packageData", JSON.stringify(this.state.editForm));
 
-    Axios.put(`${API_URL}/doctors/edit/${this.state.editForm.id}`, formData)
+    Axios.put(`${API_URL}/package/edit/${this.state.editForm.id}`, formData)
       .then((res) => {
-        swal("Success!", "Doctor data has been edited", "success");
+        swal("Success!", "Package data has been edited", "success");
         this.setState({ modalOpen: false });
-        this.getDoctorList();
+        this.getPackageList();
       })
       .catch((err) => {
-        swal("Error!", "Doctor data could not be edited", "error");
+        swal("Error!", "Package data could not be edited", "error");
         console.log(err);
       });
   };
 
   deleteHandler = (id) => {
-    Axios.delete(`${API_URL}/doctors/${id}`)
+    Axios.delete(`${API_URL}/package/${id}`)
       .then((res) => {
-        swal("Success!", "Doctor data has been deleted", "success");
-        this.getDoctorList();
+        swal("Success!", "Package data has been deleted", "success");
+        this.getPackageList();
         console.log(id);
       })
       .catch((err) => {
-        swal("Error!", "Doctor data could not be deleted", "error");
+        swal("Error!", "Package data could not be deleted", "error");
         console.log(err);
         console.log(id);
       });
@@ -189,7 +185,7 @@ class AdminPackage extends React.Component {
   };
 
   componentDidMount() {
-    this.getDoctorList();
+    this.getPackageList();
   }
 
   render() {
@@ -197,55 +193,47 @@ class AdminPackage extends React.Component {
       <div className="container admin-container">
         <div className="dashboard">
           <caption className="p-3">
-            <h2>Doctors</h2>
+            <h2>package</h2>
           </caption>
           <table className="admin-table text-center">
             <thead>
               <tr>
                 <th>No.</th>
-                <th className="text-left">Full Name</th>
-                <th>specialist</th>
-                <th>Email</th>
-                <th>Address</th>
+                <th className="text-left">Package Name</th>
+                <th>Price</th>
+                <th>Stock</th>
                 <th colSpan={2}>Action</th>
               </tr>
             </thead>
-            <tbody>{this.renderDoctorList()}</tbody>
+            <tbody>{this.renderPackageList()}</tbody>
           </table>
         </div>
         <div className="admin-form-container p-4">
           <caption className="mb-4 mt-2">
-            <h2>Add Doctor</h2>
+            <h2>Add Package</h2>
           </caption>
           <div className="row">
             <div className="col-8">
               <TextField
-                value={this.state.createForm.fullName}
-                placeholder="Doctor Name"
-                onChange={(e) => this.inputHandler(e, "fullName", "createForm")}
+                value={this.state.createForm.packageName}
+                placeholder="Package Name"
+                onChange={(e) =>
+                  this.inputHandler(e, "packageName", "createForm")
+                }
               />
             </div>
             <div className="col-4">
               <TextField
-                value={this.state.createForm.specialist}
-                placeholder="Specialist"
-                onChange={(e) =>
-                  this.inputHandler(e, "specialist", "createForm")
-                }
+                value={this.state.createForm.price}
+                placeholder="price"
+                onChange={(e) => this.inputHandler(e, "price", "createForm")}
               />
             </div>
             <div className="col-6 mt-3">
               <TextField
-                value={this.state.createForm.address}
-                placeholder="Address"
-                onChange={(e) => this.inputHandler(e, "address", "createForm")}
-              />
-            </div>
-            <div className="col-6 mt-3">
-              <TextField
-                value={this.state.createForm.phone}
-                placeholder="Phone"
-                onChange={(e) => this.inputHandler(e, "phone", "createForm")}
+                value={this.state.createForm.stock}
+                placeholder="stock"
+                onChange={(e) => this.inputHandler(e, "stock", "createForm")}
               />
             </div>
             <div className="col-12 mt-3">
@@ -270,8 +258,8 @@ class AdminPackage extends React.Component {
               ></textarea>
             </div>
             <div className="col-3 mt-3">
-              <Button onClick={this.addDoctorHandler} type="contained">
-                Add Doctor
+              <Button onClick={this.addPackageHandler} type="contained">
+                Add Package
               </Button>
             </div>
           </div>
@@ -293,19 +281,10 @@ class AdminPackage extends React.Component {
                 <input
                   type="text"
                   className="custom-text-input h-100 pl-3"
-                  value={this.state.editForm.fullName}
+                  value={this.state.editForm.packageName}
                   placeholder="Full Name"
-                  onChange={(e) => this.inputHandler(e, "fullName", "editForm")}
-                />
-              </div>
-              <div className="col-12 mt-3">
-                <input
-                  type="text"
-                  className="custom-text-input h-100 pl-3"
-                  value={this.state.editForm.specialist}
-                  placeholder="Specialist"
                   onChange={(e) =>
-                    this.inputHandler(e, "specialist", "editForm")
+                    this.inputHandler(e, "packageName", "editForm")
                   }
                 />
               </div>
@@ -313,18 +292,18 @@ class AdminPackage extends React.Component {
                 <input
                   type="text"
                   className="custom-text-input h-100 pl-3"
-                  value={this.state.editForm.address}
-                  placeholder="Address"
-                  onChange={(e) => this.inputHandler(e, "address", "editForm")}
+                  value={this.state.editForm.price}
+                  placeholder="price"
+                  onChange={(e) => this.inputHandler(e, "price", "editForm")}
                 />
               </div>
               <div className="col-12 mt-3">
                 <input
                   type="text"
                   className="custom-text-input h-100 pl-3"
-                  value={this.state.editForm.phone}
-                  placeholder="Phone"
-                  onChange={(e) => this.inputHandler(e, "phone", "editForm")}
+                  value={this.state.editForm.stock}
+                  placeholder="stock"
+                  onChange={(e) => this.inputHandler(e, "stock", "editForm")}
                 />
               </div>
               <div className="col-12 mt-3">
@@ -365,7 +344,7 @@ class AdminPackage extends React.Component {
               <div className="col-5 mt-5">
                 <Button
                   className="w-100"
-                  onClick={this.editDoctorHandler}
+                  onClick={this.editPackageHandler}
                   type="contained"
                 >
                   Save

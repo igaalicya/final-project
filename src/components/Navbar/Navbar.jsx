@@ -126,6 +126,22 @@ class MyNavbar extends React.Component {
                     <DropdownItem>
                       <Link
                         style={{ color: "inherit", textDecoration: "none" }}
+                        to="/admin/package"
+                      >
+                        Vaccine Package
+                      </Link>
+                    </DropdownItem>
+                    <DropdownItem>
+                      <Link
+                        style={{ color: "inherit", textDecoration: "none" }}
+                        to="/admin/categories"
+                      >
+                        Categories
+                      </Link>
+                    </DropdownItem>
+                    <DropdownItem>
+                      <Link
+                        style={{ color: "inherit", textDecoration: "none" }}
                         to="/admin/members"
                       >
                         Members
@@ -137,14 +153,6 @@ class MyNavbar extends React.Component {
                         to="/admin/doctors"
                       >
                         Doctors
-                      </Link>
-                    </DropdownItem>
-                    <DropdownItem>
-                      <Link
-                        style={{ color: "inherit", textDecoration: "none" }}
-                        to="/admin/article"
-                      >
-                        Article
                       </Link>
                     </DropdownItem>
                     <DropdownItem>

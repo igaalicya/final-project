@@ -13,6 +13,8 @@ import {
   faAngleRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "reactstrap";
+import { connect } from "react-redux";
+import { navbarInputHandler } from "../../redux/actions";
 
 class Vaccine extends React.Component {
   currentPage = 0;
@@ -27,6 +29,17 @@ class Vaccine extends React.Component {
     categoryFilter: "all",
     minPrice: 0,
     maxPrice: 999999999,
+    searchBarIsFocused: false,
+    searcBarInput: "",
+    searchValue: "",
+  };
+
+  onFocus = () => {
+    this.setState({ searchBarIsFocused: true });
+  };
+
+  onBlur = () => {
+    this.setState({ searchBarIsFocused: false });
   };
 
   getVaccineList = () => {
@@ -40,29 +53,83 @@ class Vaccine extends React.Component {
       });
   };
 
-  getVaccineListPerPage = () => {
-    Axios.get(`${API_URL}/vaccines/page/${this.currentPage}`)
-      .then((res) => {
-        this.setState({ vaccinePage: res.data });
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  getVaccineListPerPage = (categories) => {
+    this.getCountVaccines();
+    if (categories === "all") {
+      Axios.get(
+        `${API_URL}/vaccines/page/${this.currentPage}/${this.state.minPrice}/${this.state.maxPrice}`,
+        {
+          params: {
+            vaccineName: this.state.searchValue,
+          },
+        }
+      )
+        .then((res) => {
+          this.setState({ vaccinePage: res.data });
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      Axios.get(
+        `${API_URL}/vaccines/page/categories/${this.currentPage}/${this.state.minPrice}/${this.state.maxPrice}`,
+        {
+          params: {
+            vaccineName: this.state.searchValue,
+            categoriesName: categories,
+          },
+        }
+      )
+        .then((res) => {
+          this.setState({ vaccinePage: res.data });
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   getCountVaccines = () => {
-    // if (this.state.categoryFilter == "all") {
-    Axios.get(`${API_URL}/vaccines/count/all`)
-      .then((res) => {
-        this.setState({
-          countVaccines: res.data,
+    if (this.state.categoryFilter == "all") {
+      Axios.get(
+        `${API_URL}/vaccines/count/all/${this.state.minPrice}/${this.state.maxPrice}`,
+        {
+          params: {
+            vaccineName: this.state.searchValue,
+          },
+        }
+      )
+        .then((res) => {
+          this.setState({
+            countVaccines: res.data,
+          });
+          console.log(this.state.countVaccines);
+        })
+        .catch((err) => {
+          console.log(err);
         });
-        console.log(this.state.countVaccines);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    } else {
+      Axios.get(
+        `${API_URL}/vaccines/count/categories/${this.state.minPrice}/${this.state.maxPrice}`,
+        {
+          params: {
+            vaccineName: this.state.searchValue,
+            categoriesName: this.state.categoryFilter,
+          },
+        }
+      )
+        .then((res) => {
+          this.setState({
+            countVaccines: res.data,
+          });
+          console.log(this.state.countVaccines);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   renderButton() {
@@ -78,7 +145,6 @@ class Vaccine extends React.Component {
         j = j + 1;
       }
     }
-    // console.log(arr);
     return arr;
   }
 
@@ -86,22 +152,29 @@ class Vaccine extends React.Component {
     // kalo pake state gabisa langsung keganti
     this.currentPage = i;
     console.log(this.currentPage);
-    this.getVaccineListPerPage();
+    this.getVaccineListPerPage(this.state.categoryFilter);
     this.currentPage = i;
   };
 
   renderVaccine = () => {
     return this.state.vaccinePage.map((val) => {
-      // console.log(val);
-      return (
-        <Link
-          className="vaccine-card col-md-4 col-lg-3 m-3"
-          to={`/vaccineDetails/${val.id}`}
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <VaccineCard data={val} className="m-5" />
-        </Link>
-      );
+      if (
+        val.vaccineName
+          .toLowerCase()
+          .includes(this.props.search.searchValue.toLowerCase())
+        //  && val.category.toLowerCase().includes(this.state.categoryFilter)
+      ) {
+        console.log(this.props.search.searchValue);
+        return (
+          <Link
+            className="vaccine-card col-md-4 col-lg-3 m-3"
+            to={`/vaccineDetails/${val.id}`}
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <VaccineCard data={val} className="m-5" />
+          </Link>
+        );
+      }
     });
   };
 
@@ -117,16 +190,17 @@ class Vaccine extends React.Component {
 
   optionData = () => {
     return this.state.categoryList.map((val) => {
-      const { categoryName, id } = val;
-      return <option value={id}>{categoryName}</option>;
+      const { categoryName } = val;
+      return <option value={categoryName}>{categoryName}</option>;
     });
   };
 
   componentDidMount() {
     this.getVaccineList();
-    this.getVaccineListPerPage();
+    this.getVaccineListPerPage(this.state.categoryFilter);
     this.getCountVaccines();
     this.getCategories();
+    this.renderButton();
   }
 
   render() {
@@ -148,11 +222,27 @@ class Vaccine extends React.Component {
             </div>
             <div className="row form-wrap">
               <div className="col-lg-3 form-cols">
+                {/* <input
+                  onChange={this.props.onChangeSearch}
+                  onFocus={this.onFocus}
+                  onBlur={this.onBlur}
+                  className={`search-bar ${
+                    this.state.searchBarIsFocused ? "active" : null
+                  }`}
+                  type="text"
+                  placeholder="Cari produk impianmu disini"
+                  className="form-control"
+                /> */}
                 <input
                   type="text"
-                  className="form-control"
-                  name="search"
-                  placeholder="search by vaccine name"
+                  onKeyUp={() =>
+                    this.getVaccineListPerPage(this.state.categoryFilter)
+                  }
+                  className="form-control mr-4"
+                  placeholder="search vaccine name here"
+                  onChange={(e) =>
+                    this.setState({ searchValue: e.target.value })
+                  }
                 />
               </div>
               <div className="col-lg-2 form-cols">
@@ -161,6 +251,10 @@ class Vaccine extends React.Component {
                   className="form-control"
                   name="search"
                   placeholder="min price"
+                  onKeyUp={() =>
+                    this.getVaccineListPerPage(this.state.categoryFilter)
+                  }
+                  onChange={(e) => this.setState({ minPrice: +e.target.value })}
                 />
               </div>
               <div className="col-lg-2 form-cols">
@@ -168,15 +262,27 @@ class Vaccine extends React.Component {
                   type="text"
                   className="form-control"
                   name="search"
-                  placeholder="maks price"
+                  placeholder="max price"
+                  onKeyUp={() =>
+                    this.getVaccineListPerPage(this.state.categoryFilter)
+                  }
+                  onChange={(e) =>
+                    this.setState({ maxPrice: 1 * e.target.value })
+                  }
                 />
               </div>
               <div className="col-lg-3 form-cols">
                 <select
-                  value={this.state.doctorId}
-                  onChange={(e) => this.setState({ doctorId: e.target.value })}
+                  value={this.state.categoryFilter}
+                  onChange={(e) =>
+                    this.setState({ categoryFilter: e.target.value })
+                  }
                   className="form-control"
+                  onClick={() =>
+                    this.getVaccineListPerPage(this.state.categoryFilter)
+                  }
                 >
+                  <option value="all">All</option>
                   {this.optionData()}
                 </select>
               </div>
@@ -212,4 +318,13 @@ class Vaccine extends React.Component {
   }
 }
 
-export default Vaccine;
+const mapStateToProps = (state) => {
+  return {
+    search: state.search,
+  };
+};
+
+const mapDispatchToProps = {
+  onChangeSearch: navbarInputHandler,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Vaccine);

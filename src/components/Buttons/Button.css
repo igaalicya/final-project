@@ -90,6 +90,11 @@
   border-color: #dc3545;
 }
 
+.custom-btn-danger:hover {
+  background-color: #da606c;
+  border-color: #da606c;
+}
+
 .custom-btn-disabled {
   border: 1px solid #999999;
   background-color: #cccccc;

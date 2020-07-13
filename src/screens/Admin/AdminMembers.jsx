@@ -4,7 +4,7 @@ import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import Axios from "axios";
 import { API_URL } from "../../constants/API";
 import swal from "sweetalert";
-import { Button } from "reactstrap";
+import Button from "../../components/Buttons/Button";
 
 class AdminMembers extends React.Component {
   state = {
@@ -13,7 +13,7 @@ class AdminMembers extends React.Component {
       id: 0,
       username: "",
       fullName: "",
-      password: "",
+      address: "",
       email: "",
       role: "",
     },
@@ -52,12 +52,12 @@ class AdminMembers extends React.Component {
               }
             }}
           >
-            <td> {id} </td>
-            <td> {role} </td>
+            <td> {idx + 1} </td>
             <td> {username} </td>
             <td> {fullName}</td>
+            <td> {role} </td>
             <td> {email}</td>
-            {/* <td> {password}</td> */}
+            {/* <td> {address}</td> */}
             <td>
               <Button
                 onClick={() => this.editBtnHandler(idx)}
@@ -69,9 +69,9 @@ class AdminMembers extends React.Component {
             </td>
             <td>
               <Button
-                onClick={() => this.deleteHandler(idx)}
-                className="w-80"
-                type="outlined"
+                onClick={() => this.deleteHandler(id)}
+                className="w-80 custom-btn-danger"
+                type="contained"
               >
                 Delete
               </Button>
@@ -102,7 +102,10 @@ class AdminMembers extends React.Component {
   };
 
   editUserHandler = () => {
-    Axios.put(`${API_URL}/users/${this.state.editForm.id}`, this.state.editForm)
+    Axios.put(
+      `${API_URL}/users/editProfileAdmin/${this.state.editForm.id}`,
+      this.state.editForm
+    )
       .then((res) => {
         swal("Success!", "User data has been edited", "success");
         this.setState({ modalOpen: false });
@@ -145,11 +148,11 @@ class AdminMembers extends React.Component {
             <thead>
               <tr>
                 <th>No.</th>
-                <th>Role</th>
                 <th>Username</th>
                 <th>Full Name</th>
+                <th>Role</th>
                 <th>Email</th>
-                {/* <th>Password</th> */}
+                {/* <th>address</th> */}
                 <th colSpan={2}>Action</th>
               </tr>
             </thead>
@@ -200,9 +203,9 @@ class AdminMembers extends React.Component {
                 <input
                   type="text"
                   className="custom-text-input h-100 pl-3"
-                  value={this.state.editForm.password}
-                  placeholder="Password"
-                  onChange={(e) => this.inputHandler(e, "password", "editForm")}
+                  value={this.state.editForm.address}
+                  placeholder="address"
+                  onChange={(e) => this.inputHandler(e, "address", "editForm")}
                 />
               </div>
               <div className="col-12 mt-3">

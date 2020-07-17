@@ -47,3 +47,11 @@ th {
 .custom-file-input::-webkit-file-upload-button {
   visibility: hidden;
 }
+
+.container-chart {
+  width: 100%;
+  padding-right: 50px;
+  padding-left: 50px;
+  margin-right: auto;
+  margin-left: auto;
+}

@@ -23,10 +23,11 @@ class Doctors extends React.Component {
   };
 
   renderDoctor = () => {
-    return this.state.doctorList.map((val) => {
+    return this.state.doctorList.map((val, idx) => {
       console.log(val);
       return (
         <Link
+          key={idx.toString()}
           className="col-md-6 col-lg-4 mb-4 mb-lg-0"
           to={`/profileDoctor/${val.id}`}
           style={{ textDecoration: "none", color: "inherit" }}

@@ -1,4 +1,6 @@
 import React from "react";
+import DatePicker from "react-date-picker";
+// import DatePicker from "react-datepicker";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Alert, Modal, ModalBody, ModalHeader } from "reactstrap";
@@ -10,7 +12,8 @@ import swal from "sweetalert";
 import { priceFormatter } from "../../supports/helpers/formatter";
 import { fillCart } from "../../redux/actions";
 // import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+// import "react-datepicker/dist/react-datepicker.css";
+import "react-date-picker/dist/entry.nostyle";
 
 class Cart extends React.Component {
   state = {
@@ -27,19 +30,22 @@ class Cart extends React.Component {
       transactionDate: "",
       completionDate: "",
       doctorId: 0,
+      vaccineDate: "",
     },
     doctorId: 1,
     doctorName: "",
     delivery: 0,
-    shipping: "jabodetabek",
+    shipping: "express",
     vaccineDate: new Date(),
     // startDate: new Date(),
   };
 
+  handleChange = this.handleChange.bind(this);
   handleChange(date) {
     this.setState({
       vaccineDate: date,
     });
+    console.log(this.state.vaccineDate.toLocaleDateString());
   }
 
   componentDidMount() {
@@ -61,6 +67,7 @@ class Cart extends React.Component {
     })
       .then((res) => {
         console.log(res.data);
+        console.log(this.state.vaccineDate.toLocaleDateString());
         res.data.map((val) => {
           grandTotalPrice += val.quantity * val.vaccines.price;
           return grandTotalPrice;
@@ -74,6 +81,7 @@ class Cart extends React.Component {
             grandTotalPrice: grandTotalPrice + +this.state.delivery,
             transactionDate: this.state.dateCalendar.toLocaleDateString(),
             doctorId: this.state.doctorId,
+            // vaccineDate: this.state.vaccineDate.toLocaleDateString(),
           },
         });
       })
@@ -96,14 +104,18 @@ class Cart extends React.Component {
   optionData = () => {
     return this.state.doctorList.map((val) => {
       const { fullName, id } = val;
-      return <option value={id}>{fullName}</option>;
+      return (
+        <option value={id} key={id.toString()}>
+          {fullName}
+        </option>
+      );
     });
   };
 
   renderCart = () => {
     return this.state.cartData.map((val, idx) => {
       return (
-        <tr>
+        <tr key={idx.toString()}>
           <td>{idx + 1}</td>
           <td>
             <img
@@ -145,6 +157,10 @@ class Cart extends React.Component {
   checkoutBtnHandler = () => {
     this.setState({
       modalOpen: true,
+      checkoutData: {
+        ...this.state.checkoutData,
+        vaccineDate: this.state.vaccineDate.toLocaleDateString(),
+      },
     });
     this.renderDoctorName();
   };
@@ -158,25 +174,23 @@ class Cart extends React.Component {
 
       totalPrice = quantity * vaccines.price;
       return (
-        <>
-          <tr>
-            <td>{idx + 1}</td>
-            <td>{vaccines.vaccineName}</td>
-            <td>
-              {new Intl.NumberFormat("id-ID", {
-                style: "currency",
-                currency: "IDR",
-              }).format(vaccines.price)}
-            </td>
-            <td>{quantity}</td>
-            <td>
-              {new Intl.NumberFormat("id-ID", {
-                style: "currency",
-                currency: "IDR",
-              }).format(totalPrice)}
-            </td>
-          </tr>
-        </>
+        <tr key={idx.toString()}>
+          <td>{idx + 1}</td>
+          <td>{vaccines.vaccineName}</td>
+          <td>
+            {new Intl.NumberFormat("id-ID", {
+              style: "currency",
+              currency: "IDR",
+            }).format(vaccines.price)}
+          </td>
+          <td>{quantity}</td>
+          <td>
+            {new Intl.NumberFormat("id-ID", {
+              style: "currency",
+              currency: "IDR",
+            }).format(totalPrice)}
+          </td>
+        </tr>
       );
     });
   };
@@ -194,56 +208,68 @@ class Cart extends React.Component {
         this.renderDoctorName();
         this.state.cartData.map((val) => {
           console.log(res.data.id);
-          Axios.post(
-            `${API_URL}/transactions/details/${val.vaccines.id}/${res.data.id}`,
-            {
-              // transactionsId: res.data.id,
-              // vaccinesId: val.vaccines.id,
-              price: val.vaccines.price,
-              quantity: val.quantity,
-              totalPrice: val.vaccines.price * val.quantity,
-            }
-          )
-            .then((res) => {
-              swal("Thank you!", "Your Transaction is Success", "success");
-              if (val.vaccines.stock >= val.quantity) {
-                console.log(val.vaccines.stock);
-                // console.log(val.vaccines.stock - val.quantity);
-                Axios.put(`${API_URL}/vaccines/checkout/${val.vaccines.id}`, {
-                  stock: val.vaccines.stock - val.quantity,
-                  id: val.id,
-                })
-                  .then((res) => {
-                    console.log(res);
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  });
-              } else {
-                swal("stok gudang kurang dari quanity", "warning");
+
+          if (val.vaccines.stock >= val.quantity) {
+            Axios.post(
+              `${API_URL}/transactions/details/${val.vaccines.id}/${res.data.id}`,
+              {
+                // transactionsId: res.data.id,
+                // vaccinesId: val.vaccines.id,
+                price: val.vaccines.price,
+                quantity: val.quantity,
+                totalPrice: val.vaccines.price * val.quantity,
               }
-              this.setState({
-                modalOpen: false,
-                checkoutData: {
-                  usersId: 0,
-                  grandTotalPrice: 0,
-                  status: "pending",
-                  transactionDate: "",
-                  completionDate: "",
-                  doctorId: 0,
-                },
+            )
+              .then((res) => {
+                swal("Thank you!", "Your Transaction is Success", "success");
+                if (val.vaccines.stock >= val.quantity) {
+                  console.log(val.vaccines.stock);
+                  // console.log(val.vaccines.stock - val.quantity);
+                  Axios.put(`${API_URL}/vaccines/checkout/${val.vaccines.id}`, {
+                    stock: val.vaccines.stock - val.quantity,
+                    id: val.id,
+                  })
+                    .then((res) => {
+                      console.log(res);
+                      swal("Success", "your transaction is success", "success");
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                } else {
+                  swal("Warning", "stock is not enough", "warning");
+                  this.setState({
+                    modalOpen: false,
+                  });
+                }
+                this.setState({
+                  modalOpen: false,
+                  checkoutData: {
+                    usersId: 0,
+                    grandTotalPrice: 0,
+                    status: "pending",
+                    transactionDate: "",
+                    completionDate: "",
+                    doctorId: 0,
+                  },
+                });
+                // empty cart
+                this.state.cartData.map((val) => {
+                  return this.deleteHandler(val.id);
+                });
+              })
+              .catch((err) => {
+                console.log(err);
               });
-              // empty cart
-              this.state.cartData.map((val) => {
-                return this.deleteHandler(val.id);
-              });
-            })
-            .catch((err) => {
-              console.log(err);
+          } else {
+            swal("Warning", "stock is not enough", "warning");
+            this.setState({
+              modalOpen: false,
             });
+          }
         });
         console.log(res);
-        swal("Success", "your transaction is success", "success");
+        // swal("Success", "your transaction is success", "success");
       })
       .catch((err) => {
         console.log(err);
@@ -292,9 +318,9 @@ class Cart extends React.Component {
 
   renderShippingPrice = () => {
     switch (this.state.shipping) {
-      case "jabodetabek":
+      case "express":
         return priceFormatter(100000);
-      case "non":
+      case "standard":
         return priceFormatter(50000);
       default:
         return priceFormatter(100000);
@@ -316,10 +342,10 @@ class Cart extends React.Component {
     let shippingPrice = 0;
 
     switch (this.state.shipping) {
-      case "jabodetabek":
+      case "express":
         shippingPrice = 100000;
         break;
-      case "non":
+      case "standard":
         shippingPrice = 50000;
         break;
       default:
@@ -362,15 +388,15 @@ class Cart extends React.Component {
                   <strong>{this.renderShippingPrice()}</strong>
                 </div>
                 <div className="d-flex justify-content-between my-2 align-items-center">
-                  <label>Address</label>
+                  <label>Delivery</label>
                   <select
                     onChange={(e) =>
                       this.setState({ shipping: e.target.value })
                     }
                     className="form-control w-50"
                   >
-                    <option value="jabodetabek">Jabodetabek</option>
-                    <option value="non">Non-Jabodetabek</option>
+                    <option value="express">express</option>
+                    <option value="standard">standard</option>
                   </select>
                 </div>
                 <div className="d-flex justify-content-between my-2 align-items-center">
@@ -387,13 +413,28 @@ class Cart extends React.Component {
                   {console.log(this.state.doctorId)}
                 </div>
                 <div className="d-flex justify-content-between my-2 ">
-                  <label>Tanggal</label>
-                  <input
+                  <label>Date</label>
+                  {/* <input
                     type="date"
                     className="form-control w-50"
                     name="date"
                     placeholder="Pick a date"
+                    onChange={(e) => {
+                      this.handleChange(e, "vaccineDate");
+                    }}
+                  /> */}
+                  <DatePicker
+                    customStyles={{ dateInput: { borderWidth: 0 } }}
+                    style={{
+                      textDecoration: "none",
+                      color: "inherit",
+                      border: "none",
+                    }}
+                    className="form-control w-50"
+                    onChange={this.handleChange}
+                    value={this.state.vaccineDate}
                   />
+                  {/* {console.log(this.state.vaccineDate.toLocaleDateString())} */}
                 </div>
 
                 <div className="cart-card-foot p-4">

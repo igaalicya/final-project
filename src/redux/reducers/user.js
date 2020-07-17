@@ -42,6 +42,8 @@ export default (state = init_state, action) => {
       return { ...state, cookieChecked: true };
     case "FILL_CART":
       return { ...state, cartItems: action.payload };
+    case "LOADING":
+      return { ...state, cookieChecked: false };
     default:
       return { ...state };
   }

@@ -124,6 +124,9 @@ export const logoutHandler = () => {
 
 export const registerHandler = (userData) => {
   return (dispatch) => {
+    dispatch({
+      type: "LOADING",
+    });
     Axios.get(`${API_URL}/users/username`, {
       params: {
         username: userData.username,

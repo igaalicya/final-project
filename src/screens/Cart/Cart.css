@@ -2,3 +2,27 @@
   padding-top: 160px;
   padding-bottom: 330px;
 }
+
+.react-date-picker,
+.react-date-picker *,
+.react-date-picker ::before,
+.react-date-picker ::after {
+  box-sizing: border-box;
+  border-width: 1px;
+}
+
+.react-date-picker__wrapper {
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 0;
+  border: 0px;
+}
+
+input[type="date"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  display: none;
+}
+
+.react-date-picker__button svg {
+  display: none;
+}

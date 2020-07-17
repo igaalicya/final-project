@@ -186,7 +186,7 @@ class VaccineDetails extends React.Component {
                         </p>
                       </Col>
                     </Row>
-                    {this.props.user.username ? (
+                    {this.props.user.role === "user" ? (
                       <Row className="justify-content-center">
                         <Button
                           onClick={this.addToWishlistHandler}

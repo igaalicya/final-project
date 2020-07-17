@@ -1,23 +1,14 @@
 import React from "react";
 import "./AdminMembers.css";
-import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import Axios from "axios";
 import { API_URL } from "../../constants/API";
-import swal from "sweetalert";
-import { Button } from "reactstrap";
-import TextField from "../../components/TextField/TextField";
+import { Line, Bar } from "react-chartjs-2";
 
 class AdminReport extends React.Component {
   state = {
-    doctorList: [],
-    createForm: {
-      fullName: "",
-      image: "",
-      specialist: "",
-      address: "",
-      phone: "",
-      desc: "",
-    },
+    reportList: [],
+    categoryList: [],
+    reportListCategory: [],
     editForm: {
       id: 0,
       fullName: "",
@@ -29,144 +20,173 @@ class AdminReport extends React.Component {
     },
     activeUsers: [],
     modalOpen: false,
+    chartData: {},
+    categoryFilter: "all",
+    minPrice: 0,
+    maxPrice: 999999999,
+    searchBarIsFocused: false,
+    searcBarInput: "",
+    searchValue: "",
   };
 
-  getDoctorList = () => {
-    Axios.get(`${API_URL}/doctors`)
+  getReportList = () => {
+    Axios.get(`${API_URL}/transactions/details/report`)
       .then((res) => {
-        this.setState({ doctorList: res.data });
+        console.log(res.data);
+        this.setState({ reportList: res.data });
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  renderDoctorList = () => {
-    return this.state.doctorList.map((val, idx) => {
-      const { fullName, specialist, phone, address, id } = val;
+  renderChartData = () => {
+    Axios.get(`${API_URL}/transactions/details/report`).then((res) => {
+      console.log(res);
+
+      const transactionsData = res.data;
+
+      let vaccineName = [];
+
+      let quantity = [];
+
+      transactionsData.forEach((val) => {
+        vaccineName.push(val.vaccines.vaccineName);
+
+        quantity.push(val.quantity);
+      });
+
+      this.setState({
+        chartData: {
+          labels: vaccineName,
+
+          datasets: [
+            {
+              label: "Vaccine Reports",
+
+              data: quantity,
+
+              backgroundColor: [
+                "#3cb371",
+
+                "#0000FF",
+
+                "#9966FF",
+
+                "#4C4CFF",
+
+                "#00FFFF",
+
+                "#f990a7",
+
+                "#aad2ed",
+
+                "#FF00FF",
+
+                "Blue",
+
+                "Red",
+              ],
+            },
+          ],
+        },
+      });
+    });
+  };
+
+  getReportListCategories = (categories) => {
+    console.log(categories);
+    if (categories === "all") {
+      Axios.get(
+        `${API_URL}/transactions/details/report/all/${this.state.minPrice}/${this.state.maxPrice}`,
+        {
+          params: {
+            vaccineName: this.state.searchValue,
+          },
+        }
+      )
+        .then((res) => {
+          this.setState({ reportListCategory: res.data });
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      Axios.get(
+        `${API_URL}/transactions/details/report/categories/${this.currentPage}/${this.state.minPrice}/${this.state.maxPrice}`,
+        {
+          params: {
+            vaccineName: this.state.searchValue,
+            categoriesName: categories,
+          },
+        }
+      )
+        .then((res) => {
+          this.setState({ reportListCategory: res.data });
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  renderReportList = () => {
+    return this.state.reportListCategory.map((val, idx) => {
+      const { vaccines, quantity } = val;
       return (
-        <>
-          <tr
-            onClick={() => {
-              if (this.state.activeUsers.includes(idx)) {
-                this.setState({
-                  activeUsers: [
-                    ...this.state.activeUsers.filter((item) => item !== idx),
-                  ],
-                });
-              } else {
-                this.setState({
-                  activeUsers: [...this.state.activeUsers, idx],
-                });
-              }
-            }}
-          >
-            <td> {idx + 1} </td>
-            <td className="text-left"> {fullName}</td>
-            <td> {specialist} </td>
-            <td> {phone}</td>
-            <td> {address}</td>
-            <td>
-              <Button
-                onClick={() => this.editBtnHandler(idx)}
-                className="w-100"
-                type="contained"
-              >
-                Edit
-              </Button>
-            </td>
-            <td>
-              <Button
-                onClick={() => this.deleteHandler(id)}
-                className="w-80"
-                type="outlined"
-              >
-                Delete
-              </Button>
-            </td>
-          </tr>
-        </>
+        <tr
+          key={idx.toString()}
+          onClick={() => {
+            if (this.state.activeUsers.includes(idx)) {
+              this.setState({
+                activeUsers: [
+                  ...this.state.activeUsers.filter((item) => item !== idx),
+                ],
+              });
+            } else {
+              this.setState({
+                activeUsers: [...this.state.activeUsers, idx],
+              });
+            }
+          }}
+        >
+          <td> {idx + 1} </td>
+          <td className="text-left"> {vaccines.vaccineName}</td>
+          <td>{vaccines.price}</td>
+          <td> {quantity} </td>
+        </tr>
       );
     });
   };
 
-  inputHandler = (e, field, form) => {
-    let { value } = e.target;
-    this.setState({
-      [form]: {
-        ...this.state[form],
-        [field]: value,
-      },
-    });
-  };
-
-  addDoctorHandler = () => {
-    Axios.post(`${API_URL}/doctors`, this.state.createForm)
+  getCategories = () => {
+    Axios.get(`${API_URL}/categories`)
       .then((res) => {
-        swal("Success", "Doctor Data has been added to the list", "success");
-        this.getDoctorList();
-        this.setState({
-          createForm: {
-            fullName: "",
-            image: "",
-            specialist: "",
-            address: "",
-            phone: "",
-            desc: "",
-          },
-        });
-        this.getDoctorList();
+        this.setState({ categoryList: res.data });
       })
       .catch((err) => {
-        swal("Error!", "Doctor data could not be added to the list", "error");
-      });
-  };
-
-  editBtnHandler = (idx) => {
-    this.setState({
-      editForm: {
-        ...this.state.doctorList[idx],
-      },
-      modalOpen: true,
-    });
-  };
-
-  editDoctorHandler = () => {
-    Axios.put(
-      `${API_URL}/doctors/${this.state.editForm.id}`,
-      this.state.editForm
-    )
-      .then((res) => {
-        swal("Success!", "Doctor data has been edited", "success");
-        this.setState({ modalOpen: false });
-        this.getDoctorList();
-      })
-      .catch((err) => {
-        swal("Error!", "Doctor data could not be edited", "error");
         console.log(err);
       });
   };
 
-  deleteHandler = (id) => {
-    Axios.delete(`${API_URL}/doctors/${id}`)
-      .then((res) => {
-        swal("Success!", "Doctor data has been deleted", "success");
-        this.getDoctorList();
-        console.log(id);
-      })
-      .catch((err) => {
-        swal("Error!", "Doctor data could not be deleted", "error");
-        console.log(err);
-        console.log(id);
-      });
-  };
-
-  toggleModal = () => {
-    this.setState({ modalOpen: !this.state.modalOpen });
+  optionData = () => {
+    return this.state.categoryList.map((val, idx) => {
+      const { categoryName } = val;
+      return (
+        <option key={idx.toString()} value={categoryName}>
+          {categoryName}
+        </option>
+      );
+    });
   };
 
   componentDidMount() {
-    this.getDoctorList();
+    this.getReportList();
+    this.renderChartData();
+    this.getCategories();
+    this.getReportListCategories(this.state.categoryFilter);
   }
 
   render() {
@@ -174,79 +194,96 @@ class AdminReport extends React.Component {
       <div className="container admin-container">
         <div className="dashboard">
           <caption className="p-3">
-            <h2>Doctors</h2>
+            <h2>Report Charts</h2>
           </caption>
-          <table className="admin-table text-center">
-            <thead>
-              <tr>
-                <th>No.</th>
-                <th className="text-left">Full Name</th>
-                <th>specialist</th>
-                <th>Email</th>
-                <th>Address</th>
-                <th colSpan={2}>Action</th>
-              </tr>
-            </thead>
-            <tbody>{this.renderDoctorList()}</tbody>
-          </table>
-        </div>
-        <div className="admin-form-container p-4">
-          <caption className="mb-4 mt-2">
-            <h2>Add Doctor</h2>
+          <div className="container-chart">
+            <Bar
+              data={this.state.chartData}
+              options={{
+                scales: {
+                  yAxes: [
+                    {
+                      ticks: {
+                        beginAtZero: true,
+                      },
+                    },
+                  ],
+                },
+
+                maintainAspectRatio: false,
+              }}
+              height="300px"
+            />
+          </div>
+
+          <caption className="p-3">
+            <h2>Report Table</h2>
           </caption>
-          <div className="row">
-            <div className="col-8">
-              <TextField
-                value={this.state.createForm.fullName}
-                placeholder="Doctor Name"
-                onChange={(e) => this.inputHandler(e, "fullName", "createForm")}
+          <div className="row form-wrap">
+            <div className="col-lg-3 form-cols">
+              <input
+                type="text"
+                onKeyUp={() =>
+                  this.getReportListCategories(this.state.categoryFilter)
+                }
+                className="form-control mr-4"
+                placeholder="search vaccine name here"
+                onChange={(e) => this.setState({ searchValue: e.target.value })}
               />
             </div>
-            <div className="col-4">
-              <TextField
-                value={this.state.createForm.specialist}
-                placeholder="Specialist"
+            <div className="col-lg-2 form-cols">
+              <input
+                type="text"
+                className="form-control"
+                name="search"
+                placeholder="min price"
+                onKeyUp={() =>
+                  this.getReportListCategories(this.state.categoryFilter)
+                }
+                onChange={(e) => this.setState({ minPrice: +e.target.value })}
+              />
+            </div>
+            <div className="col-lg-2 form-cols">
+              <input
+                type="text"
+                className="form-control"
+                name="search"
+                placeholder="max price"
+                onKeyUp={() =>
+                  this.getReportListCategories(this.state.categoryFilter)
+                }
                 onChange={(e) =>
-                  this.inputHandler(e, "specialist", "createForm")
+                  this.setState({ maxPrice: 1 * e.target.value })
                 }
               />
             </div>
-            <div className="col-6 mt-3">
-              <TextField
-                value={this.state.createForm.address}
-                placeholder="Address"
-                onChange={(e) => this.inputHandler(e, "address", "createForm")}
-              />
-            </div>
-            <div className="col-6 mt-3">
-              <TextField
-                value={this.state.createForm.phone}
-                placeholder="Phone"
-                onChange={(e) => this.inputHandler(e, "phone", "createForm")}
-              />
-            </div>
-            <div className="col-12 mt-3">
-              <TextField
-                value={this.state.createForm.image}
-                placeholder="Doctor's Photo"
-                onChange={(e) => this.inputHandler(e, "image", "createForm")}
-              />
-            </div>
-            <div className="col-12 mt-3">
-              <textarea
-                value={this.state.createForm.desc}
-                onChange={(e) => this.inputHandler(e, "desc", "createForm")}
-                style={{ resize: "none" }}
-                placeholder="Description"
-                className="custom-text-input"
-              ></textarea>
-            </div>
-            <div className="col-3 mt-3">
-              <Button onClick={this.addDoctorHandler} type="contained">
-                Add Doctor
-              </Button>
+            <div className="col-lg-3 form-cols">
+              <select
+                value={this.state.categoryFilter}
+                onChange={(e) =>
+                  this.setState({ categoryFilter: e.target.value })
+                }
+                className="form-control"
+                onClick={() =>
+                  this.getReportListCategories(this.state.categoryFilter)
+                }
+              >
+                <option value="all">All</option>
+                {this.optionData()}
+              </select>
             </div>
           </div>
+          <table className="admin-table text-center pt-4">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th className="text-left">Vaccine Name</th>
+                <th>Price</th>
+                <th>Item Sold</th>
+              </tr>
+            </thead>
+            <tbody>{this.renderReportList()}</tbody>
+          </table>
         </div>
       </div>
     );

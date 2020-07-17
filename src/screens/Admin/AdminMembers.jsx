@@ -36,48 +36,47 @@ class AdminMembers extends React.Component {
     return this.state.userList.map((val, idx) => {
       const { id, username, fullName, email, role } = val;
       return (
-        <>
-          <tr
-            onClick={() => {
-              if (this.state.activeUsers.includes(idx)) {
-                this.setState({
-                  activeUsers: [
-                    ...this.state.activeUsers.filter((item) => item !== idx),
-                  ],
-                });
-              } else {
-                this.setState({
-                  activeUsers: [...this.state.activeUsers, idx],
-                });
-              }
-            }}
-          >
-            <td> {idx + 1} </td>
-            <td> {username} </td>
-            <td> {fullName}</td>
-            <td> {role} </td>
-            <td> {email}</td>
-            {/* <td> {address}</td> */}
-            <td>
-              <Button
-                onClick={() => this.editBtnHandler(idx)}
-                className="w-100"
-                type="contained"
-              >
-                Edit
-              </Button>
-            </td>
-            <td>
-              <Button
-                onClick={() => this.deleteHandler(id)}
-                className="w-80 custom-btn-danger"
-                type="contained"
-              >
-                Delete
-              </Button>
-            </td>
-          </tr>
-        </>
+        <tr
+          key={idx.toString()}
+          onClick={() => {
+            if (this.state.activeUsers.includes(idx)) {
+              this.setState({
+                activeUsers: [
+                  ...this.state.activeUsers.filter((item) => item !== idx),
+                ],
+              });
+            } else {
+              this.setState({
+                activeUsers: [...this.state.activeUsers, idx],
+              });
+            }
+          }}
+        >
+          <td> {idx + 1} </td>
+          <td> {username} </td>
+          <td> {fullName}</td>
+          <td> {role} </td>
+          <td> {email}</td>
+          {/* <td> {address}</td> */}
+          <td>
+            <Button
+              onClick={() => this.editBtnHandler(idx)}
+              className="w-100"
+              type="contained"
+            >
+              Edit
+            </Button>
+          </td>
+          <td>
+            <Button
+              onClick={() => this.deleteHandler(id)}
+              className="w-80 custom-btn-danger"
+              type="contained"
+            >
+              Delete
+            </Button>
+          </td>
+        </tr>
       );
     });
   };

@@ -92,7 +92,7 @@ class Vaccine extends React.Component {
   };
 
   getCountVaccines = () => {
-    if (this.state.categoryFilter == "all") {
+    if (this.state.categoryFilter === "all") {
       Axios.get(
         `${API_URL}/vaccines/count/all/${this.state.minPrice}/${this.state.maxPrice}`,
         {
@@ -136,9 +136,13 @@ class Vaccine extends React.Component {
     let arr = [];
     let j = 0;
     for (let i = 0; i < this.state.countVaccines; i++) {
-      if (i % 9 == 0) {
+      if (i % 9 === 0) {
         arr.push(
-          <Button className="ml-1 btn-page" onClick={() => this.goToPage(i)}>
+          <Button
+            key={i.toString()}
+            className="ml-1 btn-page"
+            onClick={() => this.goToPage(i)}
+          >
             {j + 1}{" "}
           </Button>
         );
@@ -157,7 +161,7 @@ class Vaccine extends React.Component {
   };
 
   renderVaccine = () => {
-    return this.state.vaccinePage.map((val) => {
+    return this.state.vaccinePage.map((val, idx) => {
       if (
         val.vaccineName
           .toLowerCase()
@@ -167,6 +171,7 @@ class Vaccine extends React.Component {
         console.log(this.props.search.searchValue);
         return (
           <Link
+            key={idx.toString()}
             className="vaccine-card col-md-4 col-lg-3 m-3"
             to={`/vaccineDetails/${val.id}`}
             style={{ textDecoration: "none", color: "inherit" }}
@@ -189,9 +194,13 @@ class Vaccine extends React.Component {
   };
 
   optionData = () => {
-    return this.state.categoryList.map((val) => {
+    return this.state.categoryList.map((val, idx) => {
       const { categoryName } = val;
-      return <option value={categoryName}>{categoryName}</option>;
+      return (
+        <option key={idx.toString()} value={categoryName}>
+          {categoryName}
+        </option>
+      );
     });
   };
 

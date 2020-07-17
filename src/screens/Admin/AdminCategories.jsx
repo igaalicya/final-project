@@ -37,44 +37,43 @@ class AdminCategories extends React.Component {
     return this.state.categoryList.map((val, idx) => {
       const { categoryName, id } = val;
       return (
-        <>
-          <tr
-            onClick={() => {
-              if (this.state.activeUsers.includes(idx)) {
-                this.setState({
-                  activeUsers: [
-                    ...this.state.activeUsers.filter((item) => item !== idx),
-                  ],
-                });
-              } else {
-                this.setState({
-                  activeUsers: [...this.state.activeUsers, idx],
-                });
-              }
-            }}
-          >
-            <td> {idx + 1} </td>
-            <td className="text-left"> {categoryName}</td>
-            <td align="right">
-              <Button
-                onClick={() => this.editBtnHandler(idx)}
-                className="w-80 pr-4 pl-4"
-                type="contained"
-              >
-                Edit
-              </Button>
-            </td>
-            <td>
-              <Button
-                onClick={() => this.deleteHandler(id)}
-                className="w-80 custom-btn-danger"
-                type="contained"
-              >
-                Delete
-              </Button>
-            </td>
-          </tr>
-        </>
+        <tr
+          key={idx.toString()}
+          onClick={() => {
+            if (this.state.activeUsers.includes(idx)) {
+              this.setState({
+                activeUsers: [
+                  ...this.state.activeUsers.filter((item) => item !== idx),
+                ],
+              });
+            } else {
+              this.setState({
+                activeUsers: [...this.state.activeUsers, idx],
+              });
+            }
+          }}
+        >
+          <td> {idx + 1} </td>
+          <td className="text-left"> {categoryName}</td>
+          <td align="right">
+            <Button
+              onClick={() => this.editBtnHandler(idx)}
+              className="w-80 pr-4 pl-4"
+              type="contained"
+            >
+              Edit
+            </Button>
+          </td>
+          <td>
+            <Button
+              onClick={() => this.deleteHandler(id)}
+              className="w-80 custom-btn-danger"
+              type="contained"
+            >
+              Delete
+            </Button>
+          </td>
+        </tr>
       );
     });
   };

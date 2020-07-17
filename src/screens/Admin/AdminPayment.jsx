@@ -314,34 +314,46 @@ class AdminPayment extends React.Component {
                 }).format(grandTotalPrice)}{" "}
               </td>
               <td>{status}</td>
-              <td>
-                <img
-                  onClick={this.viewImageHandler}
-                  style={{ width: "100px" }}
-                  src={buktiTransfer}
-                  alt=""
-                />
-                {console.log(buktiTransfer)}
-              </td>
-              <td align="right">
-                {" "}
-                <Button
-                  onClick={() => this.confirmPayment(id)}
-                  className="w-80 "
-                  type="contained"
-                >
-                  Accept
-                </Button>
-              </td>
-              <td>
-                <Button
-                  onClick={() => this.rejectPayment(id)}
-                  className="w-80 custom-btn-danger"
-                  type="contained"
-                >
-                  Reject
-                </Button>
-              </td>
+              {buktiTransfer ? (
+                <td>
+                  <img
+                    onClick={this.viewImageHandler}
+                    style={{ width: "100px" }}
+                    src={buktiTransfer}
+                    alt=""
+                  />
+                </td>
+              ) : (
+                <td className="text-secondary">
+                  Bukti transfer belum diupload
+                </td>
+              )}
+              {console.log(buktiTransfer)}
+              {buktiTransfer ? (
+                <>
+                  <td align="right">
+                    {" "}
+                    <Button
+                      onClick={() => this.confirmPayment(id)}
+                      className="w-80 "
+                      type="contained"
+                    >
+                      Accept
+                    </Button>
+                  </td>
+                  <td>
+                    <Button
+                      onClick={() => this.rejectPayment(id)}
+                      className="w-80 custom-btn-danger"
+                      type="contained"
+                    >
+                      Reject
+                    </Button>
+                  </td>
+                </>
+              ) : (
+                <td colSpan={2}></td>
+              )}
             </tr>
             <tr
               className={`collapse-item ${

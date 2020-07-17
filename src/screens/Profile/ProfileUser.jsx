@@ -15,6 +15,7 @@ class ProfileUser extends React.Component {
       address: "",
       password: "",
       email: "",
+      phone: "",
       role: "",
       id: 0,
     },
@@ -91,7 +92,7 @@ class ProfileUser extends React.Component {
   }
 
   render() {
-    const { fullName, address, email } = this.state.userData;
+    const { fullName, address, phone, email } = this.state.userData;
 
     return (
       <div style={{ display: "block" }}>
@@ -113,6 +114,9 @@ class ProfileUser extends React.Component {
                     <h3>{fullName}</h3>
                     {/* <h6 className="text-secondary">{username}</h6> */}
                     <h6 className="">{email}</h6>
+                    {phone ? (
+                      <h6 className="font-weight-light mt-4">{phone}</h6>
+                    ) : null}
                     {address ? (
                       <h6 className="font-weight-light mt-4">{address}</h6>
                     ) : null}
@@ -153,6 +157,17 @@ class ProfileUser extends React.Component {
                   value={this.state.editForm.username}
                   placeholder="Username"
                   onChange={(e) => this.inputHandler(e, "username", "editForm")}
+                  disabled
+                />
+              </div>
+              <div className="col-12 mt-3">
+                <input
+                  type="text"
+                  className="custom-text-input h-100 pl-3"
+                  value={this.state.editForm.email}
+                  placeholder="Email"
+                  onChange={(e) => this.inputHandler(e, "email", "editForm")}
+                  disabled
                 />
               </div>
               <div className="col-12 mt-3">
@@ -168,18 +183,18 @@ class ProfileUser extends React.Component {
                 <input
                   type="text"
                   className="custom-text-input h-100 pl-3"
-                  value={this.state.editForm.address}
-                  placeholder="Address"
-                  onChange={(e) => this.inputHandler(e, "address", "editForm")}
+                  value={this.state.editForm.phone}
+                  placeholder="Phone Number"
+                  onChange={(e) => this.inputHandler(e, "phone", "editForm")}
                 />
               </div>
               <div className="col-12 mt-3">
                 <input
                   type="text"
                   className="custom-text-input h-100 pl-3"
-                  value={this.state.editForm.email}
-                  placeholder="Email"
-                  onChange={(e) => this.inputHandler(e, "email", "editForm")}
+                  value={this.state.editForm.address}
+                  placeholder="Address"
+                  onChange={(e) => this.inputHandler(e, "address", "editForm")}
                 />
               </div>
               <div className="col-5 mt-5 offset-1">

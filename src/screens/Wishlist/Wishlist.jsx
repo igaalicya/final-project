@@ -50,7 +50,7 @@ class Wishlist extends React.Component {
   renderWishlist = () => {
     return this.state.wishlistData.map((val, idx) => {
       return (
-        <tr>
+        <tr key={idx.toString()}>
           <td>{idx + 1}</td>
           <td>
             <img

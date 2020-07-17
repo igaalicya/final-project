@@ -56,6 +56,7 @@ class Home extends React.Component {
       // console.log(val);
       return (
         <Link
+          key={val.id.toString()}
           className="vaccine-card col-md-4 col-lg-3 m-3"
           to={`/vaccineDetails/${val.id}`}
           style={{ textDecoration: "none", color: "inherit" }}
@@ -83,6 +84,7 @@ class Home extends React.Component {
       // console.log(val);
       return (
         <Link
+          key={val.id.toString()}
           className="col-md-6 col-lg-4 mb-4 mb-lg-0"
           to={`/profileDoctor/${val.id}`}
           style={{ textDecoration: "none", color: "inherit" }}
@@ -101,8 +103,9 @@ class Home extends React.Component {
   renderArticle = () => {
     return dummyArticles.map((val) => {
       return (
-        <div className="col-md-6 col-lg-4">
+        <div className="col-md-6 col-lg-4" key={val.id.toString()}>
           <Link
+            key={val.id.toString()}
             className="col-md-6 col-lg-4 mb-4 mb-lg-0"
             to={`/article/${val.id}`}
             style={{ textDecoration: "none", color: "inherit" }}

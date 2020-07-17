@@ -16,15 +16,15 @@ class Footer extends React.Component {
   render() {
     return (
       <div className="footer">
-        <div class="container">
-          <div class="row mb-5">
-            <div class="footer-about col-md-5">
-              <h2 class="footer-heading-2">About</h2>
+        <div className="container">
+          <div className="row mb-5">
+            <div className="footer-about col-md-5">
+              <h2 className="footer-heading-2">About</h2>
               <p>
                 Vrome provides you information on vaccines that help you prevent
                 the most common diseases.
               </p>
-              <div class="d-flex mt-5">
+              <div className="d-flex mt-5">
                 <div>
                   <a href="https://twitter.com/">
                     <span>
@@ -60,10 +60,10 @@ class Footer extends React.Component {
                 </div>
               </div>
             </div>
-            <div class="col-md-2"></div>
-            <div class="col-md-5">
-              <h2 class="footer-heading-2">Have a Questions?</h2>
-              <div class="block-23 mb-3">
+            <div className="col-md-2"></div>
+            <div className="col-md-5">
+              <h2 className="footer-heading-2">Have a Questions?</h2>
+              <div className="block-23 mb-3">
                 <div>
                   <p>
                     <span>
@@ -73,7 +73,7 @@ class Footer extends React.Component {
                         icon={faMapMarker}
                       />{" "}
                     </span>
-                    <span class="text">
+                    <span className="text">
                       BSD Green Office Park, GOP 9 - G Floor, BSD City
                     </span>
                   </p>
@@ -85,7 +85,7 @@ class Footer extends React.Component {
                         icon={faPhone}
                       />{" "}
                     </span>
-                    <span class="text">(021) 5578 - 1888 </span>
+                    <span className="text">(021) 5578 - 1888 </span>
                   </p>
                   <p className="footer-list">
                     <span>
@@ -95,14 +95,14 @@ class Footer extends React.Component {
                         icon={faPaperPlane}
                       />{" "}
                     </span>
-                    <span class="text">info@vrome.com</span>
+                    <span className="text">info@vrome.com</span>
                   </p>
                 </div>
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-md-12 text-center mb-3">
+          <div className="row">
+            <div className="col-md-12 text-center mb-3">
               {/* <p>Copyright © 2020 Vrome</p> */}
             </div>
           </div>

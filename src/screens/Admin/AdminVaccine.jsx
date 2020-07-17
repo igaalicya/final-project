@@ -12,7 +12,7 @@ class AdminVaccine extends React.Component {
     selectedFile: null,
     VaccineList: [],
     categoryList: [],
-    categoriesId: 4,
+    categoriesId: 1,
     categoriesIdEdit: 0,
     createForm: {
       vaccineName: "",
@@ -64,6 +64,7 @@ class AdminVaccine extends React.Component {
         console.log(err);
       });
   };
+
   renderVaccineList = () => {
     return this.state.VaccineList.map((val, idx) => {
       const { vaccineName, price, ageOfDose, brand, stock, id } = val;

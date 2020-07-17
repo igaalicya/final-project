@@ -7,6 +7,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 
 import { userKeepLogin, cookieChecker } from "./redux/actions";
+import ClipLoader from "react-spinners/ClipLoader";
 
 // import Navbar from "./components/Navbar/Navbar";
 import MyNavbar from "./components/Navbar/Navbar";
@@ -29,13 +30,13 @@ import ProfileUser from "./screens/Profile/ProfileUser";
 import History from "./screens/History/History";
 import ChangePassword from "./screens/ChangePassword/ChangePassword";
 import ArticleDetails from "./screens/ArticleDetails/ArticleDetails";
-import AdminArticles from "./screens/Admin/AdminArticles";
 import Wishlist from "./screens/Wishlist/Wishlist";
 import AdminPayment from "./screens/Admin/AdminPayment";
 import ForgetPassword from "./screens/ForgetPassword/ForgetPassword";
 import ResetPassword from "./screens/ForgetPassword/ResetPassword";
 import AdminCategories from "./screens/Admin/AdminCategories";
 import AdminPackage from "./screens/Admin/AdminPackage";
+import AdminReport from "./screens/Admin/AdminReport";
 
 const cookieObj = new Cookie();
 
@@ -56,10 +57,10 @@ class App extends React.Component {
           <Route exact path="/admin/members" component={AdminMembers} />
           <Route exact path="/admin/doctors" component={AdminDoctors} />
           <Route exact path="/admin/vaccine" component={AdminVaccine} />
-          <Route exact path="/admin/article" component={AdminArticles} />
           <Route exact path="/admin/transaction" component={AdminPayment} />
           <Route exact path="/admin/categories" component={AdminCategories} />
           <Route exact path="/admin/package" component={AdminPackage} />
+          <Route exact path="/admin/report" component={AdminReport} />
         </>
       );
     }
@@ -80,42 +81,57 @@ class App extends React.Component {
   };
 
   render() {
-    return (
-      <>
-        <MyNavbar />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/about" component={About} />
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/forgetPassword" component={ForgetPassword} />
-          <Route
-            exact
-            path="/resetPassword/:userId/:token"
-            component={ResetPassword}
-          />
-          <Route
-            exact
-            path="/profileDoctor/:doctorId"
-            component={ProfileDoctor}
-          />
-          <Route exact path="/doctors" component={Doctors} />
-          <Route exact path="/vaccine" component={Vaccine} />
-          <Route
-            exact
-            path="/vaccineDetails/:vaccineId"
-            component={VaccineDetails}
-          />
-          <Route exact path="/article/:articleId" component={ArticleDetails} />
-          <Route exact path="/test" component={Test} />
-          {this.renderAdminRoutes()}
-          {this.renderProtectedRoutes()}
-          <Route path="*" component={PageNotFound} />
-          {/* <Route exact path="*" component={PageNotFound} /> */}
-        </Switch>
-        <MyFooter />
-      </>
-    );
+    if (this.props.user.cookieChecked) {
+      return (
+        <>
+          <MyNavbar />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/about" component={About} />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/forgetPassword" component={ForgetPassword} />
+            <Route
+              exact
+              path="/resetPassword/:userId/:token"
+              component={ResetPassword}
+            />
+            <Route
+              exact
+              path="/profileDoctor/:doctorId"
+              component={ProfileDoctor}
+            />
+            <Route exact path="/doctors" component={Doctors} />
+            <Route exact path="/vaccine" component={Vaccine} />
+            <Route
+              exact
+              path="/vaccineDetails/:vaccineId"
+              component={VaccineDetails}
+            />
+            <Route
+              exact
+              path="/article/:articleId"
+              component={ArticleDetails}
+            />
+            <Route exact path="/test" component={Test} />
+            {this.renderAdminRoutes()}
+            {this.renderProtectedRoutes()}
+            <Route path="*" component={PageNotFound} />
+            {/* <Route exact path="*" component={PageNotFound} /> */}
+          </Switch>
+          <MyFooter />
+        </>
+      );
+    } else {
+      return (
+        <div
+          style={{ paddingTop: "260px", paddingLeft: "600px" }}
+          className="justify-content-center"
+        >
+          <ClipLoader size={100} color={"#123abc"} />
+        </div>
+      );
+    }
   }
 }
 

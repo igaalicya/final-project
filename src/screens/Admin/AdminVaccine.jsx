@@ -16,8 +16,8 @@ class AdminVaccine extends React.Component {
     categoriesIdEdit: 0,
     createForm: {
       vaccineName: "",
-      price: "",
-      ageOfDose: "",
+      price: 0,
+      ageOfDose: 0,
       description: "",
       brand: "",
       image: "",
@@ -308,6 +308,7 @@ class AdminVaccine extends React.Component {
                 value={this.state.createForm.brand}
                 placeholder="Brand"
                 onChange={(e) => this.inputHandler(e, "brand", "createForm")}
+                required="true"
               />
             </div>
             <div className="col-6 mt-3">

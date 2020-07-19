@@ -13,6 +13,7 @@ interface VaccineCardData {
   desc?: string;
   image?: string;
   stock?: number;
+  sold?: number;
 }
 
 type VaccineCardProps = {
@@ -40,6 +41,9 @@ class VaccineCard extends React.Component<VaccineCardProps> {
                 <h4 className="mb-2">{this.props.data.vaccineName}</h4>
                 <p style={{ fontSize: 12 }}>
                   stock : {this.props.data.stock} pcs
+                </p>
+                <p style={{ fontSize: 12 }}>
+                  sold : {this.props.data.sold} pcs
                 </p>
                 <span className="text-primary mb-2">
                   {new Intl.NumberFormat("id-ID", {

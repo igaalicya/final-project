@@ -4,7 +4,7 @@ import "./History.css";
 import Axios from "axios";
 import { API_URL } from "../../constants/API";
 import Button from "../../components/Buttons/Button";
-import { Table, Alert, Modal, ModalBody, ModalHeader } from "reactstrap";
+import { Alert, Modal, ModalBody, ModalHeader, Badge } from "reactstrap";
 import swal from "sweetalert";
 
 // import TextField from "../../components/TextField/TextField";
@@ -17,12 +17,6 @@ class History extends React.Component {
     selectedFile: null,
     transactionsId: 0,
     transactionData: {},
-    // transactionData: {
-    //   grandTotalPrice: 0,
-    //   transactionDate: "",
-    //   completionDate: "",
-    //   doctors: {},
-    // },
   };
 
   componentDidMount() {
@@ -110,12 +104,12 @@ class History extends React.Component {
         doctors,
         status,
         rejectionReason,
+        buktiTransfer,
       } = val;
       return (
         <>
           <tr className="text-center">
             <td> {idx + 1} </td>
-            {/* <td> {userId} </td> */}
             <td> {transactionDate} </td>
             <td> {doctors.fullName} </td>
             <td>
@@ -125,6 +119,7 @@ class History extends React.Component {
                 currency: "IDR",
               }).format(grandTotalPrice)}{" "}
             </td>
+            <td>{status}</td>
             <td align="center">
               <Button
                 onClick={() => {
@@ -153,7 +148,7 @@ class History extends React.Component {
             }`}
           >
             <td colSpan={1}></td>
-            <td colSpan={1} className="text-left">
+            <td colSpan={2} className="text-left">
               <div className="d-flex justify-content-around align-items-center">
                 <div className="d-flex">
                   <div className="d-flex flex-column ml-4 justify-content-center">
@@ -221,13 +216,18 @@ class History extends React.Component {
                         </h6>
                       </>
                     )}
+
                     {status === "pending" ? (
-                      <Button
-                        className="mt-2"
-                        onClick={() => this.uploadBuktiBtnHandler(idx)}
-                      >
-                        Upload Bukti Transfer
-                      </Button>
+                      buktiTransfer ? (
+                        <Button
+                          className="mt-2"
+                          onClick={() => this.uploadBuktiBtnHandler(idx)}
+                        >
+                          Upload Bukti Transfer
+                        </Button>
+                      ) : (
+                        <Badge color="primary">Waiting confirmation</Badge>
+                      )
                     ) : null}
 
                     {status === "rejected" ? (
@@ -255,20 +255,20 @@ class History extends React.Component {
           <h2>Transaction</h2>
         </caption>
         {this.state.historyData.length > 0 ? (
-          <Table>
+          <table className="admin-table text-center">
             <thead className="text-center">
               <tr className="text-center">
                 <th>No.</th>
-                {/* <th>User ID</th> */}
                 <th>Transaction Date</th>
                 <th>Doctor's Name</th>
                 <th>Total Price</th>
+                <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>{this.renderHistory()}</tbody>
             <tfoot></tfoot>
-          </Table>
+          </table>
         ) : (
           <Alert>Your History is empty!</Alert>
         )}

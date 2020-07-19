@@ -1,7 +1,7 @@
 .vaccine-image {
   transition: all 0.15s ease;
   width: 80px;
-  height: 100px;
+  height: 120px;
   object-fit: contain;
   align-items: center;
 }

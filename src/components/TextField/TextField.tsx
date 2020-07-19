@@ -8,12 +8,13 @@ type TextFieldProps = {
   onChange?: any;
   value?: any;
   type?: string;
+  required?: any;
 };
 
 class TextField extends React.Component<TextFieldProps> {
   state = {
     searchBarIsFocused: false,
-    searcBarInput: ""
+    searcBarInput: "",
   };
 
   onFocus = () => {
@@ -36,6 +37,8 @@ class TextField extends React.Component<TextFieldProps> {
         className={`custom-text-input ${
           this.state.searchBarIsFocused ? "active" : null
         } ${this.props.className}`}
+        // required={this.props.required}
+        // required={`${this.props.required ? "required" : null`}
       />
     );
   }

@@ -114,7 +114,7 @@ class AdminReport extends React.Component {
         });
     } else {
       Axios.get(
-        `${API_URL}/transactions/details/report/categories/${this.currentPage}/${this.state.minPrice}/${this.state.maxPrice}`,
+        `${API_URL}/transactions/details/report/categories/${this.state.minPrice}/${this.state.maxPrice}`,
         {
           params: {
             vaccineName: this.state.searchValue,

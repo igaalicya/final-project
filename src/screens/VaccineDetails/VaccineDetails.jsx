@@ -20,63 +20,99 @@ class VaccineDetails extends React.Component {
       stock: 0,
       id: 0,
     },
+    cartData: [],
+    cartCheck: {
+      quantity: 0,
+      userId: 0,
+      vaccinesId: 0,
+      id: 0,
+    },
+  };
+
+  getQuantityInCart = (id) => {
+    Axios.get(`${API_URL}/carts/thisUser`, {
+      params: {
+        usersId: this.props.user.id,
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+        this.setState({
+          cartData: res.data,
+        });
+        this.state.cartData.map((val) => {
+          console.log(val.vaccines.id);
+          if (val.vaccines.id === this.state.vaccineData.id) {
+            this.setState({
+              cartCheck: val,
+            });
+          }
+        });
+        console.log(this.state.cartCheck);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   addToCartHandler = () => {
-    console.log(this.state.vaccineData.id);
-    console.log(this.props.user.id);
     Axios.get(`${API_URL}/carts/check`, {
       params: {
         vaccinesId: this.state.vaccineData.id,
         usersId: this.props.user.id,
       },
     }).then((res) => {
-      console.log(res.data);
-      if (res.data.length > 0) {
-        Axios.put(
-          `${API_URL}/carts/updateQuantity/${res.data[0].id}/${this.props.user.id}/${this.state.vaccineData.id}`,
-          {
-            quantity: res.data[0].quantity + 1,
-          }
-        )
-          .then((res) => {
-            swal(
-              "Add to cart",
-              "Your item has been added to your cart",
-              "success"
-            );
-            console.log(res);
-            this.props.onFillCart(this.props.user.id);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+      // console.log(res.data);
+      // console.log(this.state.cartCheck.quantity);
+      // console.log(this.state.vaccineData.stock);
+      if (this.state.cartCheck.quantity < this.state.vaccineData.stock) {
+        if (res.data.length > 0) {
+          Axios.put(
+            `${API_URL}/carts/updateQuantity/${res.data[0].id}/${this.props.user.id}/${this.state.vaccineData.id}`,
+            {
+              quantity: res.data[0].quantity + 1,
+            }
+          )
+            .then((res) => {
+              swal(
+                "Add to cart",
+                "Your item has been added to your cart",
+                "success"
+              );
+              console.log(res);
+              this.props.onFillCart(this.props.user.id);
+              this.getQuantityInCart();
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } else {
+          Axios.post(
+            `${API_URL}/carts/${this.props.user.id}/${this.state.vaccineData.id}`,
+            {
+              quantity: 1,
+            }
+          )
+            .then((res) => {
+              console.log(res);
+              swal(
+                "Add to cart",
+                "Your item has been added to your cart",
+                "success"
+              );
+              this.props.onFillCart(this.props.user.id);
+              this.getQuantityInCart();
+
+              // this.props.numberOfItemInCart(this.props.user.id);
+            })
+
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+        this.getQuantityInCart();
       } else {
-        Axios.post(
-          `${API_URL}/carts/${this.props.user.id}/${this.state.vaccineData.id}`,
-          {
-            quantity: 1,
-            // params: {
-            //   vaccinesId: this.state.vaccineData.id,
-            //   usersId: this.props.user.id,
-            // },
-          }
-        )
-          .then((res) => {
-            console.log(res);
-            swal(
-              "Add to cart",
-              "Your item has been added to your cart",
-              "success"
-            );
-            this.props.onFillCart(this.props.user.id);
-
-            // this.props.numberOfItemInCart(this.props.user.id);
-          })
-
-          .catch((err) => {
-            console.log(err);
-          });
+        swal("Stock Not Enough", "can't add item anymore", "warning");
       }
     });
     console.log(this.state.vaccineData.id);
@@ -89,9 +125,9 @@ class VaccineDetails extends React.Component {
         vaccinesId: this.state.vaccineData.id,
       },
     }).then((res) => {
-      console.log(res.data);
-      console.log(this.props.user.id);
-      console.log(this.state.vaccineData.id);
+      // console.log(res.data);
+      // console.log(this.props.user.id);
+      // console.log(this.state.vaccineData.id);
       if (res.data.length > 0) {
         swal("Error", "The item is already exist on your wishlist", "error");
       } else {
@@ -115,16 +151,15 @@ class VaccineDetails extends React.Component {
           });
       }
     });
-    console.log(this.state.vaccineData.id);
   };
 
   componentDidMount() {
+    this.getQuantityInCart(this.props.match.params.vaccineId);
     Axios.get(`${API_URL}/vaccines/${this.props.match.params.vaccineId}`)
       .then((res) => {
         console.log(res.data[0]);
         this.setState({ vaccineData: res.data[0] });
         this.props.onFillCart(this.props.user.id);
-        console.log(this.state.vaccineData);
       })
       .catch((err) => {
         console.log(err);
@@ -169,8 +204,17 @@ class VaccineDetails extends React.Component {
                       }).format(price)}
                     </h6>
                     <h6 className="mt-4">
-                      vaksin diberikan saat{" "}
-                      <span className="font-weight-bold">{ageOfDose}</span>
+                      {" "}
+                      {ageOfDose > 23 ? (
+                        <span className="font-weight-bold">
+                          {" "}
+                          vaksin untuk dewasa
+                        </span>
+                      ) : (
+                        <span className="font-weight-bold">
+                          vaksin diberikan untuk usia {ageOfDose} bulan
+                        </span>
+                      )}
                     </h6>
                   </div>
                   <div className="mt-5 py-3 border-top text-center">

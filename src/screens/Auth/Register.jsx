@@ -10,6 +10,7 @@ import {
   faUnlock,
   faUser,
   faAt,
+  faMapMarkerAlt,
 } from "@fortawesome/free-solid-svg-icons/";
 import {
   Button,
@@ -33,6 +34,7 @@ class Register extends React.Component {
       fullName: "",
       username: "",
       email: "",
+      address: "",
       password: "",
       confirmPassword: "",
     },
@@ -58,12 +60,19 @@ class Register extends React.Component {
   };
 
   registerBtnHandler = () => {
-    const { username, fullName, password, email } = this.state.registerForm;
+    const {
+      username,
+      fullName,
+      password,
+      email,
+      address,
+    } = this.state.registerForm;
     let newUser = {
       username,
       fullName,
       password,
       email,
+      address,
     };
 
     this.props.onRegister(newUser);
@@ -143,6 +152,27 @@ class Register extends React.Component {
                           }
                           placeholder="Email"
                           type="email"
+                        />
+                      </InputGroup>
+                    </FormGroup>
+                    <FormGroup className="mb-3">
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <FontAwesomeIcon
+                              icon={faMapMarkerAlt}
+                              style={{ fontSize: 14 }}
+                            />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          value={this.state.registerForm.address}
+                          onChange={(e) =>
+                            this.inputHandler(e, "address", "registerForm")
+                          }
+                          placeholder="Address"
+                          type="text"
+                          required
                         />
                       </InputGroup>
                     </FormGroup>

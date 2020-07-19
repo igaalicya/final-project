@@ -3,7 +3,7 @@ import DatePicker from "react-date-picker";
 // import DatePicker from "react-datepicker";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Alert, Modal, ModalBody, ModalHeader } from "reactstrap";
+import { Alert, Modal, ModalBody, ModalHeader, Badge } from "reactstrap";
 import "./Cart.css";
 import Axios from "axios";
 import { API_URL } from "../../constants/API";
@@ -37,7 +37,6 @@ class Cart extends React.Component {
     delivery: 0,
     shipping: "express",
     vaccineDate: new Date(),
-    // startDate: new Date(),
   };
 
   handleChange = this.handleChange.bind(this);
@@ -62,7 +61,6 @@ class Cart extends React.Component {
     Axios.get(`${API_URL}/carts/thisUser`, {
       params: {
         usersId: this.props.user.id,
-        // _expand: "vaccine",
       },
     })
       .then((res) => {
@@ -79,6 +77,7 @@ class Cart extends React.Component {
             ...this.state.checkoutData,
             usersId: this.props.user.id,
             grandTotalPrice: grandTotalPrice + +this.state.delivery,
+            // grandTotalPrice: grandTotalPrice,
             transactionDate: this.state.dateCalendar.toLocaleDateString(),
             doctorId: this.state.doctorId,
             // vaccineDate: this.state.vaccineDate.toLocaleDateString(),
@@ -89,6 +88,68 @@ class Cart extends React.Component {
         console.log(err);
       });
     console.log(this.state.cartData);
+  };
+
+  addQuantityHandler = (id) => {
+    console.log(id);
+    Axios.get(`${API_URL}/carts/check`, {
+      params: {
+        vaccinesId: id,
+        usersId: this.props.user.id,
+      },
+    }).then((res) => {
+      console.log(res.data);
+      if (res.data[0].quantity < res.data[0].vaccines.stock) {
+        Axios.put(
+          `${API_URL}/carts/updateQuantity/${res.data[0].id}/${this.props.user.id}/${id}`,
+          {
+            quantity: res.data[0].quantity + 1,
+          }
+        )
+          .then((res) => {
+            console.log(res);
+            this.props.onFillCart(this.props.user.id);
+            this.getCartData();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        swal("Stock Not Enough", "can't add item anymore", "warning");
+      }
+    });
+  };
+
+  subQuantityHandler = (id) => {
+    console.log(id);
+    Axios.get(`${API_URL}/carts/check`, {
+      params: {
+        vaccinesId: id,
+        usersId: this.props.user.id,
+      },
+    }).then((res) => {
+      console.log(res.data[0].quantity);
+
+      Axios.put(
+        `${API_URL}/carts/updateQuantity/${res.data[0].id}/${this.props.user.id}/${id}`,
+        {
+          quantity: res.data[0].quantity - 1,
+        }
+      )
+        .then((res) => {
+          console.log(res);
+          this.props.onFillCart(this.props.user.id);
+          this.getCartData();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      this.getCartData();
+      if (res.data[0].quantity <= 1) {
+        this.deleteHandler(res.data[0].id);
+      }
+    });
   };
 
   getDoctorList = () => {
@@ -131,7 +192,23 @@ class Cart extends React.Component {
               currency: "IDR",
             }).format(val.vaccines.price)}
           </td>
+          <td align="right">
+            <Button
+              type="outlined"
+              onClick={() => this.subQuantityHandler(val.vaccines.id)}
+            >
+              -
+            </Button>
+          </td>
           <td>{val.quantity}</td>
+          <td>
+            <Button
+              type="outlined"
+              onClick={() => this.addQuantityHandler(val.vaccines.id)}
+            >
+              +
+            </Button>
+          </td>
           <td align="center">
             <Button type="outlined" onClick={() => this.deleteHandler(val.id)}>
               Delete
@@ -145,12 +222,12 @@ class Cart extends React.Component {
   deleteHandler = (id) => {
     Axios.delete(`${API_URL}/carts/${id}`)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         this.getCartData();
         this.props.onFillCart(this.props.user.id);
       })
       .catch((err) => {
-        console.log("gagal");
+        console.log(err);
       });
   };
 
@@ -172,7 +249,9 @@ class Cart extends React.Component {
     return cartData.map((val, idx) => {
       const { quantity, vaccines } = val;
 
-      totalPrice = quantity * vaccines.price;
+      if (quantity <= vaccines.stock) {
+        totalPrice = quantity * vaccines.price;
+      }
       return (
         <tr key={idx.toString()}>
           <td>{idx + 1}</td>
@@ -185,10 +264,15 @@ class Cart extends React.Component {
           </td>
           <td>{quantity}</td>
           <td>
-            {new Intl.NumberFormat("id-ID", {
-              style: "currency",
-              currency: "IDR",
-            }).format(totalPrice)}
+            {totalPrice
+              ? new Intl.NumberFormat("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                }).format(totalPrice)
+              : new Intl.NumberFormat("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                }).format(0)}
           </td>
         </tr>
       );
@@ -215,6 +299,7 @@ class Cart extends React.Component {
               {
                 // transactionsId: res.data.id,
                 // vaccinesId: val.vaccines.id,
+
                 price: val.vaccines.price,
                 quantity: val.quantity,
                 totalPrice: val.vaccines.price * val.quantity,
@@ -227,6 +312,7 @@ class Cart extends React.Component {
                   // console.log(val.vaccines.stock - val.quantity);
                   Axios.put(`${API_URL}/vaccines/checkout/${val.vaccines.id}`, {
                     stock: val.vaccines.stock - val.quantity,
+                    sold: val.vaccines.sold + val.quantity,
                     id: val.id,
                   })
                     .then((res) => {
@@ -370,24 +456,38 @@ class Cart extends React.Component {
                   <th>Image</th>
                   <th>vaccine Name</th>
                   <th>Price</th>
-                  <th>Quantity</th>
+                  <th colSpan={3}>Quantity</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>{this.renderCart()}</tbody>
             </table>
             <div className="cart-card">
-              <div className="cart-card-head p-4">Order Summary</div>
-              <div className="cart-card-body p-4">
+              <div className="cart-card-head pt-4 pb-4">
+                <strong>Order Summary</strong>
+              </div>
+              <div className="cart-card-body">
                 <div className="d-flex justify-content-between my-2">
                   <div>Subtotal</div>
                   <strong>{priceFormatter(this.renderSubTotalPrice())}</strong>
                 </div>
                 <div className="d-flex justify-content-between my-2">
-                  <div>Delivery Fee</div>
+                  <Badge color="warning" size="lg">
+                    Check your address first, vaccine will deliver to your
+                    address
+                  </Badge>
+                </div>
+                <div className="d-flex justify-content-between">
+                  <div>
+                    Delivery Fee{" "}
+                    {/* <Badge color="warning" size="lg">
+                      Check your address first, vaccine will deliver to your
+                      address
+                    </Badge> */}
+                  </div>
                   <strong>{this.renderShippingPrice()}</strong>
                 </div>
-                <div className="d-flex justify-content-between my-2 align-items-center">
+                {/* <div className="d-flex justify-content-between my-2 align-items-center">
                   <label>Delivery</label>
                   <select
                     onChange={(e) =>
@@ -398,7 +498,7 @@ class Cart extends React.Component {
                     <option value="express">express</option>
                     <option value="standard">standard</option>
                   </select>
-                </div>
+                </div> */}
                 <div className="d-flex justify-content-between my-2 align-items-center">
                   <label>Doctor</label>
                   <select
@@ -414,15 +514,7 @@ class Cart extends React.Component {
                 </div>
                 <div className="d-flex justify-content-between my-2 ">
                   <label>Date</label>
-                  {/* <input
-                    type="date"
-                    className="form-control w-50"
-                    name="date"
-                    placeholder="Pick a date"
-                    onChange={(e) => {
-                      this.handleChange(e, "vaccineDate");
-                    }}
-                  /> */}
+
                   <DatePicker
                     customStyles={{ dateInput: { borderWidth: 0 } }}
                     style={{
@@ -433,22 +525,38 @@ class Cart extends React.Component {
                     className="form-control w-50"
                     onChange={this.handleChange}
                     value={this.state.vaccineDate}
+                    minDate={new Date()}
                   />
                   {/* {console.log(this.state.vaccineDate.toLocaleDateString())} */}
                 </div>
-
-                <div className="cart-card-foot p-4">
-                  <div className="d-flex justify-content-between my-2">
-                    <div>Total</div>
-                    <div>{priceFormatter(this.renderTotalPrice())}</div>
+                <div className="d-flex justify-content-between my-3">
+                  <div>Total</div>
+                  <div>
+                    <strong>{priceFormatter(this.renderTotalPrice())}</strong>
                   </div>
                 </div>
-                <input
-                  onClick={this.checkoutBtnHandler}
-                  type="button"
-                  value="Checkout"
-                  className="btn btn-success btn-block mt-3"
-                />
+
+                {this.renderSubTotalPrice() > 0 ? (
+                  <input
+                    onClick={this.checkoutBtnHandler}
+                    type="button"
+                    value="Checkout"
+                    className="btn btn-success btn-block mt-3"
+                  />
+                ) : (
+                  <>
+                    <Badge color="danger">
+                      your subtotal is Rp. 0,00 you can't checkout
+                    </Badge>
+                    <input
+                      onClick={this.checkoutBtnHandler}
+                      type="button"
+                      value="Checkout"
+                      className="btn btn-success btn-block mt-3"
+                      disabled
+                    />
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -484,13 +592,20 @@ class Cart extends React.Component {
                     </tr>
                   </thead>
                   <tbody>{this.checkoutHandlder()}</tbody>
-                  <tfoot>
-                    <tr colSpan={3}>
-                      Delivery Cost : {this.renderShippingPrice()}
-                    </tr>
-                    <tr colSpan={3}>
-                      grand Total Price :
-                      {priceFormatter(this.renderTotalPrice())}
+                  <tfoot align="left">
+                    <tr>
+                      <td colSpan={5}>
+                        Delivery Cost : {this.renderShippingPrice()}
+                        <br />
+                        Grand Total Price :
+                        {priceFormatter(this.renderTotalPrice())}
+                        <br /> <br />{" "}
+                        <p className="font-weight-bold">
+                          SILAHKAN TRANSFER KE REKENING
+                          <br />
+                          CIMB NIAGA A.N IGA ALICYA 778237827
+                        </p>
+                      </td>
                     </tr>
                   </tfoot>
                 </table>

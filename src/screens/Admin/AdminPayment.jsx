@@ -12,6 +12,7 @@ class AdminPayment extends React.Component {
     transactionPending: [],
     transactionRejected: [],
     transactionList: [],
+    detailTransactions: {},
     modalOpen: false,
     viewImage: false,
     dateCalendar: new Date(),
@@ -32,6 +33,35 @@ class AdminPayment extends React.Component {
       },
     });
     console.log(e.target);
+  };
+
+  detailBtnHadler = (idx) => {
+    const { activePage } = this.state;
+    if (activePage === "pending") {
+      this.setState({
+        detailTransactions: {
+          ...this.state.transactionPending[idx],
+        },
+        viewImage: true,
+      });
+      console.log(this.state.transactionPending[idx]);
+    } else if (activePage === "completed") {
+      this.setState({
+        detailTransactions: {
+          ...this.state.transactionCompleted[idx],
+        },
+        viewImage: true,
+      });
+      console.log(this.state.transactionCompleted[idx]);
+    } else if (activePage === "rejected") {
+      this.setState({
+        detailTransactions: {
+          ...this.state.transactionRejected[idx],
+        },
+        viewImage: true,
+      });
+      console.log(this.state.transactionRejected[idx]);
+    }
   };
 
   viewImageHandler = (idx) => {
@@ -100,24 +130,7 @@ class AdminPayment extends React.Component {
         console.log(val);
         return (
           <>
-            <tr
-              className="text-center"
-              onClick={() => {
-                if (this.state.activeProducts.includes(idx)) {
-                  this.setState({
-                    activeProducts: [
-                      ...this.state.activeProducts.filter(
-                        (item) => item !== idx
-                      ),
-                    ],
-                  });
-                } else {
-                  this.setState({
-                    activeProducts: [...this.state.activeProducts, idx],
-                  });
-                }
-              }}
-            >
+            <tr>
               <td> {idx + 1} </td>
               <td> {users.username} </td>
               <td>
@@ -128,46 +141,20 @@ class AdminPayment extends React.Component {
                 }).format(grandTotalPrice)}{" "}
               </td>
               <td>{status}</td>
-            </tr>
-            <tr
-              className={`collapse-item ${
-                this.state.activeProducts.includes(idx) ? "active" : null
-              }`}
-            >
-              <td colSpan={1}></td>
-              <td className="text-left" colSpan={2}>
-                <h6 className="mt-2">
-                  Transaction Date:
-                  <span style={{ fontWeight: "normal" }}>
-                    {" "}
-                    {transactionDate}
-                  </span>
-                </h6>
-                <h6>
-                  Completion Date:
-                  <span
-                    style={{ fontWeight: "normal" }}
-                    className="text-justify"
-                  >
-                    {completionDate}
-                  </span>
-                </h6>
-                <h6>
-                  Total Price:
-                  <span
-                    style={{ fontWeight: "normal" }}
-                    className="text-justify"
-                  >
-                    {grandTotalPrice}
-                  </span>
-                </h6>
+              <td align="center">
+                <Button
+                  onClick={() => this.detailBtnHadler(idx)}
+                  className="w-80 "
+                  type="contained"
+                >
+                  Detail
+                </Button>
               </td>
             </tr>
           </>
         );
       });
     } else if (activePage === "rejected") {
-      // console.log(this.state.transactionCompleted);
       return this.state.transactionRejected.map((val, idx) => {
         const {
           users,
@@ -180,24 +167,7 @@ class AdminPayment extends React.Component {
         console.log(val);
         return (
           <>
-            <tr
-              className="text-center"
-              onClick={() => {
-                if (this.state.activeProducts.includes(idx)) {
-                  this.setState({
-                    activeProducts: [
-                      ...this.state.activeProducts.filter(
-                        (item) => item !== idx
-                      ),
-                    ],
-                  });
-                } else {
-                  this.setState({
-                    activeProducts: [...this.state.activeProducts, idx],
-                  });
-                }
-              }}
-            >
+            <tr>
               <td> {idx + 1} </td>
               <td> {users.username} </td>
               <td>
@@ -208,64 +178,14 @@ class AdminPayment extends React.Component {
                 }).format(grandTotalPrice)}{" "}
               </td>
               <td>{status}</td>
-            </tr>
-            <tr
-              className={`collapse-item ${
-                this.state.activeProducts.includes(idx) ? "active" : null
-              }`}
-            >
-              <td colSpan={1}></td>
-              <td className="text-left" colSpan={2}>
-                <h6 className="mt-2">
-                  Transaction Date:
-                  <span style={{ fontWeight: "normal" }}>
-                    {" "}
-                    {transactionDate}
-                  </span>
-                </h6>
-                <h6>
-                  Completion Date:
-                  <span
-                    style={{ fontWeight: "normal" }}
-                    className="text-justify"
-                  >
-                    {completionDate}
-                  </span>
-                </h6>
-                <h6>
-                  Total Price:
-                  <span
-                    style={{ fontWeight: "normal" }}
-                    className="text-justify"
-                  >
-                    {grandTotalPrice}
-                  </span>
-                </h6>
-                {status === "rejected" ? (
-                  <>
-                    <h6>
-                      Rejection Reason:
-                      <span
-                        style={{ fontWeight: "normal" }}
-                        className="text-justify"
-                      >
-                        {" "}
-                        {rejectionReason}
-                      </span>
-                    </h6>
-                  </>
-                ) : (
-                  <>
-                    <h6>
-                      <span
-                        style={{ fontWeight: "normal" }}
-                        className="text-justify"
-                      >
-                        {" "}
-                      </span>
-                    </h6>
-                  </>
-                )}
+              <td align="center">
+                <Button
+                  onClick={() => this.detailBtnHadler(idx)}
+                  className="w-80 "
+                  type="contained"
+                >
+                  Detail
+                </Button>
               </td>
             </tr>
           </>
@@ -286,24 +206,7 @@ class AdminPayment extends React.Component {
 
         return (
           <>
-            <tr
-              className="text-center"
-              onClick={() => {
-                if (this.state.activeProducts.includes(idx)) {
-                  this.setState({
-                    activeProducts: [
-                      ...this.state.activeProducts.filter(
-                        (item) => item !== idx
-                      ),
-                    ],
-                  });
-                } else {
-                  this.setState({
-                    activeProducts: [...this.state.activeProducts, idx],
-                  });
-                }
-              }}
-            >
+            <tr>
               <td> {idx + 1} </td>
               <td> {users.username} </td>
               <td>
@@ -325,89 +228,19 @@ class AdminPayment extends React.Component {
                 </td>
               ) : (
                 <td className="text-secondary">
-                  Bukti transfer belum diupload
+                  Payment slip has not been uploaded
                 </td>
               )}
-              {console.log(buktiTransfer)}
-              {buktiTransfer ? (
-                <>
-                  <td align="right">
-                    {" "}
-                    <Button
-                      onClick={() => this.confirmPayment(id)}
-                      className="w-80 "
-                      type="contained"
-                    >
-                      Accept
-                    </Button>
-                  </td>
-                  <td>
-                    <Button
-                      onClick={() => this.rejectPayment(id)}
-                      className="w-80 custom-btn-danger"
-                      type="contained"
-                    >
-                      Reject
-                    </Button>
-                  </td>
-                </>
-              ) : (
-                <td colSpan={2}></td>
-              )}
-            </tr>
-            <tr
-              className={`collapse-item ${
-                this.state.activeProducts.includes(idx) ? "active" : null
-              }`}
-            >
-              <td colSpan={1}></td>
-              <td className="text-left" colSpan={2}>
-                <h6 className="mt-2">
-                  Transaction Date:
-                  <span style={{ fontWeight: "normal" }}>
-                    {" "}
-                    {transactionDate}
-                  </span>
-                </h6>
-                <h6>
-                  Price:
-                  <span
-                    style={{ fontWeight: "normal" }}
-                    className="text-justify"
-                  >
-                    {new Intl.NumberFormat("id-ID", {
-                      style: "currency",
-                      currency: "IDR",
-                    }).format(grandTotalPrice)}
-                  </span>
-                </h6>
-                <h6>
-                  Completion Date:
-                  <span
-                    style={{ fontWeight: "normal" }}
-                    className="text-justify"
-                  >
-                    {completionDate}
-                  </span>
-                </h6>
-                <h6>
-                  Total Price:
-                  <span
-                    style={{ fontWeight: "normal" }}
-                    className="text-justify"
-                  >
-                    {grandTotalPrice}
-                  </span>
-                </h6>
-              </td>
-              <td colSpan={4}>
-                {/* <h6>Bukti Transfer :</h6>
-                <span>
-                  <img
-                    src="https://media.karousell.com/media/photos/products/2017/11/27/bukti_transfer_1511770644_d1d5a6a2.jpg"
-                    alt=""
-                  />
-                </span> */}
+              {/* {console.log(buktiTransfer)} */}
+
+              <td align="center">
+                <Button
+                  onClick={() => this.detailBtnHadler(idx)}
+                  className="w-80 "
+                  type="contained"
+                >
+                  Detail
+                </Button>
               </td>
             </tr>
           </>
@@ -424,17 +257,20 @@ class AdminPayment extends React.Component {
 
       .then((res) => {
         swal("Success!", "The Transaction has been confirmed", "success");
+        this.setState({ viewImage: false });
         this.getTransactionPending();
         this.getTransactionCompleted();
       })
       .catch((err) => {
         console.log(err);
+        this.setState({ viewImage: false });
       });
     console.log(` tgl ${this.state.dateCalendar.toLocaleDateString()}`);
   };
 
   rejectPayment = (id) => {
     this.setState({
+      viewImage: false,
       modalOpen: true,
       paymentId: id,
     });
@@ -456,6 +292,32 @@ class AdminPayment extends React.Component {
         swal("Error!", "Rejection reason has not been recorded", "error");
         console.log(err);
       });
+  };
+
+  renderBtnAction = () => {
+    if (this.state.activePage === "pending") {
+      return (
+        <div className="row justify-content-center m-2">
+          <Button
+            onClick={() =>
+              this.confirmPayment(this.state.detailTransactions.id)
+            }
+            className="w-80 "
+            type="contained"
+          >
+            Accept
+          </Button>
+          {"   "}
+          <Button
+            onClick={() => this.rejectPayment(this.state.detailTransactions.id)}
+            className="w-80 custom-btn-danger"
+            type="contained"
+          >
+            Reject
+          </Button>
+        </div>
+      );
+    }
   };
 
   toggleModal = () => {
@@ -516,13 +378,12 @@ class AdminPayment extends React.Component {
                 <th>User ID</th>
                 <th>Total Price</th>
                 <th>Status</th>
-
                 {this.state.activePage === "pending" ? (
                   <>
-                    <th>Bukti Transfer</th>
-                    <th colSpan={2}>Action</th>
+                    <th>Payment Slip</th>
                   </>
                 ) : null}
+                <th colSpan={2}>Action</th>
               </tr>
             </thead>
             <tbody>{this.renderTransactionList()}</tbody>
@@ -580,17 +441,60 @@ class AdminPayment extends React.Component {
         >
           <ModalHeader toggle={this.toggleModalBukti}>
             <caption>
-              <h3>Bukti Transfer</h3>
+              <h3>Detail Transaction</h3>
             </caption>
           </ModalHeader>
           <ModalBody className="justify-content-center">
             <div className="justify-content-center">
-              <img
-                className="center"
-                style={{ width: "460px" }}
-                src="https://media.karousell.com/media/photos/products/2017/11/27/bukti_transfer_1511770644_d1d5a6a2.jpg"
-                alt=""
-              />
+              {this.state.detailTransactions.buktiTransfer ? (
+                <>
+                  <h6>Payment slip: </h6>
+                  <img
+                    className="center"
+                    style={{ width: "460px" }}
+                    src="https://media.karousell.com/media/photos/products/2017/11/27/bukti_transfer_1511770644_d1d5a6a2.jpg"
+                    alt=""
+                  />
+                </>
+              ) : null}
+              <h6 className="mt-2">
+                Transaction Date:
+                <span style={{ fontWeight: "normal" }}>
+                  {" "}
+                  {this.state.detailTransactions.transactionDate}
+                </span>
+              </h6>
+              <h6>
+                Completion Date:
+                <span style={{ fontWeight: "normal" }} className="text-justify">
+                  {this.state.detailTransactions.completionDate}
+                </span>
+              </h6>
+              <h6>
+                Total Price:
+                <span style={{ fontWeight: "normal" }} className="text-justify">
+                  {new Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                  }).format(this.state.detailTransactions.grandTotalPrice)}
+                </span>
+              </h6>
+              {this.state.detailTransactions.rejectionReason ? (
+                <h6>
+                  Rejection Reason:
+                  <span
+                    style={{ fontWeight: "normal" }}
+                    className="text-justify"
+                  >
+                    {this.state.detailTransactions.rejectionReason}
+                  </span>
+                </h6>
+              ) : null}
+              {this.state.detailTransactions.buktiTransfer ? (
+                this.renderBtnAction()
+              ) : (
+                <h6>Payment slip has not been uploaded</h6>
+              )}
             </div>
           </ModalBody>
         </Modal>

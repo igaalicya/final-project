@@ -63,10 +63,7 @@ class ResetPassword extends React.Component {
       password: this.state.passwordData.password,
     };
     console.log(resetData);
-    if (
-      this.state.passwordData.password ===
-      this.state.passwordData.confirmPassword
-    ) {
+    if (this.state.passwordData.password) {
       Axios.put(`${API_URL}/users/resetPassword`, resetData)
         .then((res) => {
           console.log(res.data);

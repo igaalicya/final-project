@@ -8,12 +8,17 @@ import Button from "../../components/Buttons/Button";
 import TextField from "../../components/TextField/TextField";
 
 class AdminVaccine extends React.Component {
+  currentPage = 0;
   state = {
     selectedFile: null,
     VaccineList: [],
     categoryList: [],
+    vaccinePage: [],
     categoriesId: 1,
     categoriesIdEdit: 0,
+    currentPage: 0,
+    countPages: 0,
+    countVaccines: 0,
     createForm: {
       vaccineName: "",
       price: 0,
@@ -38,6 +43,11 @@ class AdminVaccine extends React.Component {
     activeUsers: [],
     modalOpen: false,
     categories: {},
+    categoryFilter: "all",
+    minPrice: 0,
+    maxPrice: 999999999,
+    searchValue: "",
+    orderBy: "vaccineNameAsc",
   };
 
   getVaccineList = () => {
@@ -48,6 +58,113 @@ class AdminVaccine extends React.Component {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  getVaccineListPerPage = (categories) => {
+    this.getCountVaccines();
+    if (categories === "all") {
+      Axios.get(
+        `${API_URL}/vaccines/page/${this.currentPage}/${this.state.orderBy}/${this.state.minPrice}/${this.state.maxPrice}`,
+        {
+          params: {
+            vaccineName: this.state.searchValue,
+          },
+        }
+      )
+        .then((res) => {
+          this.setState({ vaccinePage: res.data });
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      Axios.get(
+        `${API_URL}/vaccines/page/categories/${this.currentPage}/${this.state.orderBy}/${this.state.minPrice}/${this.state.maxPrice}`,
+        {
+          params: {
+            vaccineName: this.state.searchValue,
+            categoriesName: categories,
+          },
+        }
+      )
+        .then((res) => {
+          this.setState({ vaccinePage: res.data });
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  getCountVaccines = () => {
+    if (this.state.categoryFilter === "all") {
+      Axios.get(
+        `${API_URL}/vaccines/count/all/${this.state.minPrice}/${this.state.maxPrice}`,
+        {
+          params: {
+            vaccineName: this.state.searchValue,
+          },
+        }
+      )
+        .then((res) => {
+          this.setState({
+            countVaccines: res.data,
+          });
+          console.log(this.state.countVaccines);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      Axios.get(
+        `${API_URL}/vaccines/count/categories/${this.state.minPrice}/${this.state.maxPrice}`,
+        {
+          params: {
+            vaccineName: this.state.searchValue,
+            categoriesName: this.state.categoryFilter,
+          },
+        }
+      )
+        .then((res) => {
+          this.setState({
+            countVaccines: res.data,
+          });
+          console.log(this.state.countVaccines);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  renderButton() {
+    let arr = [];
+    let j = 0;
+    for (let i = 0; i < this.state.countVaccines; i++) {
+      if (i % 9 === 0) {
+        arr.push(
+          <Button
+            key={i.toString()}
+            className="ml-1 btn-page"
+            onClick={() => this.goToPage(i)}
+          >
+            {j + 1}{" "}
+          </Button>
+        );
+        j = j + 1;
+      }
+    }
+    return arr;
+  }
+
+  goToPage = (i) => {
+    // kalo pake state gabisa langsung keganti
+    this.currentPage = i;
+    console.log(this.currentPage);
+    this.getVaccineListPerPage(this.state.categoryFilter);
+    this.currentPage = i;
   };
 
   getCategories = () => {
@@ -66,7 +183,7 @@ class AdminVaccine extends React.Component {
   };
 
   renderVaccineList = () => {
-    return this.state.VaccineList.map((val, idx) => {
+    return this.state.vaccinePage.map((val, idx) => {
       const { vaccineName, price, ageOfDose, brand, stock, id } = val;
       return (
         <>
@@ -146,6 +263,13 @@ class AdminVaccine extends React.Component {
     });
   };
 
+  optionDataCategory = () => {
+    return this.state.categoryList.map((val) => {
+      const { categoryName, id } = val;
+      return <option value={categoryName}>{categoryName}</option>;
+    });
+  };
+
   addVaccineHandler = () => {
     this.setState({
       createForm: {
@@ -165,27 +289,38 @@ class AdminVaccine extends React.Component {
 
     formData.append("vaccinesData", JSON.stringify(this.state.createForm));
 
-    Axios.post(`${API_URL}/vaccines/${this.state.categoriesId}`, formData)
-      .then((res) => {
-        swal("Success", "Your items has been added to the list", "success");
-        this.getVaccineList();
-        this.setState({
-          createForm: {
-            vaccineName: "",
-            price: "",
-            ageOfDose: "",
-            description: "",
-            brand: "",
-            image: "",
-            stock: 0,
-          },
-          selectedFile: null,
+    if (
+      this.state.createForm.ageOfDose &&
+      this.state.createForm.brand &&
+      this.state.createForm.description &&
+      this.state.createForm.price &&
+      this.state.createForm.stock &&
+      this.state.createForm.vaccineName
+    ) {
+      Axios.post(`${API_URL}/vaccines/${this.state.categoriesId}`, formData)
+        .then((res) => {
+          swal("Success", "Your items has been added to the list", "success");
+          this.getVaccineList();
+          this.setState({
+            createForm: {
+              vaccineName: "",
+              price: "",
+              ageOfDose: "",
+              description: "",
+              brand: "",
+              image: "",
+              stock: 0,
+            },
+            selectedFile: null,
+          });
+          this.getVaccineList();
+        })
+        .catch((err) => {
+          swal("Error!", "Your item could not be added to the list", "error");
         });
-        this.getVaccineList();
-      })
-      .catch((err) => {
-        swal("Error!", "Your item could not be added to the list", "error");
-      });
+    } else {
+      swal("Error!", "field can't be empty", "error");
+    }
   };
 
   editBtnHandler = (idx) => {
@@ -246,9 +381,11 @@ class AdminVaccine extends React.Component {
   };
 
   componentDidMount() {
+    this.getCountVaccines();
     this.getVaccineList();
     this.getCategories();
     this.getCategoriesList();
+    this.getVaccineListPerPage(this.state.categoryFilter);
   }
 
   render() {
@@ -258,7 +395,88 @@ class AdminVaccine extends React.Component {
           <caption className="p-3">
             <h2>Vaccine</h2>
           </caption>
-          <Table hover className="text-center">
+          <div className="row form-wrap">
+            <div className="col-lg-3 form-cols">
+              {/* <input
+                  onChange={this.props.onChangeSearch}
+                  onFocus={this.onFocus}
+                  onBlur={this.onBlur}
+                  className={`search-bar ${
+                    this.state.searchBarIsFocused ? "active" : null
+                  }`}
+                  type="text"
+                  placeholder="Cari produk impianmu disini"
+                  className="form-control"
+                /> */}
+              <input
+                type="text"
+                onKeyUp={() =>
+                  this.getVaccineListPerPage(this.state.categoryFilter)
+                }
+                className="form-control mr-4"
+                placeholder="search vaccine name here"
+                onChange={(e) => this.setState({ searchValue: e.target.value })}
+              />
+            </div>
+            <div className="col-lg-2 form-cols">
+              <input
+                type="text"
+                className="form-control"
+                name="search"
+                placeholder="min price"
+                onKeyUp={() =>
+                  this.getVaccineListPerPage(this.state.categoryFilter)
+                }
+                onChange={(e) => this.setState({ minPrice: +e.target.value })}
+              />
+            </div>
+            <div className="col-lg-2 form-cols">
+              <input
+                type="text"
+                className="form-control"
+                name="search"
+                placeholder="max price"
+                onKeyUp={() =>
+                  this.getVaccineListPerPage(this.state.categoryFilter)
+                }
+                onChange={(e) =>
+                  this.setState({ maxPrice: 1 * e.target.value })
+                }
+              />
+            </div>
+            <div className="col-lg-2 form-cols">
+              <select
+                value={this.state.categoryFilter}
+                onChange={(e) =>
+                  this.setState({ categoryFilter: e.target.value })
+                }
+                className="form-control"
+                onClick={() =>
+                  this.getVaccineListPerPage(this.state.categoryFilter)
+                }
+              >
+                <option value="all">All</option>
+                {this.optionDataCategory()}
+              </select>
+            </div>
+            <div className="col-lg-3 form-cols">
+              <select
+                className="form-control"
+                value={this.state.orderBy}
+                onChange={(e) => this.setState({ orderBy: e.target.value })}
+                onClick={() =>
+                  this.getVaccineListPerPage(this.state.categoryFilter)
+                }
+              >
+                <option value="vaccineNameAsc">Vaccine Name (a-z)</option>
+                <option value="vaccineNameDesc">Vaccine Name (z-a)</option>
+                <option value="priceAsc">Price (low-high)</option>
+                <option value="priceDesc">Price (high-low)</option>
+              </select>
+            </div>
+          </div>
+
+          <table className="admin-table text-center">
             <thead>
               <tr>
                 <th>No.</th>
@@ -271,10 +489,13 @@ class AdminVaccine extends React.Component {
               </tr>
             </thead>
             <tbody>{this.renderVaccineList()}</tbody>
-          </Table>
+          </table>
+        </div>
+        <div className=" row justify-content-center m-3">
+          {this.renderButton()}
         </div>
         <div className="admin-form-container p-4">
-          <caption className="mb-4 mt-2">
+          <caption className="mb-4">
             <h2>Add Vaccine</h2>
           </caption>
           <div className="row">

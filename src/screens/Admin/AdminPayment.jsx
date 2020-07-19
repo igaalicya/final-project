@@ -278,20 +278,24 @@ class AdminPayment extends React.Component {
 
   addRejectionReason = () => {
     console.log(this.state.rejectForm.rejectionReasons);
-    Axios.put(`${API_URL}/transactions/reject/${this.state.paymentId}`, {
-      rejectionReason: this.state.rejectForm.rejectionReasons,
-      status: "rejected",
-    })
-      .then((res) => {
-        swal("Success!", "Rejection reason has been recorded", "success");
-        this.setState({ modalOpen: false });
-        this.getTransactionCompleted();
-        this.getTransactionPending();
+    if (this.state.rejectForm.rejectionReasons) {
+      Axios.put(`${API_URL}/transactions/reject/${this.state.paymentId}`, {
+        rejectionReason: this.state.rejectForm.rejectionReasons,
+        status: "rejected",
       })
-      .catch((err) => {
-        swal("Error!", "Rejection reason has not been recorded", "error");
-        console.log(err);
-      });
+        .then((res) => {
+          swal("Success!", "Rejection reason has been recorded", "success");
+          this.setState({ modalOpen: false });
+          this.getTransactionCompleted();
+          this.getTransactionPending();
+        })
+        .catch((err) => {
+          swal("Error!", "Rejection reason has not been recorded", "error");
+          console.log(err);
+        });
+    } else {
+      swal("Error!", "Rejection reason can't be empty", "error");
+    }
   };
 
   renderBtnAction = () => {

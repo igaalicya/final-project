@@ -32,6 +32,7 @@ class Vaccine extends React.Component {
     searchBarIsFocused: false,
     searcBarInput: "",
     searchValue: "",
+    orderBy: "vaccineNameAsc",
   };
 
   onFocus = () => {
@@ -57,7 +58,7 @@ class Vaccine extends React.Component {
     this.getCountVaccines();
     if (categories === "all") {
       Axios.get(
-        `${API_URL}/vaccines/page/${this.currentPage}/${this.state.minPrice}/${this.state.maxPrice}`,
+        `${API_URL}/vaccines/page/${this.currentPage}/${this.state.orderBy}/${this.state.minPrice}/${this.state.maxPrice}`,
         {
           params: {
             vaccineName: this.state.searchValue,
@@ -73,7 +74,7 @@ class Vaccine extends React.Component {
         });
     } else {
       Axios.get(
-        `${API_URL}/vaccines/page/categories/${this.currentPage}/${this.state.minPrice}/${this.state.maxPrice}`,
+        `${API_URL}/vaccines/page/categories/${this.currentPage}/${this.state.orderBy}/${this.state.minPrice}/${this.state.maxPrice}`,
         {
           params: {
             vaccineName: this.state.searchValue,
@@ -280,7 +281,7 @@ class Vaccine extends React.Component {
                   }
                 />
               </div>
-              <div className="col-lg-3 form-cols">
+              <div className="col-lg-2 form-cols">
                 <select
                   value={this.state.categoryFilter}
                   onChange={(e) =>
@@ -293,6 +294,21 @@ class Vaccine extends React.Component {
                 >
                   <option value="all">All</option>
                   {this.optionData()}
+                </select>
+              </div>
+              <div className="col-lg-3 form-cols">
+                <select
+                  className="form-control"
+                  value={this.state.orderBy}
+                  onChange={(e) => this.setState({ orderBy: e.target.value })}
+                  onClick={() =>
+                    this.getVaccineListPerPage(this.state.categoryFilter)
+                  }
+                >
+                  <option value="vaccineNameAsc">Vaccine Name (a-z)</option>
+                  <option value="vaccineNameDesc">Vaccine Name (z-a)</option>
+                  <option value="priceAsc">Price (low-high)</option>
+                  <option value="priceDesc">Price (high-low)</option>
                 </select>
               </div>
             </div>

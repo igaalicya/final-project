@@ -105,6 +105,12 @@ class AdminDoctors extends React.Component {
   };
 
   addDoctorHandler = () => {
+    this.setState({
+      createForm: {
+        ...this.state.createForm,
+      },
+    });
+
     let formData = new FormData();
 
     if (this.state.selectedFile) {
@@ -116,25 +122,36 @@ class AdminDoctors extends React.Component {
     }
     formData.append("doctorsData", JSON.stringify(this.state.createForm));
 
-    Axios.post(`${API_URL}/doctors`, formData)
-      .then((res) => {
-        swal("Success", "Doctor Data has been added to the list", "success");
-        this.getDoctorList();
-        this.setState({
-          createForm: {
-            fullName: "",
-            image: "",
-            specialist: "",
-            address: "",
-            phone: "",
-            description: "",
-          },
+    if (
+      this.state.createForm.specialist &&
+      this.state.createForm.address &&
+      this.state.createForm.fullName &&
+      this.state.createForm.description &&
+      this.state.createForm.phone
+    ) {
+      Axios.post(`${API_URL}/doctors`, formData)
+        .then((res) => {
+          swal("Success", "Doctor Data has been added to the list", "success");
+          this.getDoctorList();
+          this.setState({
+            createForm: {
+              fullName: "",
+              image: "",
+              specialist: "",
+              address: "",
+              phone: "",
+              description: "",
+            },
+            selectedFile: null,
+          });
+          this.getDoctorList();
+        })
+        .catch((err) => {
+          swal("Error!", "Doctor data could not be added to the list", "error");
         });
-        this.getDoctorList();
-      })
-      .catch((err) => {
-        swal("Error!", "Doctor data could not be added to the list", "error");
-      });
+    } else {
+      swal("Error!", "field can't be empty", "error");
+    }
   };
 
   editBtnHandler = (idx) => {

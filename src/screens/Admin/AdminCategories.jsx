@@ -89,28 +89,32 @@ class AdminCategories extends React.Component {
   };
 
   addCategoriesHandler = () => {
-    Axios.post(`${API_URL}/categories`, this.state.createForm)
-      .then((res) => {
-        swal(
-          "Success",
-          "Categories Data has been added to the list",
-          "success"
-        );
-        this.getCategoryList();
-        this.setState({
-          createForm: {
-            categoryName: "",
-          },
+    if (this.state.createForm.categoryName) {
+      Axios.post(`${API_URL}/categories`, this.state.createForm)
+        .then((res) => {
+          swal(
+            "Success",
+            "Categories Data has been added to the list",
+            "success"
+          );
+          this.getCategoryList();
+          this.setState({
+            createForm: {
+              categoryName: "",
+            },
+          });
+          this.getCategoryList();
+        })
+        .catch((err) => {
+          swal(
+            "Error!",
+            "Categories data could not be added to the list",
+            "error"
+          );
         });
-        this.getCategoryList();
-      })
-      .catch((err) => {
-        swal(
-          "Error!",
-          "Categories data could not be added to the list",
-          "error"
-        );
-      });
+    } else {
+      swal("Error!", "field can't be empty", "error");
+    }
   };
 
   editBtnHandler = (idx) => {

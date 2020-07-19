@@ -67,6 +67,8 @@ class Register extends React.Component {
       email,
       address,
     } = this.state.registerForm;
+
+    // let verifyToken = Math.floor(Math.random() * 1000000000000000);
     let newUser = {
       username,
       fullName,

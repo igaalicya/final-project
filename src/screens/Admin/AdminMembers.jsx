@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import "./AdminMembers.css";
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import Axios from "axios";
@@ -58,24 +59,50 @@ class AdminMembers extends React.Component {
           <td> {role} </td>
           <td> {email}</td>
           {/* <td> {address}</td> */}
-          <td>
-            <Button
-              onClick={() => this.editBtnHandler(idx)}
-              className="w-100"
-              type="contained"
-            >
-              Edit
-            </Button>
-          </td>
-          <td>
-            <Button
-              onClick={() => this.deleteHandler(id)}
-              className="w-80 custom-btn-danger"
-              type="contained"
-            >
-              Delete
-            </Button>
-          </td>
+
+          {id === this.props.user.id ? (
+            <>
+              <td>
+                <Button
+                  // onClick={() => this.editBtnHandler(idx)}
+                  className="w-100"
+                  type="disabled"
+                >
+                  Edit
+                </Button>
+              </td>
+              <td>
+                <Button
+                  // onClick={() => this.deleteHandler(id)}
+                  className="w-80"
+                  type="disabled"
+                >
+                  Delete
+                </Button>
+              </td>
+            </>
+          ) : (
+            <>
+              <td>
+                <Button
+                  onClick={() => this.editBtnHandler(idx)}
+                  className="w-100"
+                  type="contained"
+                >
+                  Edit
+                </Button>
+              </td>
+              <td>
+                <Button
+                  onClick={() => this.deleteHandler(id)}
+                  className="w-80 custom-btn-danger"
+                  type="contained"
+                >
+                  Delete
+                </Button>
+              </td>
+            </>
+          )}
         </tr>
       );
     });
@@ -243,4 +270,10 @@ class AdminMembers extends React.Component {
   }
 }
 
-export default AdminMembers;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+export default connect(mapStateToProps)(AdminMembers);

@@ -101,7 +101,7 @@ class ProfileUser extends React.Component {
             <Col lg="8">
               <Card>
                 <div className="px-4">
-                  <Row className="justify-content-center">
+                  {/* <Row className="justify-content-center">
                     <div className="profile-image">
                       <img
                         alt="..."
@@ -109,7 +109,7 @@ class ProfileUser extends React.Component {
                         src="https://cdn1.iconfinder.com/data/icons/free-education-set/31/user03-128.png"
                       />
                     </div>
-                  </Row>
+                  </Row> */}
                   <div className="text-center mt-5">
                     <h3>{fullName}</h3>
                     {/* <h6 className="text-secondary">{username}</h6> */}

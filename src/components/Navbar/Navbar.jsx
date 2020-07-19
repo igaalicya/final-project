@@ -123,14 +123,14 @@ class MyNavbar extends React.Component {
                         Vaccine
                       </Link>
                     </DropdownItem>
-                    <DropdownItem>
+                    {/* <DropdownItem>
                       <Link
                         style={{ color: "inherit", textDecoration: "none" }}
                         to="/admin/package"
                       >
                         Vaccine Package
                       </Link>
-                    </DropdownItem>
+                    </DropdownItem> */}
                     <DropdownItem>
                       <Link
                         style={{ color: "inherit", textDecoration: "none" }}

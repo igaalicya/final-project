@@ -219,14 +219,14 @@ class History extends React.Component {
 
                     {status === "pending" ? (
                       buktiTransfer ? (
+                        <Badge color="primary">Waiting confirmation</Badge>
+                      ) : (
                         <Button
                           className="mt-2"
                           onClick={() => this.uploadBuktiBtnHandler(idx)}
                         >
                           Upload Bukti Transfer
                         </Button>
-                      ) : (
-                        <Badge color="primary">Waiting confirmation</Badge>
                       )
                     ) : null}
 
@@ -237,6 +237,10 @@ class History extends React.Component {
                       >
                         Re-upload Bukti Transfer
                       </Button>
+                    ) : null}
+
+                    {status === "completed" ? (
+                      <Badge color="success">Transaction Completed</Badge>
                     ) : null}
                   </div>
                 </div>

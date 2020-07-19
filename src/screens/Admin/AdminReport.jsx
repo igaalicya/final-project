@@ -27,10 +27,11 @@ class AdminReport extends React.Component {
     searchBarIsFocused: false,
     searcBarInput: "",
     searchValue: "",
+    orderBy: "soldDesc",
   };
 
   getReportList = () => {
-    Axios.get(`${API_URL}/transactions/details/report`)
+    Axios.get(`${API_URL}/vaccines/report`)
       .then((res) => {
         console.log(res.data);
         this.setState({ reportList: res.data });
@@ -41,7 +42,7 @@ class AdminReport extends React.Component {
   };
 
   renderChartData = () => {
-    Axios.get(`${API_URL}/transactions/details/report`).then((res) => {
+    Axios.get(`${API_URL}/vaccines/report`).then((res) => {
       console.log(res);
 
       const transactionsData = res.data;
@@ -51,9 +52,9 @@ class AdminReport extends React.Component {
       let quantity = [];
 
       transactionsData.forEach((val) => {
-        vaccineName.push(val.vaccines.vaccineName);
+        vaccineName.push(val.vaccineName);
 
-        quantity.push(val.quantity);
+        quantity.push(val.sold);
       });
 
       this.setState({
@@ -98,7 +99,7 @@ class AdminReport extends React.Component {
     console.log(categories);
     if (categories === "all") {
       Axios.get(
-        `${API_URL}/transactions/details/report/all/${this.state.minPrice}/${this.state.maxPrice}`,
+        `${API_URL}/vaccines/report/all/${this.state.orderBy}/${this.state.minPrice}/${this.state.maxPrice}`,
         {
           params: {
             vaccineName: this.state.searchValue,
@@ -114,7 +115,7 @@ class AdminReport extends React.Component {
         });
     } else {
       Axios.get(
-        `${API_URL}/transactions/details/report/categories/${this.state.minPrice}/${this.state.maxPrice}`,
+        `${API_URL}/vaccines/report/categories/${this.state.orderBy}/${this.state.minPrice}/${this.state.maxPrice}`,
         {
           params: {
             vaccineName: this.state.searchValue,
@@ -134,7 +135,7 @@ class AdminReport extends React.Component {
 
   renderReportList = () => {
     return this.state.reportListCategory.map((val, idx) => {
-      const { vaccines, quantity } = val;
+      // const { quantity } = val;
       return (
         <tr
           key={idx.toString()}
@@ -153,9 +154,9 @@ class AdminReport extends React.Component {
           }}
         >
           <td> {idx + 1} </td>
-          <td className="text-left"> {vaccines.vaccineName}</td>
-          <td>{vaccines.price}</td>
-          <td> {quantity} </td>
+          <td className="text-left"> {val.vaccineName}</td>
+          <td>{val.price}</td>
+          <td> {val.sold} </td>
         </tr>
       );
     });
@@ -257,7 +258,7 @@ class AdminReport extends React.Component {
                 }
               />
             </div>
-            <div className="col-lg-3 form-cols">
+            <div className="col-lg-2 form-cols">
               <select
                 value={this.state.categoryFilter}
                 onChange={(e) =>
@@ -270,6 +271,19 @@ class AdminReport extends React.Component {
               >
                 <option value="all">All</option>
                 {this.optionData()}
+              </select>
+            </div>
+            <div className="col-lg-3 form-cols">
+              <select
+                className="form-control"
+                value={this.state.orderBy}
+                onChange={(e) => this.setState({ orderBy: e.target.value })}
+                onClick={() =>
+                  this.getReportListCategories(this.state.categoryFilter)
+                }
+              >
+                <option value="soldAsc">Sold (low-high)</option>
+                <option value="soldDesc">Sold (high-low)</option>
               </select>
             </div>
           </div>

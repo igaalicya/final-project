@@ -260,6 +260,7 @@ class AdminPayment extends React.Component {
         this.setState({ viewImage: false });
         this.getTransactionPending();
         this.getTransactionCompleted();
+        this.getTransactionRejected();
       })
       .catch((err) => {
         console.log(err);
@@ -288,6 +289,7 @@ class AdminPayment extends React.Component {
           this.setState({ modalOpen: false });
           this.getTransactionCompleted();
           this.getTransactionPending();
+          this.getTransactionRejected();
         })
         .catch((err) => {
           swal("Error!", "Rejection reason has not been recorded", "error");

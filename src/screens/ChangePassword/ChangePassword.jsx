@@ -57,35 +57,41 @@ class ChangePassword extends React.Component {
   };
 
   changePassHandler = () => {
-    Axios.get(`${API_URL}/users/checkOldPassword/${this.props.user.id}`, {
-      params: {
-        password: this.state.editForm.oldPassword,
-      },
-    })
-
-      .then((res) => {
-        console.log(res);
-        Axios.put(`${API_URL}/users/changePassword/${this.props.user.id}`, {
-          password: this.state.editForm.newPassword,
-          username: this.props.user.username,
-          fullName: this.props.user.fullName,
-          email: this.props.user.email,
-          address: this.props.user.address,
-          role: this.props.user.role,
-        })
-          .then((res) => {
-            console.log(res);
-            swal("success", "Your password successfully changed", "success");
-            this.setState({ reset: true });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+    if (
+      this.state.editForm.newPassword === this.state.editForm.confirmNewPassword
+    ) {
+      Axios.get(`${API_URL}/users/checkOldPassword/${this.props.user.id}`, {
+        params: {
+          password: this.state.editForm.oldPassword,
+        },
       })
-      .catch((err) => {
-        console.log(err);
-        swal("error", "Wrong old password", "error");
-      });
+
+        .then((res) => {
+          console.log(res);
+          Axios.put(`${API_URL}/users/changePassword/${this.props.user.id}`, {
+            password: this.state.editForm.newPassword,
+            username: this.props.user.username,
+            fullName: this.props.user.fullName,
+            email: this.props.user.email,
+            address: this.props.user.address,
+            role: this.props.user.role,
+          })
+            .then((res) => {
+              console.log(res);
+              swal("success", "Your password successfully changed", "success");
+              this.setState({ reset: true });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+          swal("error", "Wrong old password", "error");
+        });
+    } else {
+      swal("error", "Password confirmation not match", "error");
+    }
   };
 
   componentDidMount() {

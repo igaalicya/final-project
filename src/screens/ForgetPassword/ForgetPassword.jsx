@@ -42,7 +42,7 @@ class ForgetPassword extends React.Component {
 
         swal(
           "Please Check your Email",
-          "Forget Password Link Has Been Sent to Your Email",
+          "Link to Reset Password Has Been Sent to Your Email",
           "success"
         );
       })

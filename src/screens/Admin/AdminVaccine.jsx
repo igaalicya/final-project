@@ -6,6 +6,7 @@ import { API_URL } from "../../constants/API";
 import swal from "sweetalert";
 import Button from "../../components/Buttons/Button";
 import TextField from "../../components/TextField/TextField";
+import { priceFormatter } from "../../supports/helpers/formatter";
 
 class AdminVaccine extends React.Component {
   currentPage = 0;
@@ -204,7 +205,7 @@ class AdminVaccine extends React.Component {
           >
             <td> {idx + 1} </td>
             <td> {vaccineName} </td>
-            <td> {price} </td>
+            <td> {priceFormatter(price)} </td>
             <td> {ageOfDose}</td>
             <td> {brand}</td>
             <td> {stock} </td>
@@ -300,7 +301,7 @@ class AdminVaccine extends React.Component {
       Axios.post(`${API_URL}/vaccines/${this.state.categoriesId}`, formData)
         .then((res) => {
           swal("Success", "Your items has been added to the list", "success");
-          this.getVaccineList();
+          this.getVaccineListPerPage(this.state.categoryFilter);
           this.setState({
             createForm: {
               vaccineName: "",
@@ -313,7 +314,7 @@ class AdminVaccine extends React.Component {
             },
             selectedFile: null,
           });
-          this.getVaccineList();
+          this.getVaccineListPerPage(this.state.categoryFilter);
         })
         .catch((err) => {
           swal("Error!", "Your item could not be added to the list", "error");
@@ -326,14 +327,14 @@ class AdminVaccine extends React.Component {
   editBtnHandler = (idx) => {
     this.setState({
       editForm: {
-        ...this.state.VaccineList[idx],
+        ...this.state.vaccinePage[idx],
       },
-      categoriesIdEdit: this.state.VaccineList[idx].categories.id,
+      categoriesIdEdit: this.state.vaccinePage[idx].categories.id,
       // selectedFile: this.state.VaccineList[idx].image,
       modalOpen: true,
     });
-    console.log(this.state.VaccineList[idx]);
-    console.log(this.state.VaccineList[idx].categories);
+    console.log(this.state.vaccinePage[idx]);
+    console.log(this.state.vaccinePage[idx].categories);
   };
 
   editVaccineHandler = () => {
@@ -355,7 +356,7 @@ class AdminVaccine extends React.Component {
       .then((res) => {
         swal("Success!", "Vaccine data has been edited", "success");
         this.setState({ modalOpen: false, categoriesIdEdit: 4 });
-        this.getVaccineList();
+        this.getVaccineListPerPage(this.state.categoryFilter);
       })
       .catch((err) => {
         swal("Error!", "Vaccine data could not be edited", "error");
@@ -368,7 +369,7 @@ class AdminVaccine extends React.Component {
     Axios.delete(`${API_URL}/vaccines/${id}`)
       .then((res) => {
         swal("Success!", "Vaccine data has been deleted", "success");
-        this.getVaccineList();
+        this.getVaccineListPerPage(this.state.categoryFilter);
       })
       .catch((err) => {
         swal("Error!", "Vaccine data could not be deleted", "error");

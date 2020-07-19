@@ -39,16 +39,16 @@ class ResetPassword extends React.Component {
 
   getUserReset = () => {
     console.log(this.props.match.params.userId);
-    console.log(this.props.match.params.username);
+    console.log(this.props.match.params.token);
     Axios.get(
-      `${API_URL}/users/reset/${this.props.match.params.userId}/${this.props.match.params.username}`
+      `${API_URL}/users/reset/${this.props.match.params.userId}/${this.props.match.params.token}`
     )
       .then((res) => {
         console.log(res.data);
         this.setState({
           userReset: res.data,
         });
-        console.log(this.state.userReset.username);
+        console.log(this.state.userReset.token);
         console.log(this.state.userReset);
       })
       .catch((err) => {

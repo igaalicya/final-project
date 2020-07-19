@@ -473,32 +473,14 @@ class Cart extends React.Component {
                 </div>
                 <div className="d-flex justify-content-between my-2">
                   <Badge color="warning" size="lg">
-                    Check your address first, vaccine will deliver to your
+                    Check your address first, vaccine will delivered to your
                     address
                   </Badge>
                 </div>
                 <div className="d-flex justify-content-between">
-                  <div>
-                    Delivery Fee{" "}
-                    {/* <Badge color="warning" size="lg">
-                      Check your address first, vaccine will deliver to your
-                      address
-                    </Badge> */}
-                  </div>
+                  <div>Delivery Fee</div>
                   <strong>{this.renderShippingPrice()}</strong>
                 </div>
-                {/* <div className="d-flex justify-content-between my-2 align-items-center">
-                  <label>Delivery</label>
-                  <select
-                    onChange={(e) =>
-                      this.setState({ shipping: e.target.value })
-                    }
-                    className="form-control w-50"
-                  >
-                    <option value="express">express</option>
-                    <option value="standard">standard</option>
-                  </select>
-                </div> */}
                 <div className="d-flex justify-content-between my-2 align-items-center">
                   <label>Doctor</label>
                   <select
@@ -527,7 +509,6 @@ class Cart extends React.Component {
                     value={this.state.vaccineDate}
                     minDate={new Date()}
                   />
-                  {/* {console.log(this.state.vaccineDate.toLocaleDateString())} */}
                 </div>
                 <div className="d-flex justify-content-between my-3">
                   <div>Total</div>

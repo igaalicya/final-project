@@ -231,12 +231,16 @@ class History extends React.Component {
                     ) : null}
 
                     {status === "rejected" ? (
-                      <Button
-                        className="mt-2"
-                        onClick={() => this.uploadBuktiBtnHandler(idx)}
-                      >
-                        Re-upload Bukti Transfer
-                      </Button>
+                      buktiTransfer ? (
+                        <Badge color="primary">Waiting confirmation</Badge>
+                      ) : (
+                        <Button
+                          className="mt-2"
+                          onClick={() => this.uploadBuktiBtnHandler(idx)}
+                        >
+                          Re-upload Bukti Transfer
+                        </Button>
+                      )
                     ) : null}
 
                     {status === "completed" ? (

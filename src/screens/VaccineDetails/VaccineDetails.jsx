@@ -220,14 +220,7 @@ class VaccineDetails extends React.Component {
                   <div className="mt-5 py-3 border-top text-center">
                     <Row className="justify-content-center">
                       <Col lg="9">
-                        <p>
-                          {description}
-                          Lorem ipsum dolor sit amet consectetur adipisicing
-                          elit. Alias, porro, tenetur fugit ea velit quo
-                          obcaecati qui, perferendis soluta aut eaque facere
-                          nihil quod et quia. Earum ratione reprehenderit
-                          assumenda.
-                        </p>
+                        <p>{description}</p>
                       </Col>
                     </Row>
                     {this.props.user.role === "user" ? (
